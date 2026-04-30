@@ -20,9 +20,10 @@ try{
     $user = $stmt->fetch();
 
     if ($user && password_verify($mdp_tape, $user['password'])) {
-        $_SESSION['user_id'] = $user['id_user'];        
-        $_SESSION['nom']     = $user['nom'];
-        $_SESSION['role']    = $user['role'];
+        $_SESSION['user_id']     = $user['id_user'];        
+        $_SESSION['nom']         = $user['nom'];
+        $_SESSION['role']        = $user['role'];
+        $_SESSION['phone_email'] = $user['phone_email'];
 
        header("Location: ../../int_Client/Dos-page/acceuil.php");
        exit();

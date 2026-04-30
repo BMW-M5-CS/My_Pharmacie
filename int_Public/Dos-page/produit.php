@@ -1,14 +1,28 @@
 <?php
 require_once '../Dos-php/config.php';
 
-$forme = $_GET['Forme'] ?? '';
+$forme     = $_GET['Forme'] ?? '';
+$recherche = $_GET['recherche'] ?? '';
 
-if($forme !== ''){
+if($forme !== ''&& $recherche !=='') {
+    $sql = "SELECT nom_medicament, forme_pharmaceutique, prix_unitaire_fcfa
+            FROM produits WHERE forme_pharmaceutique = ? AND nom_medicament ILIKE ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$forme, '%' . $recherche .'%']);
+
+}elseif ($forme !== '') {
     $sql = "SELECT nom_medicament, forme_pharmaceutique, prix_unitaire_fcfa
             FROM produits WHERE forme_pharmaceutique = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$forme]);
-}else{
+
+}elseif ($recherche !== '') {
+    $sql = "SELECT nom_medicament, forme_pharmaceutique, prix_unitaire_fcfa
+            FROM produits WHERE nom_medicament ILIKE ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['%' . $recherche . '%']);
+
+}else {
     $sql = "SELECT nom_medicament, forme_pharmaceutique, prix_unitaire_fcfa
             FROM produits";
     $stmt = $pdo->prepare($sql);
@@ -43,7 +57,7 @@ $produits = $stmt->fetchAll();
 
         <div class="entete_input">
 
-            <input type="text" class="sreach_input" placeholder="Entrez le nom du produit rechercher">
+            <input type="text" name="recherche" class="sreach_input" placeholder="Entrez le nom du produit rechercher">
 
             <select name="Forme" id="Forme">
                 <option value=""> Toutes les formes </option>
@@ -117,5 +131,6 @@ $produits = $stmt->fetchAll();
     
     <?php include'../Dos-include/footer.php'; ?>
     
+    <script src="../Dos-js/produit.js"></script>
 </body>
 </html>

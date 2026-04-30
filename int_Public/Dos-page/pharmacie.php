@@ -1,14 +1,28 @@
 <?php
 require_once '../Dos-php/config.php';
 
-$ville = $_GET['ville'] ?? '';
+$ville     = $_GET['ville'] ?? '';
+$recherche = $_GET['recherche'] ?? '';
 
-if ($ville !== '') {
+if ($ville !== '' && $recherche !=='') {
+    $sql = "SELECT nom_pharmacie, adresse, ville, heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
+            FROM pharmacies WHERE ville = ? AND nom_pharmacie ILIKE ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$ville, '%' . $recherche . '%']);
+
+} elseif ($ville !== '') {
     $sql = "SELECT nom_pharmacie, adresse, ville, heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
             FROM pharmacies WHERE ville = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$ville]);
-} else {
+
+} elseif ($recherche !=='') {
+    $sql = "SELECT nom_pharmacie, adresse, ville, heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
+            FROM pharmacies WHERE nom_pharmacie ILIKE ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt ->execute(['%' . $recherche . '%']);
+
+}else {
     $sql = "SELECT nom_pharmacie, adresse, ville, heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
             FROM pharmacies";
     $stmt = $pdo->prepare($sql);
@@ -16,8 +30,8 @@ if ($ville !== '') {
 }
 
 $pharmacies = $stmt->fetchAll();
-
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -42,7 +56,7 @@ $pharmacies = $stmt->fetchAll();
 
         <div class="entete_input">
 
-            <input type="text" class="sreach_input" placeholder="Entrez le nom d'une pharmacie rechercher">
+            <input type="text" name="recherche" class="sreach_input" placeholder="Entrez le nom d'une pharmacie rechercher">
 
             <select name="ville" id="ville">
                 <option value="">Toutes les Villes</option>
@@ -122,5 +136,7 @@ $pharmacies = $stmt->fetchAll();
     </section>
      
     <?php include'../Dos-include/footer.php'; ?>
+
+    <script src="../Dos-js/pharmacie.js"></script>
 </body>
 </html>
