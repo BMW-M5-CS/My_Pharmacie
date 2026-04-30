@@ -1,0 +1,103 @@
+header {
+  height: 8%;
+  box-sizing: border-box;
+  padding: 0px 25px 0px 25px;
+  padding-top: 10px;
+  justify-content: center;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+
+div.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.entete{
+  width: 200px;
+  height: 60px;
+  border-radius: 20px;
+}
+
+
+div.menu ul {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  padding-top: 5px;
+  margin-left: -10px;
+  padding-bottom: 5px;
+}
+
+a.btn {
+  background-color: white;
+  width: 140px;
+  height: 30px;
+  text-decoration: none;
+  font-size: large;
+  margin-right: 30px;
+  justify-content: space-between;
+  display: inline-flex;
+  color: black;
+  text-align: center;
+  align-items: center;
+  border-radius: 12px;
+  font-size: large;
+  /* border: 1px solid black; */
+  justify-content: center;
+  transition: color 0.3s ease;
+  gap: 8px;
+}
+
+a.btn:hover {
+  background-color: green;
+  color: white;
+}
+
+div.profil .btn-profil {
+  width: 130px;
+  height: 34px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  background-color: green;
+  border: 1px solid white;
+  color: white;
+  transition: all 0.3s ease;
+  gap: 5px;
+
+  &:hover {
+    background-color: white;
+    color: black;    
+  }
+}
+
+div.profil{
+  display: flex;
+  justify-items: center;
+}
+
+.btn-deconex{
+  display: flex;
+  width: 130px;
+  height: 34px;
+  text-decoration: none;
+  align-items: center;
+  border: 1px solid white;
+  justify-content: center;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: green;
+  color: white;
+  margin-left: -1px;
+  transition: all 0.3s ease;
+  &:hover{
+     background-color: white;
+     color: black;
+  }
+}

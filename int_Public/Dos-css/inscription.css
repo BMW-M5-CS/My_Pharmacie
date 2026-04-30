@@ -1,0 +1,177 @@
+body{
+    margin: 0;
+    height: 100vh;
+    background-image: url(../Dos-img/conex.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+section.inscription{
+    width: 570px;
+    height: 720px;
+    border: 3px solid white;
+    border-radius: 20px;
+    flex-direction: column;
+    align-items: center;
+    font-size: 18px;
+    display: flex;
+}
+
+div.inscrit{
+    text-align: center;
+    color: white;
+}
+
+.input-inscrit{
+    color: white;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input{
+    height: 35px;
+    margin-top: 20px;
+    padding-right: 20px;
+    padding-left: 25px;
+    border: none;
+    border-bottom: 2px solid white;
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+select{
+    height: 35px;
+    margin-top: 20px;
+    padding-right: 20px;
+    padding-left: 25px;
+    border: none;
+    background-color: transparent;
+    border-bottom: 2px solid white;
+    font-size: 16px;
+    color:  white;
+    outline: none;
+}
+
+option{
+    color: white;
+    background-color: green;
+}
+
+.input-name{
+    width: 350px;
+}
+
+.input-first_name{
+    width: 330px;
+}
+
+.input-mail{
+    width: 240px;
+}
+
+.type-utilisateur{
+    width: 260px;
+}
+
+.input-password{
+    width: 280px;
+}
+
+.input-confirm_password{
+    width: 290px;
+}
+
+.type-utilisateur{
+    width: 320px;
+}
+
+.souvenir_and_case{
+    margin-top: 35px ;
+    display: flex;
+    align-items: center;
+
+}
+
+
+
+.case{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.case input{
+    position: absolute;
+    top: -10px;
+    left: -20px;
+}
+
+.case{
+    margin-left: 10px;
+}
+
+p.check{
+    color: white;
+    &:hover{
+        color: skyblue;
+        text-decoration: underline;
+    }
+}
+
+.inscrit-btn{
+    margin-top: 20px;
+    flex-direction: column;
+    display: flex;
+}
+
+.btn-inscrit{
+    margin-top: 20px;
+    width: 370px;
+    height: 40px;
+    border-radius: 20px;
+    font-size: large;
+    &:hover{
+        background-color: green;
+        color: white;
+    }
+}
+
+.revenir{
+    color: white;
+    text-decoration: none;
+    margin-left: 300px;
+    transition: all 0.3s ease;
+    &:hover{
+       color: skyblue;
+       text-decoration: underline;
+    }
+}
+
+.retour{
+    margin-top: 40px;
+    color: white;
+    text-decoration: none;
+    margin-left: 250px;
+    transition: all 0.3s ease;
+    &:hover{
+        color: skyblue;
+        text-decoration: underline;
+    }
+}
+
+i{
+    font-size: 16px;
+    text-decoration:underline;
+    text-underline-offset: 14px;
+    text-decoration-thickness: 2px;
+    margin-left: -5px;
+}
+

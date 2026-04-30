@@ -1,0 +1,133 @@
+body{
+    margin: 0;
+    height: 100vh;
+    background-image: url(../Dos-img/conex.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+section.contener-conex{
+    width: 550px;
+    height: 500px;
+    border: 3px solid white;
+    border-radius: 25px;
+    color: white;
+    flex-direction: column;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    padding-top: 20px;
+    font-size: large
+}
+
+div.titre{
+    background-color:;
+    margin-top: 10px;
+}
+
+div.input_conex{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: large;
+    align-content: center;
+}
+
+.mail-conex{
+     width: 200px;
+     height: 35px;
+     margin-top: 20px;
+     background-color: transparent;
+     color: white;
+     font-size: 16px;
+     padding-right: 20px;
+     padding-left: 10px;
+     border: none;
+     outline: none;
+     border-bottom: 2px solid white;
+}
+
+.mot_de_passe{
+     width: 250px;
+     height: 35px;
+     margin-top: 20px;
+     background-color: transparent;
+     color: white;
+     font-size: 16px;
+     padding-right: 20px;
+     padding-left: 10px;
+     border: none;
+     outline: none;
+     border-bottom: 2px solid white;
+}
+
+.coche_input{
+    margin-top: 40px;
+    margin-right: 7cm;
+}
+
+span.text{
+    transition: all 0.3s ease;
+
+    &:hover{
+        text-decoration: underline;
+        color: skyblue;
+    }
+}
+
+.coche_input, span.text{
+    margin-left: -7cm;
+}
+
+a.btn{
+    width: 300px;
+    height: 35px;
+    background-color: white;
+    color: black;
+    border-radius: 20px;
+    border: 1px solid white;
+    margin-top: 15px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+
+    &:hover{
+        background-color: green;
+        color: white;
+    }
+
+}
+
+button.btn-conex{
+    margin-top: 30px;
+    width: 300px;
+    height: 35px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    border: 1px solid white;
+    transition: all 0.3s ease;
+
+    &:hover{
+        background-color: green;
+        color: white;
+    }
+}
+
+a.retour{
+    font-size: ;
+    color: white;
+    margin: 50px 0px 0px 10rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+    &:hover{
+        color: skyblue;
+        text-decoration: underline;
+    }
+}

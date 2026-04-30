@@ -1,0 +1,117 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+    url("../Dos-img/farma.jpg") ;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color : white;
+}
+
+.contact-container{
+  height: 68%;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 30px;
+  max-width: 1100px;
+  margin : 0 auto;
+  margin-top: 50px;
+  font-size: large;
+  justify-content: center;
+}
+
+.entrer-section{
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  align-items: center;
+}
+
+div.form-group{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+label, input, textarea{
+  display: flex;
+}
+
+input {
+  margin-top: 8px;
+  margin-bottom: 10px;
+  width: 450px;
+  height: 35px;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  outline: none;
+}
+
+textarea{
+  margin-top: 8px;
+  margin-bottom: 20px;
+  width: 450px;
+  height: 150px;
+  border-radius: 8px;
+  outline: none;
+  padding: 10px;
+}
+
+.btn-envoyer{
+  margin-top: 20px;
+  width: 450px;
+  height: 35px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.info-section{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.info-item{
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: large;
+  line-height: 1.5;
+  margin-bottom: 13px;
+}
+
+.info-item i{
+  color: #2ecc40;
+  font-size: 1.1rem;
+  margin-top: 3px;
+  min-width: 20px;
+}
+
+.map-container{
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #3a3a3a;
+}
+
+.map-container iframe{
+  width: 100%;
+  height: 220px;
+  border: none;
+  display: block;
+}
+
+

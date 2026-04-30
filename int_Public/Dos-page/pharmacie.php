@@ -1,0 +1,126 @@
+<?php
+require_once '../Dos-php/config.php';
+
+$ville = $_GET['ville'] ?? '';
+
+if ($ville !== '') {
+    $sql = "SELECT nom_pharmacie, adresse, ville, heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
+            FROM pharmacies WHERE ville = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$ville]);
+} else {
+    $sql = "SELECT nom_pharmacie, adresse, ville, heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
+            FROM pharmacies";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+}
+
+$pharmacies = $stmt->fetchAll();
+
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos pharmacie</title>
+    <link rel="stylesheet" href="../Dos-css/header.css"> 
+    <link rel="stylesheet" href="../Dos-css/footer.css">
+    <link rel="stylesheet" href="../Dos-css/pharmacie.css">   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <?php include'../Dos-include/header.php'; ?>
+
+    <form method="GET" action="pharmacie.php" class="tout_entete">
+        <div class="title">
+            <h1>Nos pharmacies Partenaires</h1>
+        </div>
+        <div class="text">
+            Trouvez rapidement une pharmacie proche de vous
+        </div>      
+
+        <div class="entete_input">
+
+            <input type="text" class="sreach_input" placeholder="Entrez le nom d'une pharmacie rechercher">
+
+            <select name="ville" id="ville">
+                <option value="">Toutes les Villes</option>
+
+                <!-- Région Maritime -->
+                <option value="Lomé">Lomé</option>
+                <option value="Aneho">Aného</option>
+                <option value="Tabligbo">Tabligbo</option>
+                <option value="Vogan">Vogan</option>
+                <option value="Tsevie">Tsévié</option>
+
+                <!-- Région Plateaux -->
+                <option value="Kpalime">Kpalimé</option>
+                <option value="Atakpame">Atakpamé</option>
+                <option value="Badou">Badou</option>
+                <option value="Notsè">Notsè</option>
+
+                <!-- Région Centrale -->
+                <option value="Sokode">Sokodé</option>
+                <option value="Tchamba">Tchamba</option>
+                <option value="Blitta">Blitta</option>
+
+                <!-- Région Kara -->
+                <option value="Kara">Kara</option>
+                <option value="Bafilo">Bafilo</option>
+                <option value="Niamtougou">Niamtougou</option>
+                <option value="Bassari">Bassari</option>
+
+                <!-- Région Savanes -->
+                <option value="Dapaong">Dapaong</option>
+                <option value="Mango">Mango</option>
+                <option value="Tandjouare">Tandjouaré</option>
+            </select>
+
+            <button class="sreach_btn"><i class="fas fa-search"></i> Rechercher</button>
+        </div>
+    </form>
+
+    <section class="hero">
+        <div class="sous-titre">
+            <h2>Nos Pharmacie de la place</h2>
+        </div>
+
+        <div class="grille">
+
+                                       <?php foreach($pharmacies as $pharmacie) : ?>
+
+            <div class="pharmacie">
+                <div class="name">
+                    <h2 class="name"> <?php echo htmlspecialchars($pharmacie['nom_pharmacie']); ?> </h2>
+                </div>
+                <div class="contenu">
+                    <div class="info">
+                        <p><i class="fa-solid fa-location-dot"></i> <?php echo htmlspecialchars($pharmacie['ville']); ?> </p>
+                        <br>
+                        <p><i class="fa-solid fa-clock"></i> <?php echo htmlspecialchars($pharmacie['heure_ouverture']);?> - <?php echo htmlspecialchars($pharmacie['heure_fermeture']);?> </p>
+                        <br>
+                        <p><i class="fa-solid fa-phone"></i> <?php echo htmlspecialchars($pharmacie['telephone_pharmacie']); ?> </p>
+                        <br>
+                        <p><i class="fa-solid fa-circle"></i> <?php echo $pharmacie['statut_garde'] ? 'Pharmacie de garde' : 'Ouverte'; ?> </p>
+                    </div>
+                    <div class="imag">
+                        
+                    </div>
+                </div>
+                <button class="voir">Voir la pharmacie</button>
+            </div>
+                                       <?php endforeach; ?>
+
+           
+
+        </div>
+
+        <div class="plus">
+            <button class="voir_plus">Voir plus <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </section>
+     
+    <?php include'../Dos-include/footer.php'; ?>
+</body>
+</html>

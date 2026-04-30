@@ -1,0 +1,106 @@
+footer {
+    width: 100%;
+    background-color: rgba(0, 176, 0);
+    color: white;
+    padding: 30px 50px 0px 50px;
+    box-sizing: border-box;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+/* Colonne générique */
+.footer-col {
+    flex: 1;
+    min-width: 160px;
+}
+
+/* Branding */
+.footer-brand {
+    flex: 1.5;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.footer-logo i {
+    font-size: 1.6rem;
+    color: white;
+}
+
+.footer-logo span {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+.footer-logo strong {
+    font-weight: 800;
+}
+
+.footer-tagline {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    opacity: 0.88;
+}
+
+/* Titres de colonnes */
+.footer-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.5px;
+}
+
+/* Liens */
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.88rem;
+}
+
+.footer-links li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.9;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.2s ease;
+}
+
+.footer-links a:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+}
+
+/* Barre du bas */
+.footer-bottom {
+    margin-top: 25px;
+    padding: 12px 0;
+    text-align: center;
+    font-size: 0.8rem;
+    opacity: 0.75;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
