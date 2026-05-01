@@ -37,12 +37,14 @@ session_start();
 
                 <div class="form-group">
                     <label class="name" for="nom">Nom Complet</label>
-                    <input type="text" id="nom" name="nom" placeholder="Entrez votre nom complet">
+                    <input type="text" id="nom" name="nom" placeholder="Entrez votre nom complet" 
+                           value="<?php echo htmlspecialchars($nom_auto); ?>">
                 </div>
 
                 <div class="form-group">
                     <label class="mail" for="email">Email ou numero de téléphone</label>
-                    <input type="text" id="email" name="phone_email" placeholder="Entrer votre adresse email">
+                    <input type="text" id="email" name="phone_email" placeholder="Entrer votre adresse email"
+                           value="<?php echo htmlspecialchars($phone_email_auto); ?>">
                 </div>
 
                 <div class="form-group">

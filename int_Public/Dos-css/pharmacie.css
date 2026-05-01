@@ -21,7 +21,7 @@ html, body{
 
 form.tout_entete{
    width: 100%;
-   height: 18%;
+   height: auto;
    display: flex;
    flex-direction: column;
    text-align: center;
@@ -31,12 +31,12 @@ form.tout_entete{
 .text{
    font-size: 18px;
    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
-   margin-bottom: 20px;
+   margin-bottom: 10px;
 }
 
 div.entete_input{
    width: 100%;
-       font-size: 13px;
+   font-size: 13px;
 }
 
 .sreach_input{
@@ -78,7 +78,6 @@ option{
    border-top-right-radius: 15px ;
    border-bottom-right-radius: 15px;
    border: 1px solid white;
-   margin-left: -4px;
    font-size: 13px;
    transition: all 0.3s ease;
    &:hover{

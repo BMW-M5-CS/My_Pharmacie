@@ -100,9 +100,7 @@ $pharmacies = $stmt->fetchAll();
             <h2>Nos Pharmacie de la place</h2>
         </div>
 
-        <div class="grille">
-
-                                       <?php foreach($pharmacies as $pharmacie) : ?>
+        <div class="grille">                                    <?php foreach($pharmacies as $pharmacie) : ?>
 
             <div class="pharmacie">
                 <div class="name">

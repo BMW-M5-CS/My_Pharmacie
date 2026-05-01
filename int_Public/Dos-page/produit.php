@@ -49,7 +49,7 @@ $produits = $stmt->fetchAll();
 
     <form class="tout_entete" method="GET" action="produit.php">
         <div class="title">
-            <h1>Nos Médicaments</h1>
+            <h1><i class="fa-solid fa-pills"></i>  Nos Médicaments</h1>
         </div>
         <div class="text">
             Trouvez rapidement un medicament le plus proche de vous

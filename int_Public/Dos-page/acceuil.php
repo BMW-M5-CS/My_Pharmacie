@@ -23,10 +23,14 @@
             du médicaments recherché en seulement quelques cliques
         </p>
 
-        <div class="search-box">
-            <input type="text" class="recherche" class placeholder="Rechercher... ">
-            <button class="btn-search"><i class="fas fa-search"></i> search</button>
-        </div>
+        <form method="GET" action="../Dos-page/produit.php" class="">
+            <div class="search-box">
+                <input type="text" name="recherche" class="recherche" class placeholder="Rechercher... ">
+                <button type="submit" class="btn-search">
+                    <i class="fas fa-search"></i> search
+                </button>
+            </div>
+        </form>
 
     </section>
 
