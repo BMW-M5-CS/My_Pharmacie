@@ -99,10 +99,6 @@ session_start();
             </div>
         </div>
 
-        <div class="btn_more">
-            <button class="btn-see_more">Voir plus</button>
-        </div>
-
     </div>
     
       <?php include'../Dos-include/footer.php'; ?> 

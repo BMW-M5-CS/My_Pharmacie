@@ -127,6 +127,9 @@ $produits = $stmt->fetchAll();
                          
         </div>
 
+        <div class="voir_plus">
+            <button class="btn-see_more"> Voir plus  <i class="fa-solid fa-arrow-right"></i> </button>
+        </div>
     </section>
     
     <?php include'../Dos-include/footer.php'; ?>

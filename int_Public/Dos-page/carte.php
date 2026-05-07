@@ -37,6 +37,7 @@ $pharmacies = $stmt->fetchAll();
         <div class="text">Retrouvez toutes les pharmacies partenaires localisées sur la carte</div>
 
         <button class="btn-geoloc" onclick="localiserUtilisateur()">
+            
             <i class="fas fa-location-crosshairs"></i> Me localiser
         </button>
     </div>
