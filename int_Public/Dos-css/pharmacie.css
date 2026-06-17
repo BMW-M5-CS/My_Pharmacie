@@ -204,3 +204,243 @@ button.voir_plus{
     }
 }
 
+/* ========== MODAL ========== */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.actif {
+    display: flex;
+}
+
+body.modal-ouvert {
+    overflow: hidden;
+}
+
+.modal-contenu {
+    background-color: #ffffff;
+    color: #2b2b2b;
+    width: 1500px;
+    max-height: 90vh;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-fermer {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    background: none;
+    border: none;
+    color: #2b2b2b;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.3s ease;
+}
+
+.modal-fermer:hover {
+    color: #2ecc40;
+}
+
+/* Partie haute : image + infos côte à côte */
+.modal-haut {
+    padding: 30px 20px 20px 30px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 20px;
+    border-radius: 15px 15px 0 0;
+    overflow: hidden;
+    flex-shrink: 0;
+    min-height: 260px;
+    align-items: stretch;
+}
+
+.modal-image {
+    width: 40%;
+    display: flex;
+    min-height: 380px;
+    background-color: green;
+    overflow: hidden;
+    flex-shrink: 0;
+    border-radius: 12px;
+}
+
+.modal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modal-infos {
+    width: 25%;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+}
+
+.modal-infos h2 {
+    color: #2ecc40;
+    font-size: 22px;
+    margin: 0 0 8px 0;
+    font-weight: bold;
+}
+
+.modal-infos p {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 20px;
+    color: #2b2b2b;
+}
+
+.modal-infos i {
+    color: green;
+    width: 18px;
+    text-align: center;
+}
+
+.modal-garde-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    background-color: #2ecc40;
+    color: white;
+    margin-top: 5px;
+    width: fit-content;
+}
+
+.modal-carte {
+    width: 38%;
+    min-height: 280px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+    z-index: 1;
+    margin: 10px 20px;
+}
+
+.modal-garde-badge.fermee {
+    background-color: #e74c3c;
+}
+
+/* Séparateur */
+.modal-separateur {
+    height: 2px;
+    background-color: #f0f0f0;
+    margin: 0 25px;
+    flex-shrink: 0;
+}
+
+/* Partie basse : produits */
+.modal-bas {
+    padding: 20px 50px 20px 50px;
+    display: flex;
+    overflow: hidden;
+    flex : 1;
+    flex-direction: column;
+}
+
+.modal-bas h3 {
+    flex-shrink: 0;
+    padding: 0px 30px 15px 0px;
+    color: #2b2b2b;
+    font-size: 18px;
+    font-weight: bold;
+    
+}
+
+.modal-bas h3 span {
+    color: #2ecc40;
+}
+
+.modal-produits-grille {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    row-gap: 20px;
+    column-gap: 10px;
+    justify-items: center;
+    /* padding: 20px 30px 20px 30px; */
+    overflow-y: auto;
+    flex: 1;
+
+}
+
+.modal-produit-item {
+    width: 180px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    background-color: white;
+    gap: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.modal-produit-item:hover {
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
+}
+
+.modal-produit-nom {
+    font-weight: bold;
+    color: #2b2b2b;
+    font-size: 14px;
+}
+
+.modal-produit-forme {
+    color: #888;
+}
+
+.modal-produit-prix {
+    color: #2ecc40;
+    font-weight: bold;
+}
+
+.modal-aucun {
+    color: #888;
+    font-style: italic;
+}
+
+/* Actions */
+.modal-produit-image {
+    width: 140px;
+    height: 140px;
+    background-color: green;
+    border-radius: 10px;
+}
+
+.btn-reserver-produit {
+    width: 130px;
+    height: 34px;
+    background-color: rgb(8, 177, 8);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-reserver-produit:hover {
+    background-color: green;
+}

@@ -25,7 +25,7 @@
 
         <form method="GET" action="../Dos-page/produit.php" class="">
             <div class="search-box">
-                <input type="text" name="recherche" class="recherche" class placeholder="Rechercher... ">
+                <input type="text" name="recherche" class="recherche" placeholder="Rechercher... ">
                 <button type="submit" class="btn-search">
                     <i class="fas fa-search"></i> search
                 </button>

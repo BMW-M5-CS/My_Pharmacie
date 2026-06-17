@@ -5,25 +5,25 @@ $ville     = $_GET['ville'] ?? '';
 $recherche = $_GET['recherche'] ?? '';
 
 if ($ville !== '' && $recherche !=='') {
-    $sql = "SELECT nom_pharmacie, adresse, ville, heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
+    $sql = "SELECT id_pharmacie, nom_pharmacie, adresse, ville, heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
             FROM pharmacies WHERE ville = ? AND nom_pharmacie ILIKE ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$ville, '%' . $recherche . '%']);
 
 } elseif ($ville !== '') {
-    $sql = "SELECT nom_pharmacie, adresse, ville, heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
+    $sql = "SELECT id_pharmacie, nom_pharmacie, adresse, ville, heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
             FROM pharmacies WHERE ville = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$ville]);
 
 } elseif ($recherche !=='') {
-    $sql = "SELECT nom_pharmacie, adresse, ville, heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
+    $sql = "SELECT id_pharmacie, nom_pharmacie, adresse, ville, heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
             FROM pharmacies WHERE nom_pharmacie ILIKE ?";
     $stmt = $pdo->prepare($sql);
     $stmt ->execute(['%' . $recherche . '%']);
 
 }else {
-    $sql = "SELECT nom_pharmacie, adresse, ville, heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
+    $sql = "SELECT id_pharmacie, nom_pharmacie, adresse, ville, heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
             FROM pharmacies";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
@@ -42,8 +42,12 @@ $pharmacies = $stmt->fetchAll();
     <link rel="stylesheet" href="../Dos-css/footer.css">
     <link rel="stylesheet" href="../Dos-css/pharmacie.css">   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
-<body>
+
+<body data-connecte="<?php echo isset($_SESSION['user_id']) ? '1' : '0'; ?>">
+    
     <?php include'../Dos-include/header.php'; ?>
 
     <form method="GET" action="pharmacie.php" class="tout_entete">
@@ -59,6 +63,7 @@ $pharmacies = $stmt->fetchAll();
             <input type="text" name="recherche" class="sreach_input" placeholder="Entrez le nom d'une pharmacie rechercher">
 
             <select name="ville" id="ville">
+
                 <option value="">Toutes les Villes</option>
 
                 <!-- Région Maritime -->
@@ -100,7 +105,8 @@ $pharmacies = $stmt->fetchAll();
             <h2>Nos Pharmacie de la place</h2>
         </div>
 
-        <div class="grille">                                    <?php foreach($pharmacies as $pharmacie) : ?>
+        <div class="grille">                       
+                                     <?php foreach($pharmacies as $pharmacie) : ?>
 
             <div class="pharmacie">
                 <div class="name">
@@ -120,7 +126,7 @@ $pharmacies = $stmt->fetchAll();
                         
                     </div>
                 </div>
-                <button class="voir">Voir la pharmacie</button>
+                <button class="voir" data-id="<?php echo $pharmacie['id_pharmacie']; ?>">Voir la pharmacie</button>
             </div>
                                        <?php endforeach; ?>
 
@@ -132,6 +138,44 @@ $pharmacies = $stmt->fetchAll();
             <button class="voir_plus">Voir plus <i class="fa-solid fa-arrow-right"></i></button>
         </div>
     </section>
+
+    <div class="modal-overlay" id="modal-pharmacie">
+        <div class="modal-contenu">
+
+            <button class="modal-fermer" id="modal-fermer">&times;</button>
+
+            <div class="modal-haut">
+
+                    <div class="modal-image">
+                         <!-- image de la pharmacie -->
+                    </div>
+
+                    <div class="modal-infos">
+                        <h2 id="modal-nom"></h2>
+                        <p><i class="fa-solid fa-location-dot"></i> <span id="modal-adresse"></span></p>
+                        <p><i class="fa-solid fa-city"></i> <span id="modal-ville"></span></p>
+                        <p><i class="fa-solid fa-map"></i> <span id="modal-commune"></span></p>
+                        <p><i class="fa-solid fa-map-pin"></i> <span id="modal-quartier"></span></p>
+                        <p><i class="fa-solid fa-clock"></i> <span id="modal-horaire"></span></p>
+                        <p><i class="fa-solid fa-phone"></i> <span id="modal-telephone"></span></p>
+                        <p><i class="fa-solid fa-circle"></i> <span id="modal-garde"></span></p>
+                    </div>
+
+                    <div class="modal-carte" id="modal-carte">
+                        <!-- le cade de la carte -->
+                    </div>
+            </div>
+
+            <div class="modal-separateur"></div>
+
+            <div class="modal-bas">
+                <h3>Produits disponibles <span id="modal-nb-produits"></span> </h3>
+                <div class="modal-produits-grille" id="modal-liste-produits"></div>
+            </div>
+
+        </div>
+    </div>
+
      
     <?php include'../Dos-include/footer.php'; ?>
 

@@ -5,11 +5,11 @@ const carte       = document.querySelectorAll('.produit');
 const btnVoirPlus = document.querySelector('.btn-see_more');
 
 function afficherCartes() {
-    carte.forEach(function(carte, index) {
+    carte.forEach(function(map, index) {
         if (index < carteVisibles) {
-            carte.style.display = 'flex';
+            map.style.display = 'flex';
         } else {
-            carte.style.display = 'none';
+            map.style.display = 'none';
         }
     });
 
