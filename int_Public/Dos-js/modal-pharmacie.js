@@ -93,7 +93,7 @@ function ouvrirModalPharmacie(id){
             });
 
             modalOverlay.classList.add('actif');
-            document.body.classList.add('modal-ouvert');
+            document.body.classList.add('fenetre-pharmacie-ouvert');
          })
 
          .catch(function(){
@@ -110,7 +110,7 @@ modalOverlay.addEventListener('click', function(e){
 
 function fermerModal(){
     modalOverlay.classList.remove('actif');
-    document.body.classList.remove('modal-ouvert');
+    document.body.classList.remove('fenetre-pharmacie-ouvert');
     if (window._modalMap) {
         window._modalMap.remove();
         window._modalMap = null;

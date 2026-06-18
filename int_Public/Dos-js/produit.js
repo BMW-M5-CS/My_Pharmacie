@@ -66,7 +66,7 @@ function ouvrirModalProduit(id){
             document.getElementById('modal-nom_generique').textContent        = data.nom_generique ? 'Générique : ' + data.nom_generique : '';
             document.getElementById('modal-forme_pharmaceutique').textContent = 'Forme : ' + data.forme_pharmaceutique;
             document.getElementById('modal-dosage').textContent               = data.dosage ? 'Dosage : ' + data.dosage : '';
-            document.getElementById('modal-conditionnement').textContent      = data.conditionnement ? 'Conditionnemnt : ' + data.conditionnement : '';
+            document.getElementById('modal-conditionnement').textContent      = data.conditionnement ? 'Conditionnement : ' + data.conditionnement : '';
             document.getElementById('modal-description').textContent          = data.description;
             document.getElementById('modal-prix_unitaire_fcfa').textContent   = 'Prix : ' + data.prix_unitaire_fcfa + ' FCFA' ;
 
