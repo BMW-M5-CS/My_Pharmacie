@@ -206,7 +206,7 @@ button.voir_plus{
 
 /* ========== MODAL ========== */
 
-.modal-overlay {
+.fenetre-pharmacie {
     display: none;
     position: fixed;
     top: 0;
@@ -219,15 +219,15 @@ button.voir_plus{
     align-items: center;
 }
 
-.modal-overlay.actif {
+.fenetre-pharmacie.actif {
     display: flex;
 }
 
-body.modal-ouvert {
+body.fenetre-pharmacie-ouvert {
     overflow: hidden;
 }
 
-.modal-contenu {
+.modal-contenu-pharmacie {
     background-color: #ffffff;
     color: #2b2b2b;
     width: 1500px;
@@ -239,7 +239,7 @@ body.modal-ouvert {
     flex-direction: column;
 }
 
-.modal-fermer {
+.modal-fermer-pharmacie {
     position: absolute;
     top: 12px;
     right: 18px;
@@ -252,12 +252,12 @@ body.modal-ouvert {
     transition: color 0.3s ease;
 }
 
-.modal-fermer:hover {
+.modal-fermer-pharmacie:hover {
     color: #2ecc40;
 }
 
 /* Partie haute : image + infos côte à côte */
-.modal-haut {
+.modal-haut-pharmacie {
     padding: 30px 20px 20px 30px;
     display: flex;
     flex-direction: row;
@@ -270,7 +270,7 @@ body.modal-ouvert {
     align-items: stretch;
 }
 
-.modal-image {
+.modal-image-pharmacie {
     width: 40%;
     display: flex;
     min-height: 380px;
@@ -286,7 +286,7 @@ body.modal-ouvert {
     object-fit: cover;
 }
 
-.modal-infos {
+.modal-infos-pharmacie {
     width: 25%;
     padding-left: 10px;
     display: flex;
@@ -295,14 +295,14 @@ body.modal-ouvert {
     justify-content: center;
 }
 
-.modal-infos h2 {
+.modal-infos-pharmacie h2 {
     color: #2ecc40;
     font-size: 22px;
     margin: 0 0 8px 0;
     font-weight: bold;
 }
 
-.modal-infos p {
+.modal-infos-pharmacie p {
     display: flex;
     align-items: center;
     gap: 18px;
@@ -310,7 +310,7 @@ body.modal-ouvert {
     color: #2b2b2b;
 }
 
-.modal-infos i {
+.modal-infos-pharmacie i {
     color: green;
     width: 18px;
     text-align: center;
@@ -343,7 +343,7 @@ body.modal-ouvert {
 }
 
 /* Séparateur */
-.modal-separateur {
+.modal-separateur-pharmacie {
     height: 2px;
     background-color: #f0f0f0;
     margin: 0 25px;
@@ -351,7 +351,7 @@ body.modal-ouvert {
 }
 
 /* Partie basse : produits */
-.modal-bas {
+.modal-bas-pharmacie {
     padding: 20px 50px 20px 50px;
     display: flex;
     overflow: hidden;
@@ -359,16 +359,16 @@ body.modal-ouvert {
     flex-direction: column;
 }
 
-.modal-bas h3 {
+.modal-bas-pharmacie h3 {
     flex-shrink: 0;
     padding: 0px 30px 15px 0px;
     color: #2b2b2b;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     
 }
 
-.modal-bas h3 span {
+.modal-bas-pharmacie h3 span {
     color: #2ecc40;
 }
 

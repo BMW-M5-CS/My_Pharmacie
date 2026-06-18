@@ -139,19 +139,19 @@ $pharmacies = $stmt->fetchAll();
         </div>
     </section>
 
-    <div class="modal-overlay" id="modal-pharmacie">
-        <div class="modal-contenu">
+    <div class="fenetre-pharmacie" id="modal-pharmacie">
+        <div class="modal-contenu-pharmacie">
 
-            <button class="modal-fermer" id="modal-fermer">&times;</button>
+            <button class="modal-fermer-pharmacie" id="modal-fermer-pharmacie">&times;</button>
 
-            <div class="modal-haut">
+            <div class="modal-haut-pharmacie">
 
-                    <div class="modal-image">
+                    <div class="modal-image-pharmacie">
                          <!-- image de la pharmacie -->
                     </div>
 
-                    <div class="modal-infos">
-                        <h2 id="modal-nom"></h2>
+                    <div class="modal-infos-pharmacie">
+                        <h2 id="modal-nom-pharmacie"></h2>
                         <p><i class="fa-solid fa-location-dot"></i> <span id="modal-adresse"></span></p>
                         <p><i class="fa-solid fa-city"></i> <span id="modal-ville"></span></p>
                         <p><i class="fa-solid fa-map"></i> <span id="modal-commune"></span></p>
@@ -166,9 +166,9 @@ $pharmacies = $stmt->fetchAll();
                     </div>
             </div>
 
-            <div class="modal-separateur"></div>
+            <div class="modal-separateur-pharmacie"></div>
 
-            <div class="modal-bas">
+            <div class="modal-bas-pharmacie">
                 <h3>Produits disponibles <span id="modal-nb-produits"></span> </h3>
                 <div class="modal-produits-grille" id="modal-liste-produits"></div>
             </div>
@@ -179,6 +179,7 @@ $pharmacies = $stmt->fetchAll();
      
     <?php include'../Dos-include/footer.php'; ?>
 
+    <script src="../Dos-js/modal-pharmacie.js"></script>
     <script src="../Dos-js/pharmacie.js"></script>
 </body>
 </html>
