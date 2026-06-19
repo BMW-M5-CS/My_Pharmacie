@@ -20,13 +20,11 @@ $pharmacies = $stmt->fetchAll();
     <link rel="stylesheet" href="../Dos-css/footer.css">
     <link rel="stylesheet" href="../Dos-css/carte.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 </head>
 <body>
 
-    <?php include '../Dos-include/header.php'; ?>
+        <?php  include '../Dos-include/header.php'; ?>
 
     <!-- Entête de la page -->
     <div class="carte-entete">

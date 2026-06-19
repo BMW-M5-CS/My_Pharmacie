@@ -17,7 +17,8 @@ session_start();
 
 </head>
 <body>
-    <?php include'../Dos-include/header.php'; ?> 
+    
+        <?php  include '../Dos-include/header.php'; ?>
 
     <?php if (isset($_GET['succes'])): ?>
        <p style="text-align: center; color: white; margin-top: 20px;">

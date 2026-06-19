@@ -15,7 +15,7 @@ session_start();
 </head>
 <body>
 
-         <?php include'../Dos-include/header.php'; ?>
+        <?php  include '../Dos-include/header.php'; ?>
 
     <section class="hero">
 

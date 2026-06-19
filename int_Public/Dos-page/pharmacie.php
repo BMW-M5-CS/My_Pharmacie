@@ -38,7 +38,7 @@ $pharmacies = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nos pharmacie</title>
-    <link rel="stylesheet" href="../Dos-css/header.css"> 
+    <link rel="stylesheet" href="../Dos-css/header.css">
     <link rel="stylesheet" href="../Dos-css/footer.css">
     <link rel="stylesheet" href="../Dos-css/pharmacie.css">   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -48,7 +48,7 @@ $pharmacies = $stmt->fetchAll();
 
 <body data-connecte="<?php echo isset($_SESSION['user_id']) ? '1' : '0'; ?>">
     
-    <?php include'../Dos-include/header.php'; ?>
+   <?php  include '../Dos-include/header.php'; ?>
 
     <form method="GET" action="pharmacie.php" class="tout_entete">
         <div class="title">
