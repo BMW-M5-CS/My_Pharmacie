@@ -20,14 +20,23 @@ try{
     if ($user && password_verify($mdp_tape, $user['password'])) {
         $_SESSION['user_id']     = $user['id_user'];        
         $_SESSION['nom']         = $user['nom'];
+        $_SESSION['prenom']      = $user['prenom'];
         $_SESSION['role']        = $user['role'];
         $_SESSION['phone_email'] = $user['phone_email'];
 
-       header("Location: ../../int_Client/Dos-page/acceuil.php");
-       exit();
+       $redirect = $_POST['redirect'] ?? '';
+       
+        if (!empty($redirect)) {
+            header("Location: " . $redirect);
+        } else {
+            header("Location: ../../int_Client/Dos-page/acceuil.php");
+        } 
+        exit();
+
     } else {
-        echo "Identifiant ou mot de passe incorrect pour." . htmlspecialchars($identifian);
+        echo "Identifiant ou mot de passe incorrect pour " . htmlspecialchars($identifian);
     }
+
 } catch (PDOException $e) {
     echo "Erreur de connexion : ". $e->getMessage();
 }

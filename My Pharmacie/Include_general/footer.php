@@ -1,3 +1,10 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$est_connecte = isset($_SESSION['user_id']);
+?>
+
 <footer>
     <div class="footer-container">
 
@@ -14,10 +21,14 @@
         <div class="footer-col">
             <h4 class="footer-title">Navigation</h4>
             <ul class="footer-links">
-                <li><a href="../Dos-page/acceuil.php"><i class="fas fa-house"></i> Accueil</a></li>
-                <li><a href="../Dos-page/produit.php"><i class="fas fa-pills"></i> Produits</a></li>
-                <li><a href="../Dos-page/pharmacie.php"><i class="fas fa-location-dot"></i> Pharmacies</a></li>
-                <li><a href="../Dos-page/contact.php"><i class="fas fa-envelope"></i> Contact</a></li>
+                <?php if ($est_connecte) : ?>
+                    <li><a href="../../int_Client/Dos-page/acceuil.php"><i class="fas fa-house"></i> Accueil</a></li>
+                <?php else : ?>
+                    <li><a href="../../int_Public/Dos-page/acceuil.php"><i class="fas fa-house"></i> Accueil</a></li>
+                <?php endif; ?>
+                <li><a href="../../int_Public/Dos-page/produit.php"><i class="fas fa-pills"></i> Produits</a></li>
+                <li><a href="../../int_Public/Dos-page/pharmacie.php"><i class="fas fa-location-dot"></i> Pharmacies</a></li>
+                <li><a href="../../int_Public/Dos-page/contact.php"><i class="fas fa-envelope"></i> Contact</a></li>
             </ul>
         </div>
 

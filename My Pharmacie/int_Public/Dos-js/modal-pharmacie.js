@@ -84,10 +84,12 @@ function ouvrirModalPharmacie(id){
                     const connecte    = document.body.dataset.connecte;
                     const idStock     = this.dataset.idStock;
                     const idPharmacie = this.dataset.idPharmacie;
+                    
                     if(connecte === '1'){
                         window.location.href = '../../int_Client/Dos-page/reservation.php?id_pharmacie=' + idPharmacie + '&produit=' + idStock;
                     } else{
-                        window.location.href = 'conex.php';
+                        const destination = '../../int_Client/Dos-page/reservation.php?id_pharmacie=' + idPharmacie + '&produit=' + idStock;
+                        window.location.href = 'conex.php?redirect=' + encodeURIComponent(destination);
                     }
                 });
             });

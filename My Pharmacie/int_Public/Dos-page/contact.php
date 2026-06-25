@@ -18,7 +18,7 @@ session_start();
 </head>
 <body>
     
-        <?php  include '../Dos-include/header.php'; ?>
+        <?php  include '../../Include_general/header.php'; ?>
 
     <?php if (isset($_GET['succes'])): ?>
        <p style="text-align: center; color: white; margin-top: 20px;">
@@ -102,6 +102,6 @@ session_start();
 
     </div>
     
-      <?php include'../Dos-include/footer.php'; ?> 
+      <?php include'../../Include_general/footer.php'; ?> 
 </body>
 </html>

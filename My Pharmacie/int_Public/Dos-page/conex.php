@@ -1,6 +1,7 @@
 <?php
     session_start();
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    $redirect = $_GET['redirect'] ?? '';
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +16,7 @@
 
 <body>
     <form action="../Dos-php/traite_conex.php" method ="POST">
+
         <section class="contener-conex">
                 <div class="titre">
                     <h1>Connexion</h1>
@@ -38,7 +40,8 @@
 
                 </div>
                 
-                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">      
+                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>"> 
+                        <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">     
 
                 <button class="btn-conex" type="submit">Se Connecter</button>
                 <a href="../Dos-page/inscription.php" class="btn">Créé un compte</a>

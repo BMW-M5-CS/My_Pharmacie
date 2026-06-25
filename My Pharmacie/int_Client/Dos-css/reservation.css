@@ -1,0 +1,558 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #2b2b2b;
+}
+
+/* ================= HERO PHARMACIE ================= */
+
+.resa-hero {
+    background-color: black;
+    padding: 28px 60px 34px 60px;
+}
+
+.resa-hero-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.resa-retour {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #aaa;
+    text-decoration: none;
+    font-size: 13px;
+    margin-bottom: 18px;
+    transition: color 0.2s ease;
+}
+
+.resa-retour:hover {
+    color: #2ecc40;
+}
+
+.resa-hero-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.resa-eyebrow {
+    display: block;
+    color: #2ecc40;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.resa-hero-info h1 {
+    color: white;
+    font-size: 30px;
+    margin-bottom: 14px;
+}
+
+.resa-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    color: #bbb;
+    font-size: 13px;
+}
+
+.resa-meta span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.resa-meta i {
+    color: #2ecc40;
+}
+
+.resa-badge-garde {
+    background-color: #2ecc40;
+    color: white;
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+/* ================= CORPS : 2 COLONNES ================= */
+
+.resa-corps {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 28px;
+    padding: 36px 60px 60px 60px;
+    align-items: start;
+    height: calc(100vh - 220px);
+}
+
+/* ---------- Colonne produits ---------- */
+
+.resa-produits-col {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+.resa-produits-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 22px;
+    flex-shrink: 0;
+}
+
+.resa-produits-head h2 {
+    font-size: 19px;
+    color: #2b2b2b;
+}
+
+.resa-produits-head h2 span {
+    color: #2ecc40;
+}
+
+#resa-recherche {
+    width: 260px;
+    height: 38px;
+    padding: 0 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    font-size: 13px;
+    outline: none;
+    background-color: white;
+    transition: border-color 0.2s ease;
+}
+
+#resa-recherche:focus {
+    border-color: #2ecc40;
+}
+
+.resa-grille-produits {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 18px;
+    overflow-y: auto;
+    max-height: 100%;
+    padding-right: 10px;
+}
+
+.resa-carte-produit {
+    background-color: white;
+    border-radius: 12px;
+    border: 0.5px solid #e8e8e8;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: all 0.25s ease;
+}
+
+.resa-carte-produit:hover {
+    border-color: #2ecc40;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.resa-carte-produit.epuise {
+    opacity: 0.55;
+}
+
+.resa-produit-vignette {
+    width: 100%;
+    height: 110px;
+    background-color: #2ecc40;
+    border-radius: 8px;
+    margin-bottom: 6px;
+}
+
+.resa-produit-nom {
+    font-weight: bold;
+    font-size: 14px;
+    color: #2b2b2b;
+    line-height: 1.3;
+}
+
+.resa-produit-forme {
+    font-size: 12px;
+    color: #888;
+}
+
+.resa-produit-prix {
+    font-weight: bold;
+    color: #2ecc40;
+    font-size: 15px;
+    margin-top: 2px;
+}
+
+.resa-produit-rupture {
+    font-size: 11px;
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* ---- stepper sur chaque carte produit ---- */
+
+.resa-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.resa-stepper button {
+    width: 36px;
+    height: 34px;
+    border: none;
+    background-color: #f4f4f4;
+    color: #2b2b2b;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.resa-stepper button:hover:not(:disabled) {
+    background-color: #2ecc40;
+    color: white;
+}
+
+.resa-stepper button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.resa-stepper span {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.resa-aucun-produit {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #888;
+    padding: 40px 0;
+    font-style: italic;
+}
+
+/* ================= PANIER / TICKET ================= */
+
+.resa-panier-sticky {
+    position: sticky;
+    top: 20px;
+}
+
+.resa-ticket {
+    background-color: white;
+    border-radius: 14px;
+    border: 0.5px solid #e8e8e8;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.resa-ticket-head {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.resa-ticket-head i {
+    color: #2ecc40;
+}
+
+.resa-ticket-pharmacie {
+    padding: 12px 20px;
+    font-size: 13px;
+    color: #888;
+    border-bottom: 1px dashed #e0e0e0;
+}
+
+.resa-ticket-perforation {
+    height: 1px;
+    background-color: #eee;
+    margin: 0 20px;
+}
+
+.resa-ticket-lignes {
+    padding: 14px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 340px;
+    overflow-y: auto;
+}
+
+.resa-panier-vide {
+    text-align: center;
+    color: #aaa;
+    font-size: 13px;
+    padding: 20px 10px;
+    line-height: 1.6;
+}
+
+.resa-panier-vide i {
+    display: block;
+    font-size: 26px;
+    color: #ddd;
+    margin-bottom: 10px;
+}
+
+.resa-ligne-panier {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.resa-ligne-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.resa-ligne-nom {
+    font-size: 13px;
+    font-weight: bold;
+    color: #2b2b2b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.resa-ligne-prix {
+    font-size: 12px;
+    color: #2ecc40;
+    font-weight: bold;
+}
+
+.resa-ligne-stepper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.resa-ligne-stepper button {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #e0e0e0;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.resa-ligne-stepper button:hover:not(:disabled) {
+    background-color: #2ecc40;
+    border-color: #2ecc40;
+    color: white;
+}
+
+.resa-ligne-stepper button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.resa-ligne-stepper span {
+    font-size: 13px;
+    font-weight: bold;
+    min-width: 14px;
+    text-align: center;
+}
+
+.resa-ticket-footer {
+    padding: 16px 20px 20px 20px;
+}
+
+.resa-ticket-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 14px;
+}
+
+.resa-ticket-total span:last-child {
+    color: #2b2b2b;
+    font-weight: bold;
+}
+
+.resa-btn-confirmer {
+    width: 100%;
+    height: 46px;
+    background-color: #2ecc40;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.25s ease;
+}
+
+.resa-btn-confirmer:hover:not(:disabled) {
+    background-color: #27ae60;
+}
+
+.resa-btn-confirmer:disabled {
+    background-color: #cfcfcf;
+    cursor: not-allowed;
+}
+
+.resa-note {
+    font-size: 11px;
+    color: #aaa;
+    margin-top: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    line-height: 1.5;
+}
+
+.resa-note i {
+    color: #2ecc40;
+    margin-top: 2px;
+}
+
+/* ================= MODALE DE CONFIRMATION ================= */
+
+.resa-confirm-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.resa-confirm-overlay.actif {
+    display: flex;
+}
+
+.resa-confirm-box {
+    background-color: white;
+    border-radius: 16px;
+    padding: 40px 36px;
+    width: 380px;
+    max-width: 90vw;
+    text-align: center;
+}
+
+.resa-confirm-box i {
+    font-size: 50px;
+    color: #2ecc40;
+    margin-bottom: 14px;
+}
+
+.resa-confirm-box h3 {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.resa-confirm-box p {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.5;
+}
+
+.resa-confirm-code {
+    margin: 18px 0;
+    padding: 14px;
+    background-color: #f4f4f4;
+    border: 1.5px dashed #2ecc40;
+    border-radius: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #2b2b2b;
+}
+
+.resa-confirm-expire {
+    font-size: 12px;
+    color: #e67e22;
+    margin-bottom: 20px;
+}
+
+.resa-confirm-btn {
+    display: block;
+    width: 100%;
+    height: 46px;
+    line-height: 46px;
+    background-color: #2ecc40;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.resa-confirm-btn:hover {
+    background-color: #27ae60;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1000px) {
+    .resa-corps {
+        grid-template-columns: 1fr;
+        padding: 28px 20px 50px 20px;
+    }
+
+    .resa-panier-sticky {
+        position: static;
+    }
+
+    .resa-hero {
+        padding: 24px 20px 28px 20px;
+    }
+}
+
+@media (max-width: 560px) {
+    .resa-grille-produits {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #resa-recherche {
+        width: 100%;
+    }
+
+    .resa-produits-head {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

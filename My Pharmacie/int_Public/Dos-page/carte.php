@@ -24,7 +24,7 @@ $pharmacies = $stmt->fetchAll();
 </head>
 <body>
 
-        <?php  include '../Dos-include/header.php'; ?>
+        <?php  include '../../Include_general/header.php'; ?>
 
     <!-- Entête de la page -->
     <div class="carte-entete">
@@ -99,7 +99,7 @@ $pharmacies = $stmt->fetchAll();
 
     <div id="msg-geoloc"></div>
 
-    <?php include '../Dos-include/footer.php'; ?>
+    <?php include '../../Include_general/footer.php'; ?>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="../Dos-js/carte.js"></script>

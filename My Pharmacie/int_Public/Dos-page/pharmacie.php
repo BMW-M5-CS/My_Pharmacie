@@ -48,7 +48,7 @@ $pharmacies = $stmt->fetchAll();
 
 <body data-connecte="<?php echo isset($_SESSION['user_id']) ? '1' : '0'; ?>">
     
-   <?php  include '../Dos-include/header.php'; ?>
+   <?php  include '../../Include_general/header.php'; ?>
 
     <form method="GET" action="pharmacie.php" class="tout_entete">
         <div class="title">
@@ -177,7 +177,7 @@ $pharmacies = $stmt->fetchAll();
     </div>
 
      
-    <?php include'../Dos-include/footer.php'; ?>
+    <?php include'../../Include_general/footer.php'; ?>
 
     <script src="../Dos-js/modal-pharmacie.js"></script>
     <script src="../Dos-js/pharmacie.js"></script>

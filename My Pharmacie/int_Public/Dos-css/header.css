@@ -117,3 +117,52 @@ div.conex{
      color: black;
   }
 }
+
+/* ===== Bloc client connecté (ajouté pour le header partagé) ===== */
+
+div.profil {
+  display: flex;
+  justify-items: center;
+}
+
+div.profil .btn-profil {
+  width: 130px;
+  height: 34px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  background-color: green;
+  border: 1px solid white;
+  color: white;
+  transition: all 0.3s ease;
+  gap: 5px;
+}
+
+div.profil .btn-profil:hover {
+  background-color: white;
+  color: black;
+}
+
+.btn-deconex {
+  display: flex;
+  width: 130px;
+  height: 34px;
+  text-decoration: none;
+  align-items: center;
+  border: 1px solid white;
+  justify-content: center;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: green;
+  color: white;
+  margin-left: -1px;
+  transition: all 0.3s ease;
+}
+
+.btn-deconex:hover {
+  background-color: white;
+  color: black;
+}
