@@ -115,7 +115,7 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
             <div class="card">
                 <div class="card-title">
                     <span><i class="fa-solid fa-calendar-check"></i> Dernières réservations</span>
-                    <a href="reservation.php" class="voir-tout">Voir tout <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="../Dos-page/mes_reservations.php" class="voir-tout">Voir tout <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
 
                 <?php if (empty($dernieres_reservations)) : ?>
@@ -185,7 +185,7 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
                     <span>Voir la carte</span>
                     <i class="fa-solid fa-chevron-right arrow"></i>
                 </a>
-                <a href="reservation.php" class="action-btn">
+                <a href="../Dos-page/mes_reservations.php" class="action-btn">
                     <i class="fa-solid fa-clipboard-list"></i>
                     <span>Toutes mes réservations</span>
                     <i class="fa-solid fa-chevron-right arrow"></i>

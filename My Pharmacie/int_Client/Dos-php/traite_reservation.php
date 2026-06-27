@@ -26,7 +26,7 @@ try {
     $pdo->beginTransaction();
 
     // Code de réservation unique, lisible, lié à la pharmacie et à un timestamp
-    $code_reservation = 'RES-' . strtoupper(substr(uniqid(), -6));
+    $code_reservation = 'RES-' . strtoupper(bin2hex(random_bytes(3)));
     $expire_at_sql     = "NOW() + INTERVAL '5 hours'";
 
     $sql_verif = "SELECT 
@@ -57,6 +57,7 @@ try {
         // Revalidation stricte côté serveur — jamais confiance au panier envoyé par le client
         $stmt_verif->execute([$id_stock, $id_pharmacie]);
         $resultat = $stmt_verif->fetch(PDO::FETCH_ASSOC);
+        $stmt_verif->closeCursor();
 
         if (!$resultat || (int)$resultat['max_reservable'] < $quantite) {
             $pdo->rollBack();
@@ -90,5 +91,5 @@ try {
         $pdo->rollBack();
     }
     http_response_code(500);
-    echo json_encode(['succes' => false, 'message' => 'Erreur lors de la réservation. Veuillez réessayer.']);
+    echo json_encode(['succes' => false, 'message' => 'Erreur lors de la réservation. Veuillez réessayer .']);
 }

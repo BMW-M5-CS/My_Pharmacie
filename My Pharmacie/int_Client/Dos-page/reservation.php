@@ -33,7 +33,7 @@ if (!$pharmacie) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réservation — <?php echo htmlspecialchars($pharmacie['nom_pharmacie']); ?></title>
     <link rel="stylesheet" href="../Dos-css/header.css">
-    <link rel="stylesheet" href="../../int_Public/Dos-css/footer.css">
+    <link rel="stylesheet" href="../Dos-css/footer.css">
     <link rel="stylesheet" href="../Dos-css/reservation.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -118,7 +118,8 @@ if (!$pharmacie) {
                         </button>
                         <p class="resa-note">
                             <i class="fa-solid fa-circle-info"></i>
-                            Réservation gratuite, valable 2 heures à compter de la confirmation.
+                            Réservation gratuite, valable 5 heures à compter de la confirmation.
+                            depecher vous et recuperer les produits reserver a la  <?php echo htmlspecialchars($pharmacie['nom_pharmacie']); ?>
                         </p>
                     </div>
                 </div>
@@ -128,7 +129,7 @@ if (!$pharmacie) {
 
     </section>
 
-    <?php include '../../int_Public/Dos-include/footer.php'; ?>
+    <?php include '../../Include_general/footer.php'; ?>
 
     <!-- ===== Modale de confirmation ===== -->
     <div class="resa-confirm-overlay" id="resa-confirm-overlay">

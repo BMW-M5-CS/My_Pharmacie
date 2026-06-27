@@ -29,16 +29,21 @@ let produitsDisponibles = [];
 function chargerProduits() {
     fetch('../Dos-php/get_produit-pharmacie.php?id_pharmacie=' + idPharmacie)
         .then(function(response) { return response.json(); })
+
         .then(function(data) {
             produitsDisponibles = data.produits || [];
             nbProduitsEl.textContent = '(' + produitsDisponibles.length + ')';
             afficherProduits(produitsDisponibles);
 
-            // Si on arrive avec un produit pré-sélectionné depuis le modal pharmacie
+            // Pré-sélection depuis modal pharmacie (ancien comportement)
             if (produitInit) {
                 ajouterAuPanier(produitInit);
             }
+
+            // Pré-remplissage depuis mes_reservations (nouveau)
+            preRemplirPanierDepuisURL();
         })
+        
         .catch(function() {
             grilleProduits.innerHTML = '<p class="resa-aucun-produit">Erreur lors du chargement des produits.</p>';
         });
@@ -223,6 +228,7 @@ btnConfirmer.addEventListener('click', function() {
         })
     })
     .then(function(response) { return response.json(); })
+
     .then(function(data) {
         if (data.succes) {
             confirmCode.textContent = data.code_reservation;
@@ -246,7 +252,35 @@ btnConfirmer.addEventListener('click', function() {
 });
 
 // ===================================================================
-// INITIALISATION
+// PRÉ-REMPLISSAGE DU PANIER DEPUIS L'URL (venant de mes_reservations)
 // ===================================================================
+
+function preRemplirPanierDepuisURL() {
+    const params     = new URLSearchParams(window.location.search);
+    const preselects = params.getAll('preselect[]');
+    const qtes       = params.getAll('qte[]');
+
+    if (preselects.length === 0) return;
+
+    // Pour chaque id_stock reçu dans l'URL, on force la quantité dans le panier
+    preselects.forEach(function(idStock, index) {
+        const qte     = parseInt(qtes[index]) || 1;
+        const produit = trouverProduit(idStock);
+        if (!produit) return;
+
+        // Ne pas dépasser le max_reservable réel
+        const qtefinale = Math.min(qte, produit.max_reservable);
+        if (qtefinale <= 0) return;
+
+        panier[idStock] = {
+            nom:  produit.nom_medicament,
+            prix: produit.prix_unitaire_fcfa,
+            qte:  qtefinale,
+            max:  produit.max_reservable
+        };
+    });
+
+    rafraichirAffichage();
+}
 
 chargerProduits();
