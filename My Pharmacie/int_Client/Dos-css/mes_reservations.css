@@ -4,17 +4,19 @@
     box-sizing: border-box;
 }
 
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
 }
 
+
 /* ========== HERO ========== */
 
 .mresa-hero {
     background-color: black;
-    padding: 40px 60px 30px 60px;
-    margin-bottom: 10px;
+    padding: 28px 60px 24px 60px;
+    flex-shrink: 0;
 }
 
 .mresa-retour {
@@ -53,13 +55,18 @@ body {
     font-size: 14px;
 }
 
+
 /* ========== FILTRES ========== */
 
 .mresa-filtres {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    padding: 24px 60px 0 60px;
+    padding: 14px 60px;
+    background-color: #f4f4f4;
+    border-bottom: 1px solid #e8e8e8;
+    flex-shrink: 0;
+    justify-content: center;
 }
 
 .filtre-btn {
@@ -89,7 +96,7 @@ body {
 }
 
 .filtre-compteur {
-    background-color: rgba(0,0,0,0.12);
+    background-color: rgba(0, 0, 0, 0.12);
     color: inherit;
     font-size: 10px;
     font-weight: bold;
@@ -98,18 +105,23 @@ body {
 }
 
 .filtre-btn.actif .filtre-compteur {
-    background-color: rgba(255,255,255,0.3);
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
-/* ========== CONTENU ========== */
+
+/* ========== ZONE SCROLLABLE DES RÉSERVATIONS ========== */
 
 .mresa-contenu {
     padding: 24px 60px 50px 60px;
     display: flex;
     flex-direction: column;
     gap: 16px;
-    max-width: 1000px;
+    align-items: center;
+    height: calc(100vh - 320px);
+    overflow-y: auto;
+    margin: 0px 0px 40px 0px;
 }
+
 
 /* ========== ÉTAT VIDE ========== */
 
@@ -120,6 +132,8 @@ body {
     text-align: center;
     padding: 60px 20px;
     color: #aaa;
+    width: 100%;
+    max-width: 860px;
 }
 
 .mresa-vide i {
@@ -150,20 +164,23 @@ body {
     background-color: #27ae38;
 }
 
+
 /* ========== CARTE RÉSERVATION ========== */
 
 .mresa-carte {
     background-color: white;
     border-radius: 12px;
     border: 0.5px solid #e8e8e8;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: box-shadow 0.2s ease;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .mresa-carte:hover {
-    box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09);
 }
+
 
 /* En-tête de carte */
 
@@ -208,6 +225,7 @@ body {
     color: #2ecc40;
 }
 
+
 /* Badges statut */
 
 .badge {
@@ -218,60 +236,65 @@ body {
     white-space: nowrap;
 }
 
-.badge-attente  { background-color: #fff3e0; color: #e67e22; }
-.badge-confirme { background-color: #e8f8ea; color: #27ae60; }
-.badge-annule   { background-color: #fdecea; color: #e74c3c; }
-.badge-expire   { background-color: #f0f0f0; color: #888;    }
+.badge-attente   { background-color: #fff3e0; color: #e67e22; }
+.badge-confirme  { background-color: #e8f8ea; color: #27ae60; }
+.badge-annule    { background-color: #fdecea; color: #e74c3c; }
+.badge-expire    { background-color: #f0f0f0; color: #888;    }
+.badge-renouvele { background-color: #e8f4fd; color: #2980b9; }
 
-/* Liste produits */
 
-.mresa-produits {
+/* Grille des produits */
+
+.mresa-produits-grille {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     padding: 14px 20px;
     border-bottom: 0.5px solid #f0f0f0;
+}
+
+.mresa-produit-tuile {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-}
-
-.mresa-produit-ligne {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
+    gap: 3px;
     background-color: #f9f9f9;
+    border: 0.5px solid #e8e8e8;
     border-radius: 8px;
-    border: 0.5px solid #f0f0f0;
-}
-
-.mresa-produit-ligne i {
-    color: #2ecc40;
-    font-size: 16px;
-    width: 18px;
-    flex-shrink: 0;
-}
-
-.mresa-produit-nom {
+    padding: 8px 12px;
+    min-width: 130px;
+    max-width: 180px;
     flex: 1;
-    font-size: 13px;
+}
+
+.mresa-produit-tuile i {
+    color: #2ecc40;
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+.mresa-produit-tuile .mresa-produit-nom {
+    font-size: 12px;
     font-weight: bold;
     color: #2b2b2b;
+    line-height: 1.3;
 }
 
-.mresa-produit-forme {
+.mresa-produit-tuile .mresa-produit-forme {
     font-size: 11px;
     color: #aaa;
-    font-weight: normal;
-    margin-left: 6px;
 }
 
-.mresa-produit-qte {
-    font-size: 12px;
+.mresa-produit-tuile .mresa-produit-qte {
+    font-size: 11px;
     font-weight: bold;
     color: #555;
     background-color: #efefef;
-    padding: 3px 10px;
-    border-radius: 6px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-top: 3px;
+    display: inline-block;
 }
+
 
 /* Pied de carte */
 
@@ -325,13 +348,50 @@ body {
     background-color: #f5b7b1;
 }
 
-/* ========== MODALE ANNULATION ========== */
+.mresa-btn-renouveler {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background-color: #e8f8ea;
+    color: #27ae60;
+    border: 1.5px solid #a9dfbf;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.mresa-btn-renouveler:hover {
+    background-color: #a9dfbf;
+}
+
+.mresa-delai-depasse {
+    font-size: 12px;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mresa-renouvele-info {
+    font-size: 12px;
+    color: #27ae60;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+
+/* ========== MODALE ========== */
 
 .mresa-overlay {
     display: none;
     position: fixed;
     inset: 0;
-    background-color: rgba(0,0,0,0.55);
+    background-color: rgba(0, 0, 0, 0.55);
     z-index: 1000;
     justify-content: center;
     align-items: center;
@@ -348,14 +408,11 @@ body {
     max-width: 400px;
     width: 90%;
     text-align: center;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
 }
 
-.mresa-modale i.icone-alerte {
-    font-size: 40px;
-    color: #e67e22;
-    display: block;
-    margin-bottom: 14px;
+.mresa-modale-large {
+    max-width: 520px;
 }
 
 .mresa-modale h3 {
@@ -416,54 +473,6 @@ body {
     background-color: #a93226;
 }
 
-/* ========== RESPONSIVE ========== */
-
-@media (max-width: 900px) {
-    .mresa-hero,
-    .mresa-filtres,
-    .mresa-contenu {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-}
-
-/* ========== BOUTON RENOUVELER ========== */
-
-.mresa-btn-renouveler {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    background-color: #e8f8ea;
-    color: #27ae60;
-    border: 1.5px solid #a9dfbf;
-    border-radius: 8px;
-    padding: 9px 18px;
-    font-size: 13px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.mresa-btn-renouveler:hover {
-    background-color: #a9dfbf;
-}
-
-.mresa-delai-depasse {
-    font-size: 12px;
-    color: #aaa;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-/* ========== MODALE LARGE (partielle) ========== */
-
-.mresa-modale-large {
-    max-width: 520px;
-}
-
-/* ========== CODE AFFICHÉ DANS MODALE SUCCÈS ========== */
-
 .mresa-code-affiche {
     font-family: monospace;
     font-size: 22px;
@@ -484,8 +493,6 @@ body {
     margin-bottom: 20px;
     line-height: 1.6;
 }
-
-/* ========== LISTE PRODUITS PROBLÉMATIQUES ========== */
 
 .mresa-partiel-liste {
     display: flex;
@@ -540,8 +547,6 @@ body {
     margin-bottom: 14px;
 }
 
-/* ========== BOUTONS 3 CHOIX ========== */
-
 .mresa-partiel-btns {
     display: flex;
     flex-direction: column;
@@ -571,56 +576,6 @@ body {
 .mresa-partiel-btn-prendre:disabled {
     background-color: #ccc;
     cursor: not-allowed;
-}
-
-.mresa-partiel-btn-retour {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 11px;
-    border-radius: 8px;
-    border: 1.5px solid #2ecc40;
-    background-color: white;
-    color: #27ae60;
-    font-size: 13px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.mresa-partiel-btn-retour:hover {
-    background-color: #e8f8ea;
-}
-
-.mresa-partiel-btn-abandonner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 11px;
-    border-radius: 8px;
-    border: 1.5px solid #ddd;
-    background-color: white;
-    color: #888;
-    font-size: 13px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.mresa-partiel-btn-abandonner:hover {
-    background-color: #f4f4f4;
-}
-
-/* ========== INFO RENOUVELLEMENT RÉUSSI SUR LA CARTE ========== */
-
-.mresa-renouvele-info {
-    font-size: 12px;
-    color: #27ae60;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 6px;
 }
 
 .mresa-partiel-btn-modifier {
@@ -661,4 +616,37 @@ body {
 
 .mresa-partiel-btn-refaire:hover {
     background-color: #f5eef8;
+}
+
+.mresa-partiel-btn-abandonner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px;
+    border-radius: 8px;
+    border: 1.5px solid #ddd;
+    background-color: white;
+    color: #888;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.mresa-partiel-btn-abandonner:hover {
+    background-color: #f4f4f4;
+}
+
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 900px) {
+
+    .mresa-hero,
+    .mresa-filtres,
+    .mresa-contenu {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
 }

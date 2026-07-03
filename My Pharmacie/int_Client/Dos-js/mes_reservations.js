@@ -342,7 +342,7 @@ btnRefaire.addEventListener('click', function() {
 // ===================================================================
 
 function mettreAJourCompteurs() {
-    const compteurs = { tous: 0, en_attente: 0, confirmee: 0, annulee: 0, expiree: 0 };
+    const compteurs = { tous: 0,  en_attente: 0,  confirmee: 0,  annulee: 0,  renouvele: 0,  expiree: 0 };
 
     document.querySelectorAll('.mresa-carte').forEach(function(carte) {
         const statut = carte.dataset.statut;

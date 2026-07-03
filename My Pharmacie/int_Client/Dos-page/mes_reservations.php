@@ -56,7 +56,8 @@ foreach ($lignes as $ligne) {
 }
 
 // ===== Compteurs par statut pour les boutons de filtre =====
-$compteurs = ['en_attente' => 0, 'confirmee' => 0, 'annulee' => 0, 'expiree' => 0];
+$compteurs = ['en_attente' => 0, 'confirmee' => 0, 'annulee' => 0, 'expiree' => 0, 'renouvele' => 0];
+
 foreach ($groupes as $g) {
     if (isset($compteurs[$g['statut']])) {
         $compteurs[$g['statut']]++;
@@ -70,8 +71,12 @@ $badges = [
     'confirmee'  => ['label' => 'Confirmée',  'classe' => 'badge-confirme'],
     'annulee'    => ['label' => 'Annulée',    'classe' => 'badge-annule'],
     'expiree'    => ['label' => 'Expirée',    'classe' => 'badge-expire'],
+    'renouvele'  => ['label' => 'Renouvelée', 'classe' => 'badge-renouvele'],
 ];
+
 ?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -99,21 +104,31 @@ $badges = [
 
     <!-- ===== Filtres ===== -->
     <div class="mresa-filtres">
+
         <button class="filtre-btn actif" data-filtre="tous">
             Toutes <span class="filtre-compteur"><?php echo $total; ?></span>
         </button>
+
         <button class="filtre-btn" data-filtre="en_attente">
             En attente <span class="filtre-compteur"><?php echo $compteurs['en_attente']; ?></span>
         </button>
+
         <button class="filtre-btn" data-filtre="confirmee">
             Confirmées <span class="filtre-compteur"><?php echo $compteurs['confirmee']; ?></span>
         </button>
+
         <button class="filtre-btn" data-filtre="annulee">
             Annulées <span class="filtre-compteur"><?php echo $compteurs['annulee']; ?></span>
         </button>
+
+        <button class="filtre-btn" data-filtre="renouvele">
+            Renouvelées <span class="filtre-compteur"><?php echo $compteurs['renouvele']; ?></span>
+        </button>
+
         <button class="filtre-btn" data-filtre="expiree">
             Expirées <span class="filtre-compteur"><?php echo $compteurs['expiree']; ?></span>
         </button>
+
     </div>
 
     <!-- ===== Liste des réservations ===== -->
@@ -155,21 +170,24 @@ $badges = [
                         </span>
                     </div>
 
-                    <!-- Produits -->
-                    <div class="mresa-produits">
+                   <!-- Produits en grille -->
+                    <div class="mresa-produits-grille">
+
                         <?php foreach ($groupe['produits'] as $produit) : ?>
-                            <div class="mresa-produit-ligne">
+
+                            <div class="mresa-produit-tuile">
                                 <i class="fa-solid fa-pills"></i>
                                 <span class="mresa-produit-nom">
                                     <?php echo htmlspecialchars($produit['nom']); ?>
-                                    <span class="mresa-produit-forme">
-                                        <?php echo htmlspecialchars($produit['forme']); ?>
-                                    </span>
+                                </span>
+                                <span class="mresa-produit-forme">
+                                    <?php echo htmlspecialchars($produit['forme']); ?>
                                 </span>
                                 <span class="mresa-produit-qte">
                                     Qté : <?php echo (int)$produit['quantite']; ?>
                                 </span>
                             </div>
+
                         <?php endforeach; ?>
                     </div>
 
@@ -196,23 +214,27 @@ $badges = [
                                 </button>
 
                             <?php elseif ($groupe['statut'] === 'expiree') : ?>
+                                
                                 <?php
                                     $expire_dt      = new DateTime($groupe['expire_at']);
                                     $maintenant_dt  = new DateTime();
                                     $diff_heures    = ($maintenant_dt->getTimestamp() - $expire_dt->getTimestamp()) / 3600;
                                 ?>
                                 <?php if ($diff_heures <= 10) : ?>
+
                                     <button
                                         class="mresa-btn-renouveler"
                                         data-code="<?php echo htmlspecialchars($groupe['code_reservation']); ?>">
                                         <i class="fa-solid fa-rotate-right"></i> Renouveler
                                    </button>
+
                                 <?php else : ?>
                                     <span class="mresa-delai-depasse">
                                         <i class="fa-solid fa-clock"></i> Délai de renouvellement dépassé
                                     </span>
+                                <?php endif; ?>
+
                             <?php endif; ?>
-                        <?php endif; ?>
 
                     </div>
 

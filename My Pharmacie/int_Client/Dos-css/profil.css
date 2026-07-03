@@ -1,0 +1,510 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #2b2b2b;
+}
+
+
+/* ========== HERO ========== */
+
+.profil-hero {
+    background-color: black;
+    padding: 28px 60px 32px 60px;
+}
+
+
+.profil-retour {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #777;
+    font-size: 12px;
+    text-decoration: none;
+    margin-bottom: 16px;
+}
+
+.profil-retour:hover {
+    color: #2ecc40;
+}
+
+
+.profil-eyebrow {
+    display: block;
+    color: #2ecc40;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+
+.profil-hero h1 {
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+
+.profil-hero p {
+    color: #aaa;
+    font-size: 14px;
+}
+
+
+/* ========== CONTENU PRINCIPAL ========== */
+
+.profil-contenu {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 32px 20px 60px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+
+/* ========== CARTE AVATAR ========== */
+
+.profil-avatar-carte {
+    background-color: white;
+    border-radius: 12px;
+    border: 0.5px solid #e8e8e8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+
+.profil-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #2ecc40;
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+
+.profil-avatar-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
+.profil-avatar-info h2 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2b2b2b;
+}
+
+
+.profil-avatar-info span {
+    font-size: 13px;
+    color: #888;
+}
+
+
+/* ========== SECTION ========== */
+
+.profil-section {
+    background-color: white;
+    border-radius: 12px;
+    border: 0.5px solid #e8e8e8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+
+.profil-section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    border-bottom: 0.5px solid #f0f0f0;
+}
+
+
+.profil-section-titre {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.profil-section-titre i {
+    color: #2ecc40;
+    font-size: 16px;
+}
+
+
+.profil-section-titre h3 {
+    font-size: 15px;
+    font-weight: bold;
+    color: #2b2b2b;
+}
+
+
+/* ========== BOUTON MODIFIER ========== */
+
+.profil-btn-modifier {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background-color: #f4f4f4;
+    color: #555;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.profil-btn-modifier:hover {
+    border-color: #2ecc40;
+    color: #2ecc40;
+}
+
+
+/* ========== AFFICHAGE LECTURE SEULE ========== */
+
+.profil-champs-lecture {
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+
+.profil-champ-ligne {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 0.5px solid #f8f8f8;
+}
+
+.profil-champ-ligne:last-child {
+    border-bottom: none;
+}
+
+
+.profil-champ-label {
+    font-size: 12px;
+    color: #aaa;
+    width: 160px;
+    flex-shrink: 0;
+}
+
+
+.profil-champ-valeur {
+    font-size: 14px;
+    color: #2b2b2b;
+    font-weight: 500;
+}
+
+
+/* ========== FORMULAIRE D'ÉDITION ========== */
+
+.profil-champs-edition {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+
+.profil-input-groupe {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+
+.profil-input-groupe label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin: 30px 0px 0px 0px;
+}
+
+
+.profil-input-groupe input {
+    padding: 11px 14px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #2b2b2b;
+    background-color: #fafafa;
+    transition: border-color 0.2s ease;
+    width: 100%;
+}
+
+.profil-input-groupe input:focus {
+    outline: none;
+    border-color: #2ecc40;
+    background-color: white;
+}
+
+
+/* ========== CHAMP MOT DE PASSE AVEC ICÔNE ŒIL ========== */
+
+.profil-input-mdp {
+    position: relative;
+}
+
+
+.profil-input-mdp input {
+    padding-right: 42px;
+    width: 100%;
+    padding: 11px 42px 11px 14px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #2b2b2b;
+    background-color: #fafafa;
+    transition: border-color 0.2s ease;
+}
+
+.profil-input-mdp input:focus {
+    outline: none;
+    border-color: #2ecc40;
+    background-color: white;
+}
+
+
+.profil-toggle-mdp {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.profil-toggle-mdp:hover {
+    color: #2ecc40;
+}
+
+
+/* ========== BOUTONS EDITION ========== */
+
+.profil-edition-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 4px;
+}
+
+
+.profil-btn-annuler-edition {
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: 1.5px solid #ddd;
+    background-color: white;
+    color: #555;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.profil-btn-annuler-edition:hover {
+    background-color: #f4f4f4;
+}
+
+
+.profil-btn-enregistrer {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: none;
+    background-color: #2ecc40;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.profil-btn-enregistrer:hover {
+    background-color: #27ae38;
+}
+
+.profil-btn-enregistrer:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+
+/* ========== MESSAGES ========== */
+
+.profil-message {
+    font-size: 13px;
+    padding: 0;
+    min-height: 20px;
+}
+
+
+.profil-message-succes {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+
+.profil-message-erreur {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+
+/* ========== MODALE CONFIRMATION ========== */
+
+.profil-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.55);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.profil-overlay.actif {
+    display: flex;
+}
+
+
+.profil-modale {
+    background-color: white;
+    border-radius: 12px;
+    padding: 36px 30px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.profil-modale i {
+    font-size: 40px;
+    color: #2ecc40;
+}
+
+#icone-oeil{
+    font-size: 14px;
+    color: #2ecc40;
+}
+
+.profil-modale h3 {
+    font-size: 18px;
+    color: #2b2b2b;
+}
+
+
+.profil-modale p {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.6;
+}
+
+
+.profil-modale-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 6px;
+}
+
+
+.profil-modale-annuler {
+    padding: 0px 30px;
+    border-radius: 8px;
+    border: 1.5px solid #ddd;
+    background-color: white;
+    color: #555;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.profil-modale-annuler:hover {
+    background-color: #f4f4f4;
+}
+
+
+.profil-modale-confirmer {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0px 30px;
+    border-radius: 8px;
+    border: none;
+    background-color: #2ecc40;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.profil-modale-confirmer:hover {
+    background-color: #27ae38;
+}
+
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 768px) {
+
+    .profil-hero {
+        padding: 24px 20px;
+    }
+
+
+    .profil-contenu {
+        padding: 20px 16px 40px 16px;
+    }
+
+
+    .profil-champ-ligne {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+
+    .profil-champ-label {
+        width: auto;
+    }
+
+
+    .profil-edition-btns {
+        flex-direction: column;
+    }
+
+}
