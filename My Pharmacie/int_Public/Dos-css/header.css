@@ -12,20 +12,6 @@ header {
   z-index: 1000;
 }
 
-/* @media (max-width: 468px) {
-  header {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  } */
-
-  /* .menu ul {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-} */
-
 div.logo {
   display: flex;
   align-items: center;
@@ -165,4 +151,103 @@ div.profil .btn-profil:hover {
 .btn-deconex:hover {
   background-color: white;
   color: black;
+}
+
+.alerte-recuperation {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: 520px;
+    padding: 14px 18px;
+    background-color: #fff8e6;
+    border: 1px solid #f3d999;
+    border-left: 4px solid #e8a628;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    animation: alerte-apparition 0.3s ease;
+}
+
+@keyframes alerte-apparition {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+.alerte-recuperation-icone {
+    color: #e8a628;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.alerte-recuperation-texte {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    font-size: 13px;
+    color: #7a5c00;
+}
+
+.alerte-recuperation-texte strong {
+    font-size: 14px;
+    color: #5c4400;
+    margin-bottom: 2px;
+}
+
+.alerte-recuperation-btn {
+    background-color: #2ecc40;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+.alerte-recuperation-btn:hover {
+    background-color: #27ae37;
+}
+
+.alerte-recuperation-fermer {
+    background: none;
+    border: none;
+    color: #a58a4a;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+}
+
+.alerte-recuperation-fermer:hover {
+    color: #5c4400;
+}
+
+.alerte-recuperation.masquee {
+    display: none;
+}
+
+.clignote-rouge {
+    animation: clignotement 1s infinite;
+}
+
+@keyframes clignotement {
+    0%, 100% { background-color: #ffebee; border-color: #c62828; }
+    50% { background-color: #ffcdd2; border-color: #b71c1c; }
+}
+
+.alerte-reinitialisation {
+    top: 180px; /* ajuste selon la hauteur réelle de ta bannière alerte-recuperation */
+}
+
+.alerte-recuperation-position {
+    top: 90px; /* remplace par la vraie valeur de top utilisée dans .alerte-recuperation */
+}
+
+.alerte-recuperation, .alerte-reinitialisation, .alerte-recuperation-position {
+    transition: top 0.3s ease;
 }

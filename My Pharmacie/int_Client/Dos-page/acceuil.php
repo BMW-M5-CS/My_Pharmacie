@@ -86,6 +86,7 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
                 <span class="stat-value"><?php echo $nb_attente; ?></span>
             </div>
         </div>
+
         <div class="stat-card stat-orange">
             <div class="stat-ico"><i class="fa-solid fa-check"></i></div>
             <div class="stat-text">
@@ -93,6 +94,7 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
                 <span class="stat-value"><?php echo $nb_confirmee; ?></span>
             </div>
         </div>
+
         <div class="stat-card stat-blue">
             <div class="stat-ico"><i class="fa-solid fa-list-check"></i></div>
             <div class="stat-text">
@@ -100,6 +102,7 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
                 <span class="stat-value"><?php echo $nb_total; ?></span>
             </div>
         </div>
+
         <div class="stat-card stat-red">
             <div class="stat-ico"><i class="fa-solid fa-xmark"></i></div>
             <div class="stat-text">
@@ -107,6 +110,7 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
                 <span class="stat-value"><?php echo $nb_annulee + $nb_expiree; ?></span>
             </div>
         </div>
+        
     </section>
 
     <section class="main-grid">

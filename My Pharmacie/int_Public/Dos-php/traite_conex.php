@@ -18,11 +18,20 @@ try{
     $user = $stmt->fetch();
 
     if ($user && password_verify($mdp_tape, $user['password'])) {
-        $_SESSION['user_id']     = $user['id_user'];        
-        $_SESSION['nom']         = $user['nom'];
-        $_SESSION['prenom']      = $user['prenom'];
-        $_SESSION['role']        = $user['role'];
-        $_SESSION['phone_email'] = $user['phone_email'];
+
+    // Si "Se souvenir de moi" est coché — cookie persistant de 30 jours
+        if (isset($_POST['remenber'])) {
+            $duree = 30 * 24 * 60 * 60;
+            session_set_cookie_params($duree);
+            setcookie(session_name(), session_id(), time() + $duree, '/');
+        }
+
+    $_SESSION['user_id']              = $user['id_user'];        
+    $_SESSION['nom']                  = $user['nom'];
+    $_SESSION['prenom']               = $user['prenom'];
+    $_SESSION['role']                 = $user['role'];
+    $_SESSION['phone_email']          = $user['phone_email'];
+    $_SESSION['contact_recuperation'] = $user['contact_recuperation'];
 
        $redirect = $_POST['redirect'] ?? '';
        

@@ -44,9 +44,10 @@ btnAnnulerInfos.addEventListener("click", function() {
 
     btnModifierInfos.style.display = "flex";
 
-    document.getElementById('edit-nom').value          = document.getElementById('lecture-nom').textContent.trim();
-    document.getElementById('edit-prenom').value       = document.getElementById('lecture-prenom').textContent.trim();
-    document.getElementById('edit-phone-email').value  = document.getElementById('lecture-phone-email').textContent.trim();
+    document.getElementById('edit-nom').value                  = document.getElementById('lecture-nom').textContent.trim();
+    document.getElementById('edit-prenom').value               = document.getElementById('lecture-prenom').textContent.trim();
+    document.getElementById('edit-phone-email').value          = document.getElementById('lecture-phone-email').textContent.trim();
+    document.getElementById('edit-contact-recuperation').value = (document.getElementById('lecture-contact-recuperation').textContent.trim() === 'Non renseigné') ? '' : document.getElementById('lecture-contact-recuperation').textContent.trim();
 
     messageInfos.textContent = "";
     messageInfos.className = "profil-message";
@@ -57,9 +58,10 @@ btnAnnulerInfos.addEventListener("click", function() {
 //Click sur Enregistrer avec l'ouverture du modal de confirmation
 
 btnEnregistrerInfo.addEventListener("click", function() {
-    const nom        = document.getElementById('edit-nom').value.trim();
-    const prenom     = document.getElementById('edit-prenom').value.trim();
-    const phoneEmail = document.getElementById('edit-phone-email').value.trim();
+    const nom                 = document.getElementById('edit-nom').value.trim();
+    const prenom              = document.getElementById('edit-prenom').value.trim();
+    const phoneEmail          = document.getElementById('edit-phone-email').value.trim();
+    const contactRecuperation = document.getElementById('edit-contact-recuperation').value.trim();
     
     //validation rapide avant l'ouverture du modal
 
@@ -71,7 +73,7 @@ btnEnregistrerInfo.addEventListener("click", function() {
     // Ouverture du modal de confirmation
     mdpConfirmationModale.value = "";
     messageModale.textContent   = "";
-    messageModale.className       = "profil-message";
+    messageModale.className     = "profil-message";
     overlay.classList.add("actif");
 });
 
@@ -98,9 +100,10 @@ modaleConfirmer.addEventListener('click', function(){
         return;
     }
 
-    const nom        = document.getElementById('edit-nom').value.trim();
-    const prenom     = document.getElementById('edit-prenom').value.trim();
-    const phoneEmail = document.getElementById('edit-phone-email').value.trim();
+    const nom                 = document.getElementById('edit-nom').value.trim();
+    const prenom              = document.getElementById('edit-prenom').value.trim();
+    const phoneEmail          = document.getElementById('edit-phone-email').value.trim();
+    const contactRecuperation = document.getElementById('edit-contact-recuperation').value.trim();
 
     modaleConfirmer.disabled    = true;
     modaleConfirmer.textContent = 'Enregistrement...';
@@ -109,11 +112,12 @@ modaleConfirmer.addEventListener('click', function(){
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-            action:      'modifier_infos',
-            nom:         nom,
-            prenom:      prenom,
-            phone_email: phoneEmail,
-            mdp_actuel:  mdpActuel
+            action:              'modifier_infos',
+            nom:                  nom,
+            prenom:               prenom,
+            phone_email:          phoneEmail,
+            contact_recuperation: contactRecuperation,
+            mdp_actuel:           mdpActuel
         })
     })
     .then(function(response) { return response.json(); })
@@ -124,9 +128,10 @@ modaleConfirmer.addEventListener('click', function(){
             overlay.classList.remove('actif');
 
             // Mettre à jour l'affichage en lecture seule
-            document.getElementById('lecture-nom').textContent         = data.nom;
-            document.getElementById('lecture-prenom').textContent      = data.prenom;
-            document.getElementById('lecture-phone-email').textContent = data.phone_email;
+            document.getElementById('lecture-nom').textContent                  = data.nom;
+            document.getElementById('lecture-prenom').textContent               = data.prenom;
+            document.getElementById('lecture-phone-email').textContent          = data.phone_email;
+            document.getElementById('lecture-contact-recuperation').textContent = data.contact_recuperation || 'Non renseigné';
 
             // Mettre à jour la carte avatar
             document.getElementById('profil-nom-complet').textContent       = data.prenom + ' ' + data.nom;

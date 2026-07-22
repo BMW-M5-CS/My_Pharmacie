@@ -64,13 +64,17 @@ div.input_conex{
      outline: none;
      border-bottom: 2px solid white;
 }
-
-.coche_input{
+.facultatif{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 40px;
-    margin-right: 7cm;
+    font-size: 14px;
 }
 
-span.text{
+.passe-oublier{
+    color: white;
+    text-decoration: none;
     transition: all 0.3s ease;
 
     &:hover{
@@ -79,8 +83,13 @@ span.text{
     }
 }
 
-.coche_input, span.text{
-    margin-left: -7cm;
+.text{
+    transition: all 0.3s ease;
+
+    &:hover{
+        text-decoration: underline;
+        color: skyblue;
+    }
 }
 
 a.btn{

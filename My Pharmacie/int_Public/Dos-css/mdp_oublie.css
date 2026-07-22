@@ -1,0 +1,149 @@
+body{
+    margin: 0;
+    height: 100vh;
+    background-image: url(../Dos-img/conex.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+section.contener-conex{
+    width: 550px;
+    min-height: 300px;
+    border: 3px solid white;
+    border-radius: 25px;
+    color: white;
+    flex-direction: column;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    padding: 30px 40px;
+    font-size: large;
+}
+
+div.titre{
+    margin-top: 10px;
+}
+
+.sous-titre{
+    font-size: 14px;
+    color: #ddd;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+.message-info{
+    font-size: 15px;
+    color: #ddd;
+    margin-top: 20px;
+    line-height: 1.6;
+}
+
+div.input_conex{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: large;
+    align-content: center;
+    margin-top: 20px;
+}
+
+.mail-conex{
+     width: 260px;
+     height: 35px;
+     margin-top: 20px;
+     background-color: transparent;
+     color: white;
+     font-size: 16px;
+     padding-right: 20px;
+     padding-left: 10px;
+     border: none;
+     outline: none;
+     border-bottom: 2px solid white;
+}
+
+a.btn{
+    width: 300px;
+    height: 35px;
+    background-color: white;
+    color: black;
+    border-radius: 20px;
+    border: 1px solid white;
+    margin-top: 25px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+a.btn:hover{
+    background-color: green;
+    color: white;
+}
+
+button.btn-conex{
+    margin-top: 30px;
+    width: 300px;
+    height: 35px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    border: 1px solid white;
+    transition: all 0.3s ease;
+}
+
+button.btn-conex:hover{
+    background-color: green;
+    color: white;
+}
+
+a.retour{
+    font-size: 14px;
+    color: white;
+    margin-top: 25px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+a.retour:hover{
+    color: skyblue;
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    section.contener-conex {
+        width: 90%;
+        min-height: auto;
+        padding: 25px 20px;
+    }
+
+    .mail-conex {
+        width: 100%;
+        max-width: 260px;
+    }
+
+    a.btn,
+    button.btn-conex {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .titre h1 {
+        font-size: 22px;
+    }
+
+    .sous-titre,
+    .message-info {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 400px) {
+    section.contener-conex {
+        border-radius: 15px;
+        padding: 20px 15px;
+    }
+}

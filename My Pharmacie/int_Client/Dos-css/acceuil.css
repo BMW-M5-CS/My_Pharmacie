@@ -68,7 +68,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 3px solid #27ae60;
+    border: 4px solid white;
     flex-shrink: 0;
 }
 

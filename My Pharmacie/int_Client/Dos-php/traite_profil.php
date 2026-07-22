@@ -20,15 +20,26 @@ $action  = trim($donnees['action'] ?? '');
 //action de modification des informations personnelles
 if ($action === 'modifier_infos') {
 
-    $prenom      = trim($donnees['prenom']      ?? '');
-    $nom         = trim($donnees['nom']         ?? '');
-    $phone_email = trim($donnees['phone_email'] ?? '');
-    $mdp_actuel  = trim($donnees['mdp_actuel']  ?? '');
+    $prenom               = trim($donnees['prenom']             ?? '');
+    $nom                  = trim($donnees['nom']                ?? '');
+    $phone_email          = trim($donnees['phone_email']        ?? '');
+    $contact_recuperation = trim($donnees['contact_recuperation'] ?? '');
+    $mdp_actuel           = trim($donnees['mdp_actuel']         ?? '');
 
     // validation des champs
    if(empty($prenom) || empty($nom) || empty($phone_email) || empty($mdp_actuel)) {
         echo json_encode(["success" => false, "message" => 'Tous les champs sont obligatoires.']);
         exit();
+    }
+
+    if (!empty($contact_recuperation)) {
+        $est_email      = filter_var($contact_recuperation, FILTER_VALIDATE_EMAIL);
+        $est_telephone  = preg_match('/^[0-9+\s]{8,20}$/', $contact_recuperation);
+
+        if (!$est_email && !$est_telephone) {
+            echo json_encode(["success" => false, "message" => 'Le contact de récupération doit être un email ou un numéro de téléphone valide.']);
+            exit();
+        }
     }
 
     // verification du mot de passe actuel avant mise a jour 
@@ -55,26 +66,28 @@ if ($action === 'modifier_infos') {
 
     //mise ajour de la base de données avec les nouvelles informations
     $sql_update = "UPDATE users 
-                   SET prenom  = ?, 
-                   nom         = ?, 
-                   phone_email = ?
+                   SET prenom           = ?, 
+                   nom                  = ?, 
+                   phone_email          = ?,
+                   contact_recuperation = ?
                 WHERE id_user = ?";
     $stmt_update = $pdo->prepare($sql_update);
-    $stmt_update->execute([$prenom, $nom, $phone_email, $id_user]);
+    $stmt_update->execute([$prenom, $nom, $phone_email, $contact_recuperation, $id_user]);
 
 
     // metre a jour la session avec les nouvelles informations
-    $_SESSION['prenom']      = $prenom;
-    $_SESSION['nom']         = $nom;
-    $_SESSION['phone_email'] = $phone_email;  
+    $_SESSION['prenom']               = $prenom;
+    $_SESSION['nom']                  = $nom;
+    $_SESSION['phone_email']          = $phone_email;  
+    $_SESSION['contact_recuperation'] = $contact_recuperation;
 
     echo json_encode([
-
-        "success"     => true, 
-        "message"     => 'Informations personnelles mises à jour avec succès.',
-        "prenom"      => $prenom,
-        "nom"         => $nom,
-        "phone_email" => $phone_email
+        "success"              => true, 
+        "message"              => 'Informations personnelles mises à jour avec succès.',
+        "prenom"               => $prenom,
+        "nom"                  => $nom,
+        "phone_email"          => $phone_email,
+        "contact_recuperation" => $contact_recuperation
     ]);
 
     exit();

@@ -1,0 +1,124 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: url('../Dos-img/conex.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.boite-centrale {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.boite-centrale h1 {
+    color: #1b5e20;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.boite-centrale h1 i {
+    margin-right: 8px;
+}
+
+.boite-centrale p {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.boite-centrale form {
+    text-align: left;
+    margin-top: 15px;
+}
+
+.boite-centrale label {
+    display: block;
+    font-weight: 600;
+    color: #1b5e20;
+    margin-bottom: 6px;
+    margin-top: 14px;
+}
+
+.boite-centrale input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.boite-centrale input[type="password"]:focus {
+    outline: none;
+    border-color: #2e7d32;
+}
+
+.bouton-principal {
+    display: block;
+    width: 100%;
+    background: #2e7d32;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    text-decoration: none;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.bouton-principal:hover {
+    background: #1b5e20;
+}
+
+.bouton-secondaire {
+    display: block;
+    width: 100%;
+    background: transparent;
+    color: #555;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+.bouton-secondaire:hover {
+    background: #f5f5f5;
+}
+
+.erreur {
+    color: #c62828;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.rappel {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: 15px;
+}
+
+@media (max-width: 600px) {
+    .boite-centrale {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 400px) {
+    .boite-centrale h1 {
+        font-size: 1.3rem;
+    }
+}

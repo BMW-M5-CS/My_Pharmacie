@@ -2,6 +2,11 @@
 
 require_once '../../int_Public/Dos-php/config.php';
 
+if (!empty($_SESSION['reinitialisation_en_attente'])) {
+    header("Location: ../../int_Public/Dos-page/reinitialisation_mdp.php?token=" . urlencode($_SESSION['reinitialisation_token']));
+    exit();
+}
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../../int_Public/Dos-page/conex.php');
     exit();
@@ -12,14 +17,15 @@ $id_user = $_SESSION['user_id'];
 
 // ===== Récupération des infos actuelles de l'utilisateur =====
 
-$sql  = "SELECT nom, prenom, phone_email FROM users WHERE id_user = ?";
+$sql  = "SELECT nom, prenom, phone_email, contact_recuperation FROM users WHERE id_user = ?";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$id_user]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$nom         = $user['nom']         ?? '';
-$prenom      = $user['prenom']      ?? '';
-$phone_email = $user['phone_email'] ?? '';
+$nom                  = $user['nom']                  ?? '';
+$prenom               = $user['prenom']               ?? '';
+$phone_email          = $user['phone_email']          ?? '';
+$contact_recuperation = $user['contact_recuperation'] ?? '';
 
 $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
 
@@ -123,6 +129,13 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
                     </span>
                 </div>
 
+                <div class="profil-champ-ligne">
+                    <span class="profil-champ-label">Contact de récupération</span>
+                    <span class="profil-champ-valeur" id="lecture-contact-recuperation">
+                        <?php echo htmlspecialchars($contact_recuperation ?: 'Non renseigné'); ?>
+                    </span>
+                </div>
+
             </div>
 
 
@@ -155,6 +168,15 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
                         id="edit-phone-email"
                         value="<?php echo htmlspecialchars($phone_email); ?>"
                         placeholder="Téléphone ou adresse email">
+                </div>
+
+                <div class="profil-input-groupe">
+                    <label>Contact de récupération <span class="profil-optionnel">(optionnel)</span></label>
+                    <input
+                        type="text"
+                        id="edit-contact-recuperation"
+                        value="<?php echo htmlspecialchars($contact_recuperation); ?>"
+                        placeholder="Un email ou un numero pour récupérer votre compte si besoin">
                 </div>
 
                 <div class="profil-edition-btns">
@@ -192,6 +214,7 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
                         <input
                             type="password"
                             id="mdp-actuel"
+                            autocomplete="new-password"
                             placeholder="Votre mot de passe actuel">
                         <i class="fa-solid fa-eye profil-toggle-mdp" data-cible="mdp-actuel"></i>
                     </div>
@@ -203,6 +226,7 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
                         <input
                             type="password"
                             id="nouveau-mdp"
+                            autocomplete="new-password"
                             placeholder="Au moins 6 caractères">
                         <i class="fa-solid fa-eye profil-toggle-mdp" data-cible="nouveau-mdp"></i>
                     </div>
@@ -214,6 +238,7 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
                         <input
                             type="password"
                             id="confirm-mdp"
+                            autocomplete="new-password"
                             placeholder="Répétez le nouveau mot de passe">
                         <i class="fa-solid fa-eye profil-toggle-mdp" data-cible="confirm-mdp"></i>
                     </div>
@@ -248,6 +273,7 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
                 <input
                     type="password"
                     id="mdp-confirmation-modale"
+                    autocomplete="new-password"
                     placeholder="Votre mot de passe actuel">
                 <i class="fa-solid fa-eye profil-toggle-mdp" id="icone-oeil" data-cible="mdp-confirmation-modale"></i>
             </div>

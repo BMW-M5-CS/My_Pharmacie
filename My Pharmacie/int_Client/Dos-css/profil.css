@@ -247,6 +247,11 @@ body {
     margin: 30px 0px 0px 0px;
 }
 
+.profil-optionnel {
+    font-weight: 400;
+    font-size: 12px;
+    color: #999;
+}
 
 .profil-input-groupe input {
     padding: 11px 14px;

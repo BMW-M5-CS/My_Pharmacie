@@ -34,9 +34,12 @@
                         <input type="password" name="mot_de_passe" placeholder="Entrer votre mot de passe" class="mot_de_passe">
                     </div>
 
-                    <label>
-                        <input type="checkbox" name="remenber" class="coche_input"> <span class="text">Se souvenir de moi</span> 
-                    </label>
+                    <div class="facultatif">
+                        <label class="coche">
+                            <input type="checkbox" name="remenber" class="coche_input"> <span class="text">Se souvenir de moi</span> 
+                        </label>
+                        <a href="../Dos-page/mdp_oublie.php" class="passe-oublier">Mot de passe oublié</a>
+                    </div>
 
                 </div>
                 
