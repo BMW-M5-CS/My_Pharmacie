@@ -251,3 +251,132 @@ div.profil .btn-profil:hover {
 .alerte-recuperation, .alerte-reinitialisation, .alerte-recuperation-position {
     transition: top 0.3s ease;
 }
+
+/* ===== Responsive du header (menu hamburger) ===== */
+
+.menu-toggle {
+    display: none;
+    background: rgba(0, 176, 0);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-toggle:hover {
+    background: #1b5e20;
+}
+
+/* Sur desktop : le conteneur n'a aucun effet, tout se comporte comme avant */
+.menu-mobile {
+    display: contents;
+}
+
+@media (max-width: 900px) {
+
+    header {
+        height: auto;
+        min-height: 60px;
+        flex-wrap: wrap;
+        padding: 10px 15px;
+    }
+
+    .entete {
+        width: 140px;
+        height: 42px;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    /* Sur mobile : le conteneur devient un vrai panneau qui se déplie */
+    .menu-mobile {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        position: absolute;
+        top: 100%;
+        right: 15px;
+        background-color: rgba(0, 176, 0);
+        padding: 10px 15px 20px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 999;
+        border-radius: 6px;
+    }
+
+    header {
+        position: relative;
+    }
+
+    .menu-mobile.ouvert {
+        display: flex;
+    }
+
+    div.menu ul {
+        flex-direction: column;
+        align-items: stretch;
+        margin-left: 0;
+        padding: 0;
+        gap: 8px;
+    }
+
+    a.btn {
+        width: 100%;
+        height: auto;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+    div.profil,
+    div.conex {
+        width: 100%;
+        margin-top: 14px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    div.profil .btn-profil,
+    .btn-deconex,
+    div.conex .btn-conex,
+    .btn-inscrit {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 15px;
+        height: 42px;
+        margin-left: 0;
+        font-size: 15px;
+    }
+
+    .alerte-recuperation {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        top: 70px;
+    }
+
+    .alerte-reinitialisation {
+        top: 165px;
+    }
+
+    .alerte-recuperation-position {
+        top: 70px;
+    }
+}
+
+@media (max-width: 400px) {
+    .alerte-recuperation-texte {
+        font-size: 12px;
+    }
+
+    .alerte-recuperation-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}

@@ -1,177 +1,216 @@
-body{
+body {
     margin: 0;
-    height: 100vh;
-    background-image: url(../Dos-img/conex.jpg);
-    background-repeat: no-repeat;
+    font-family: 'Segoe UI', sans-serif;
+    background: url('../Dos-img/conex.jpg') no-repeat center center fixed;
     background-size: cover;
-    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-section.inscription{
-    width: 570px;
-    height: 720px;
-    border: 3px solid white;
-    border-radius: 20px;
-    flex-direction: column;
-    align-items: center;
-    font-size: 18px;
-    display: flex;
+.boite-centrale {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 16px;
+    padding: 36px 40px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
 }
 
-div.inscrit{
+.entete-inscription {
     text-align: center;
-    color: white;
+    margin-bottom: 20px;
 }
 
-.input-inscrit{
-    color: white;
-    flex-direction: column;
+.entete-inscription i {
+    font-size: 2rem;
+    color: #2e7d32;
+}
+
+.entete-inscription h1 {
+    color: #1b5e20;
+    font-size: 1.6rem;
+    margin: 8px 0 4px;
+}
+
+.entete-inscription p {
+    color: #666;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.msg-erreur {
+    color: #c62828;
+    background: #fdecea;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.ligne-double {
     display: flex;
+    gap: 16px;
+}
+
+.ligne-double .groupe-champ {
+    flex: 1;
+    min-width: 0;
+}
+
+.groupe-champ {
+    margin-bottom: 18px;
+}
+
+.groupe-champ label {
+    display: block;
+    font-weight: 600;
+    color: #1b5e20;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.optionnel {
+    font-weight: 400;
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.champ-icone {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0 12px;
+    background: #fafafa;
+    transition: border-color 0.2s ease;
+}
+
+.champ-icone:focus-within {
+    border-color: #2e7d32;
+    background: #fff;
+}
+
+.champ-icone i {
+    color: #2e7d32;
+    font-size: 0.95rem;
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.champ-icone input {
+    flex: 1;
+    min-width: 0;
+    height: 42px;
+    border: none;
+    background: transparent;
+    font-size: 0.95rem;
+    color: #333;
+    outline: none;
+}
+
+.bouton-principal {
+    display: block;
+    width: 100%;
+    background: #2e7d32;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    box-sizing: border-box;
+}
+
+.bouton-principal:hover {
+    background: #1b5e20;
+}
+
+.bouton-google {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: center;
+    gap: 8px;
+    width: 100%;
+    background: #fff;
+    color: #444;
+    border: 1px solid #ccc;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-top: 10px;
+    box-sizing: border-box;
 }
 
-input{
-    height: 35px;
-    margin-top: 20px;
-    padding-right: 20px;
-    padding-left: 25px;
-    border: none;
-    border-bottom: 2px solid white;
-    background-color: transparent;
-    color: white;
-    font-size: 16px;
-    outline: none;
+.bouton-google:hover {
+    background: #f5f5f5;
 }
 
-select{
-    height: 35px;
-    margin-top: 20px;
-    padding-right: 20px;
-    padding-left: 25px;
-    border: none;
-    background-color: transparent;
-    border-bottom: 2px solid white;
-    font-size: 16px;
-    color:  white;
-    outline: none;
+.lien-connexion {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 16px;
+    margin-bottom: 0;
 }
 
-option{
-    color: white;
-    background-color: green;
-}
-
-.input-name{
-    width: 350px;
-}
-
-.input-first_name{
-    width: 330px;
-}
-
-.input-mail{
-    width: 240px;
-}
-
-.type-utilisateur{
-    width: 260px;
-}
-
-.input-password{
-    width: 280px;
-}
-
-.input-confirm_password{
-    width: 290px;
-}
-
-.type-utilisateur{
-    width: 320px;
-}
-
-.souvenir_and_case{
-    margin-top: 35px ;
-    display: flex;
-    align-items: center;
-
-}
-
-
-
-.case{
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-.case input{
-    position: absolute;
-    top: -10px;
-    left: -20px;
-}
-
-.case{
-    margin-left: 10px;
-}
-
-p.check{
-    color: white;
-    &:hover{
-        color: skyblue;
-        text-decoration: underline;
-    }
-}
-
-.inscrit-btn{
-    margin-top: 20px;
-    flex-direction: column;
-    display: flex;
-}
-
-.btn-inscrit{
-    margin-top: 20px;
-    width: 370px;
-    height: 40px;
-    border-radius: 20px;
-    font-size: large;
-    &:hover{
-        background-color: green;
-        color: white;
-    }
-}
-
-.revenir{
-    color: white;
+.lien-connexion a {
+    color: #2e7d32;
+    font-weight: 600;
     text-decoration: none;
-    margin-left: 300px;
-    transition: all 0.3s ease;
-    &:hover{
-       color: skyblue;
-       text-decoration: underline;
-    }
 }
 
-.retour{
-    margin-top: 40px;
-    color: white;
+.lien-connexion a:hover {
+    text-decoration: underline;
+}
+
+.retour {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    color: #666;
     text-decoration: none;
-    margin-left: 250px;
-    transition: all 0.3s ease;
-    &:hover{
-        color: skyblue;
-        text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+.retour:hover {
+    color: #2e7d32;
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .boite-centrale {
+        padding: 28px 22px;
+    }
+
+    .ligne-double {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .entete-inscription h1 {
+        font-size: 1.4rem;
     }
 }
 
-i{
-    font-size: 16px;
-    text-decoration:underline;
-    text-underline-offset: 14px;
-    text-decoration-thickness: 2px;
-    margin-left: -5px;
-}
+@media (max-width: 400px) {
+    .boite-centrale {
+        padding: 22px 16px;
+        border-radius: 12px;
+    }
 
+    .champ-icone input {
+        font-size: 0.9rem;
+    }
+}

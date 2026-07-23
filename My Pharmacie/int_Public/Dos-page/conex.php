@@ -2,6 +2,25 @@
     session_start();
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     $redirect = $_GET['redirect'] ?? '';
+
+    $messages_erreur = [
+        'identifiants_incorrects' => 'Identifiant ou mot de passe incorrect.',
+        'technique'               => 'Une erreur technique est survenue, réessayez.',
+    ];
+    $erreur = $messages_erreur[$_GET['erreur'] ?? ''] ?? null;
+
+    $messages_succes = [
+        'inscrit'          => 'Compte créé avec succès. Vous pouvez vous connecter.',
+        'mdp_reinitialise' => 'Mot de passe réinitialisé avec succès. Connectez-vous avec votre nouveau mot de passe.',
+        'session_expiree'  => 'Votre session a expiré, veuillez vous reconnecter.',
+    ];
+    $succes = null;
+    foreach ($messages_succes as $cle => $texte) {
+        if (isset($_GET[$cle])) {
+            $succes = $texte;
+            break;
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -9,49 +28,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
+    <title>Connexion — My Pharmacie</title>
     <link rel="stylesheet" href="../Dos-css/conex.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-
 <body>
-    <form action="../Dos-php/traite_conex.php" method ="POST">
 
-        <section class="contener-conex">
-                <div class="titre">
-                    <h1>Connexion</h1>
+    <div class="boite-centrale">
+
+        <div class="entete-conex">
+            <i class="fa-solid fa-user-lock"></i>
+            <h1>Connexion</h1>
+            <p>Accédez à votre espace My Pharmacie</p>
+        </div>
+
+        <?php if ($erreur): ?>
+            <p class="msg-erreur"><i class="fa-solid fa-triangle-exclamation"></i> <?= htmlspecialchars($erreur) ?></p>
+        <?php endif; ?>
+
+        <?php if ($succes): ?>
+            <p class="msg-succes"><i class="fa-solid fa-circle-check"></i> <?= htmlspecialchars($succes) ?></p>
+        <?php endif; ?>
+
+        <form action="../Dos-php/traite_conex.php" method="POST">
+
+            <div class="groupe-champ">
+                <label for="phone_email">Email ou téléphone</label>
+                <div class="champ-icone">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="text" id="phone_email" name="phone_email" placeholder="Votre email ou numéro" required>
                 </div>
+            </div>
 
-                <div class="input_conex">
-                    
-                    <div class="email">
-                        <i class="fa-solid fa-envelope"></i> <span>Email ou Téléphone :</span>
-                        <input type="text" name="phone_email" placeholder="Adresse mail ou Numero de Telephone" class="mail-conex">
-                    </div>
-                    
-                    <div class="password">
-                        <i class="fa-solid fa-lock"></i> Mot de passe :
-                        <input type="password" name="mot_de_passe" placeholder="Entrer votre mot de passe" class="mot_de_passe">
-                    </div>
-
-                    <div class="facultatif">
-                        <label class="coche">
-                            <input type="checkbox" name="remenber" class="coche_input"> <span class="text">Se souvenir de moi</span> 
-                        </label>
-                        <a href="../Dos-page/mdp_oublie.php" class="passe-oublier">Mot de passe oublié</a>
-                    </div>
-
+            <div class="groupe-champ">
+                <label for="mot_de_passe">Mot de passe</label>
+                <div class="champ-icone">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Votre mot de passe" autocomplete="current-password" required>
                 </div>
-                
-                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>"> 
-                        <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">     
+            </div>
 
-                <button class="btn-conex" type="submit">Se Connecter</button>
-                <a href="../Dos-page/inscription.php" class="btn">Créé un compte</a>
+            <div class="ligne-options">
+                <label class="case-souvenir">
+                    <input type="checkbox" name="remenber">
+                    <span>Se souvenir de moi</span>
+                </label>
+                <a href="../Dos-page/mdp_oublie.php" class="lien-oublie">Mot de passe oublié ?</a>
+            </div>
 
-                <a class="retour" href="../Dos-page/acceuil.php">Revenir à la page d'acceuil</a>
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+            <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">
 
-        </section>
-    </form>
+            <button type="submit" class="bouton-principal">Se connecter</button>
+            <button type="button" class="bouton-google"><i class="fa-brands fa-google"></i> Continuer avec Google</button>
+
+            <p class="lien-connexion">Pas encore de compte ? <a href="../Dos-page/inscription.php">S'inscrire</a></p>
+        </form>
+
+        <a href="../Dos-page/acceuil.php" class="retour"><i class="fa-solid fa-arrow-left"></i> Revenir à l'accueil</a>
+    </div>
+
 </body>
 </html>

@@ -1,149 +1,158 @@
-body{
+body {
     margin: 0;
-    height: 100vh;
-    background-image: url(../Dos-img/conex.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
+    font-family: 'Segoe UI', sans-serif;
+    background: url('../Dos-img/conex.jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-section.contener-conex{
-    width: 550px;
-    min-height: 300px;
-    border: 3px solid white;
-    border-radius: 25px;
-    color: white;
-    flex-direction: column;
-    display: flex;
+.boite-centrale {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 16px;
+    padding: 36px 40px;
+    max-width: 440px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
     text-align: center;
-    align-items: center;
-    padding: 30px 40px;
-    font-size: large;
 }
 
-div.titre{
-    margin-top: 10px;
+.entete-mdp-oublie {
+    margin-bottom: 20px;
 }
 
-.sous-titre{
-    font-size: 14px;
-    color: #ddd;
-    margin-top: 10px;
+.entete-mdp-oublie i {
+    font-size: 2rem;
+    color: #2e7d32;
+}
+
+.entete-mdp-oublie h1 {
+    color: #1b5e20;
+    font-size: 1.5rem;
+    margin: 8px 0 4px;
+}
+
+.entete-mdp-oublie p {
+    color: #666;
+    margin: 0;
+    font-size: 0.92rem;
+}
+
+.message-info {
+    color: #333;
+    font-size: 0.95rem;
     line-height: 1.5;
+    margin-bottom: 24px;
 }
 
-.message-info{
-    font-size: 15px;
-    color: #ddd;
-    margin-top: 20px;
-    line-height: 1.6;
+.groupe-champ {
+    margin-bottom: 20px;
+    text-align: left;
 }
 
-div.input_conex{
+.groupe-champ label {
+    display: block;
+    font-weight: 600;
+    color: #1b5e20;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.champ-icone {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-size: large;
-    align-content: center;
-    margin-top: 20px;
-}
-
-.mail-conex{
-     width: 260px;
-     height: 35px;
-     margin-top: 20px;
-     background-color: transparent;
-     color: white;
-     font-size: 16px;
-     padding-right: 20px;
-     padding-left: 10px;
-     border: none;
-     outline: none;
-     border-bottom: 2px solid white;
-}
-
-a.btn{
-    width: 300px;
-    height: 35px;
-    background-color: white;
-    color: black;
-    border-radius: 20px;
-    border: 1px solid white;
-    margin-top: 25px;
-    text-decoration: none;
-    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
+    gap: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0 12px;
+    background: #fafafa;
+    transition: border-color 0.2s ease;
 }
 
-a.btn:hover{
-    background-color: green;
-    color: white;
+.champ-icone:focus-within {
+    border-color: #2e7d32;
+    background: #fff;
 }
 
-button.btn-conex{
-    margin-top: 30px;
-    width: 300px;
-    height: 35px;
-    border-radius: 20px;
-    font-size: 1.1rem;
-    border: 1px solid white;
-    transition: all 0.3s ease;
+.champ-icone i {
+    color: #2e7d32;
+    font-size: 0.95rem;
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
 }
 
-button.btn-conex:hover{
-    background-color: green;
-    color: white;
+.champ-icone input {
+    flex: 1;
+    min-width: 0;
+    height: 42px;
+    border: none;
+    background: transparent;
+    font-size: 0.95rem;
+    color: #333;
+    outline: none;
 }
 
-a.retour{
-    font-size: 14px;
-    color: white;
-    margin-top: 25px;
+.bouton-principal {
+    display: block;
+    width: 100%;
+    background: #2e7d32;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-sizing: border-box;
     text-decoration: none;
-    transition: all 0.3s ease;
+    text-align: center;
 }
 
-a.retour:hover{
-    color: skyblue;
+.bouton-principal:hover {
+    background: #1b5e20;
+}
+
+.bouton-lien {
+    margin-top: 4px;
+}
+
+.retour {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.retour:hover {
+    color: #2e7d32;
     text-decoration: underline;
 }
 
 @media (max-width: 600px) {
-    section.contener-conex {
-        width: 90%;
-        min-height: auto;
-        padding: 25px 20px;
+    .boite-centrale {
+        padding: 28px 22px;
     }
 
-    .mail-conex {
-        width: 100%;
-        max-width: 260px;
-    }
-
-    a.btn,
-    button.btn-conex {
-        width: 100%;
-        max-width: 280px;
-    }
-
-    .titre h1 {
-        font-size: 22px;
-    }
-
-    .sous-titre,
-    .message-info {
-        font-size: 13px;
+    .entete-mdp-oublie h1 {
+        font-size: 1.35rem;
     }
 }
 
 @media (max-width: 400px) {
-    section.contener-conex {
-        border-radius: 15px;
-        padding: 20px 15px;
+    .boite-centrale {
+        padding: 22px 16px;
+        border-radius: 12px;
+    }
+
+    .champ-icone input {
+        font-size: 0.9rem;
     }
 }

@@ -43,10 +43,14 @@ try{
         exit();
 
     } else {
-        echo "Identifiant ou mot de passe incorrect pour " . htmlspecialchars($identifian);
+        header("Location: ../Dos-page/conex.php?erreur=identifiants_incorrects");
+        exit();
     }
 
 } catch (PDOException $e) {
-    echo "Erreur de connexion : ". $e->getMessage();
+    error_log("Erreur connexion : " . $e->getMessage());
+    header("Location: ../Dos-page/conex.php?erreur=technique");
+    exit();
 }
+
 ?>

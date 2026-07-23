@@ -10,18 +10,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mot de passe oublié</title>
+    <title>Mot de passe oublié — My Pharmacie</title>
     <link rel="stylesheet" href="../Dos-css/mdp_oublie.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-
 <body>
 
-    <?php if ($envoye) : ?>
+    <div class="boite-centrale">
 
-        <section class="contener-conex">
-            <div class="titre">
-                <h1><i class="fa-solid fa-paper-plane"></i> Demande envoyée</h1>
+        <?php if ($envoye) : ?>
+
+            <div class="entete-mdp-oublie">
+                <i class="fa-solid fa-paper-plane"></i>
+                <h1>Demande envoyée</h1>
             </div>
 
             <p class="message-info">
@@ -29,41 +30,37 @@
                 un lien de réinitialisation vient de lui être envoyé.
             </p>
 
-            <a href="../Dos-page/conex.php" class="btn">Retour à la connexion</a>
-        </section>
+            <a href="../Dos-page/conex.php" class="bouton-principal bouton-lien">Retour à la connexion</a>
 
-    <?php else : ?>
+        <?php else : ?>
 
-        <form action="../Dos-php/traite_mdp_oublie.php" method="POST">
+            <div class="entete-mdp-oublie">
+                <i class="fa-solid fa-key"></i>
+                <h1>Mot de passe oublié</h1>
+                <p>Entrez votre email ou numéro de téléphone, nous vous enverrons un lien pour réinitialiser votre mot de passe.</p>
+            </div>
 
-            <section class="contener-conex">
+            <form action="../Dos-php/traite_mdp_oublie.php" method="POST">
 
-                <div class="titre">
-                    <h1>Mot de passe oublié</h1>
-                </div>
-
-                <p class="sous-titre">
-                    Entrez votre email ou numéro de téléphone, nous vous enverrons
-                    un lien pour réinitialiser votre mot de passe.
-                </p>
-
-                <div class="input_conex">
-                    <div class="email">
-                        <i class="fa-solid fa-envelope"></i> <span>Email ou Téléphone :</span>
-                        <input type="text" name="phone_email" placeholder="Adresse mail ou Numéro de téléphone" class="mail-conex" required>
+                <div class="groupe-champ">
+                    <label for="phone_email">Email ou téléphone</label>
+                    <div class="champ-icone">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="text" id="phone_email" name="phone_email" placeholder="Votre email ou numéro" required>
                     </div>
                 </div>
 
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
-                <button class="btn-conex" type="submit">Envoyer le lien</button>
+                <button type="submit" class="bouton-principal">Envoyer le lien</button>
 
-                <a class="retour" href="../Dos-page/conex.php">Revenir à la connexion</a>
+                <a href="../Dos-page/conex.php" class="retour"><i class="fa-solid fa-arrow-left"></i> Revenir à la connexion</a>
 
-            </section>
-        </form>
+            </form>
 
-    <?php endif; ?>
+        <?php endif; ?>
+
+    </div>
 
 </body>
 </html>

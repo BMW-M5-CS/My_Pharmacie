@@ -113,7 +113,7 @@ if ($action === 'modifier_mdp') {
         exit();
     }
 
-   if (strlen($nouveau_mdp) < 6) {
+   if (strlen($nouveau_mdp) < 8) {
         echo json_encode(["success" => false, "message" => 'Le nouveau mot de passe doit contenir au moins 6 caractères.']);
         exit();
     }
