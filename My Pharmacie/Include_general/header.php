@@ -2,9 +2,10 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+
 $est_connecte = isset($_SESSION['user_id']);
 
-$base_img = $est_connecte ? '../../int_Client/Dos-img/' : '../Dos-img/';
 
 $afficher_alerte_recup = false;
 
@@ -18,15 +19,19 @@ if ($est_connecte) {
 }
 ?>
 
+
 <header>
 
-    <div class="logo">
-        <img class="entete" src="<?php echo $base_img; ?>log.jpg" alt="log">
-    </div>
+    <a href="<?php echo $est_connecte ? '../../int_Client/Dos-page/acceuil.php' : '../../int_Public/Dos-page/acceuil.php'; ?>" class="logo">
+        <i class="fa-solid fa-mortar-pestle"></i>
+        <span>My<strong>Pharmacie</strong></span>
+    </a>
+
 
     <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Menu" aria-expanded="false">
         <i class="fa-solid fa-bars"></i>
     </button>
+
 
     <div class="menu-mobile" id="menu-mobile">
 
@@ -37,12 +42,13 @@ if ($est_connecte) {
                 <?php else : ?>
                     <li><a href="../../int_Public/Dos-page/acceuil.php" class="btn"><i class="fa-solid fa-house"></i> Accueil</a></li>
                 <?php endif; ?>
-                    <li><a href="../../int_Public/Dos-page/produit.php" class="btn"><i class="fa-solid fa-pills"></i> Produit</a></li>
-                    <li><a href="../../int_Public/Dos-page/pharmacie.php" class="btn"><i class="fa-solid fa-location-dot"></i> Pharmacies</a></li>
-                    <li><a href="../../int_Public/Dos-page/carte.php" class="btn"> <i class="fas fa-map"></i> Carte</a></li>
-                    <li><a href="../../int_Public/Dos-page/contact.php" class="btn"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+                <li><a href="../../int_Public/Dos-page/produit.php" class="btn"><i class="fa-solid fa-pills"></i> Produit</a></li>
+                <li><a href="../../int_Public/Dos-page/pharmacie.php" class="btn"><i class="fa-solid fa-location-dot"></i> Pharmacies</a></li>
+                <li><a href="../../int_Public/Dos-page/carte.php" class="btn"><i class="fa-solid fa-map"></i> Carte</a></li>
+                <li><a href="../../int_Public/Dos-page/contact.php" class="btn"><i class="fa-solid fa-envelope"></i> Contact</a></li>
             </ul>
         </div>
+
 
         <?php if ($est_connecte) : ?>
 
@@ -54,7 +60,7 @@ if ($est_connecte) {
         <?php else : ?>
 
             <div class="conex">
-                <a href="../../int_Public/Dos-page/conex.php" class="btn-conex"><i class="fa-solid fa-user-lock"></i>Connexion</a>
+                <a href="../../int_Public/Dos-page/conex.php" class="btn-conex"><i class="fa-solid fa-user-lock"></i> Connexion</a>
                 <a href="../../int_Public/Dos-page/inscription.php" class="btn-inscrit">S'inscrire</a>
             </div>
 
@@ -64,16 +70,6 @@ if ($est_connecte) {
 
 </header>
 
-<script>
-document.getElementById('menu-toggle').addEventListener('click', function() {
-    const menu = document.getElementById('menu-mobile');
-    const ouvert = menu.classList.toggle('ouvert');
-    this.setAttribute('aria-expanded', ouvert ? 'true' : 'false');
-});
-</script>
-
-
-                            <!-- baniere de rappel d'ajoute du contact de recuperatiotn -->
 
 <?php if ($afficher_alerte_recup) : ?>
 
@@ -89,32 +85,19 @@ document.getElementById('menu-toggle').addEventListener('click', function() {
         </div>
 
         <a href="../../int_Client/Dos-page/profil.php" class="alerte-recuperation-btn">Ajouter maintenant</a>
-        
+
         <button type="button" class="alerte-recuperation-fermer" id="alerte-recuperation-fermer" aria-label="Fermer">
             <i class="fa-solid fa-xmark"></i>
         </button>
+
     </div>
 
-    <script>
-        document.getElementById('alerte-recuperation-fermer').addEventListener('click', function() {
-            document.getElementById('alerte-recuperation').classList.add('masquee');
-
-            const bannièreReinit = document.getElementById('banniere-reinitialisation');
-            if (bannièreReinit) {
-                bannièreReinit.classList.remove('alerte-reinitialisation');
-                bannièreReinit.classList.add('alerte-recuperation-position');
-            }
-        });
-    </script>
-    
 <?php endif; ?>
 
 
-                          <!-- baniere de rappel de section en attente de reinitialisation du mode de passe avec compte a rebours  -->
-
 <?php if (!empty($_SESSION['reinitialisation_en_attente'])): ?>
 
-    <div class="alerte-recuperation alerte-reinitialisation" id="banniere-reinitialisation">
+    <div class="alerte-recuperation alerte-reinitialisation" id="banniere-reinitialisation" data-expiration="<?= date('c', strtotime($_SESSION['reinitialisation_expiration'])) ?>">
 
         <div class="alerte-recuperation-icone">
             <i class="fa-solid fa-triangle-exclamation"></i>
@@ -129,25 +112,4 @@ document.getElementById('menu-toggle').addEventListener('click', function() {
 
     </div>
 
-    <script>
-    const expiration = new Date("<?= date('c', strtotime($_SESSION['reinitialisation_expiration'])) ?>").getTime();
-    const banniere = document.getElementById('banniere-reinitialisation');
-    const affichage = document.getElementById('compte-a-rebours');
-
-    const interval = setInterval(() => {
-        const restant = expiration - Date.now();
-        if (restant <= 0) {
-            clearInterval(interval);
-            location.reload();
-            return;
-        }
-        const minutes = Math.floor(restant / 60000);
-        const secondes = Math.floor((restant % 60000) / 1000);
-        affichage.textContent = minutes + " min " + secondes + " s";
-
-        if (minutes < 20) {
-            banniere.classList.add('clignote-rouge');
-        }
-    }, 1000);
-    </script>
 <?php endif; ?>

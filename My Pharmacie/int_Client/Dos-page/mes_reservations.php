@@ -86,6 +86,7 @@ $badges = [
     <link rel="stylesheet" href="../Dos-css/header.css">
     <link rel="stylesheet" href="../Dos-css/footer.css">
     <link rel="stylesheet" href="../Dos-css/mes_reservations.css">
+    <script src="../Dos-js/header.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>

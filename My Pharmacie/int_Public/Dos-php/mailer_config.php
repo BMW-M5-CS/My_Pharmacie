@@ -1,11 +1,14 @@
 <?php
 
 require_once __DIR__ .'/../../vendor/autoload.php';
+require_once __DIR__ .'/mailer_secrets.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 function envoyerEmail($destinataire, $sujet, $corpsHtml) {
+    
+    global $smtp_user, $smtp_pass;
     $mail = new PHPMailer(true);
 
     try {
@@ -14,8 +17,9 @@ function envoyerEmail($destinataire, $sujet, $corpsHtml) {
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
 
-        $mail->Username = 'edranwilfried2005@gmail.com';      // adresse mail utilisée pour le test
-        $mail->Password = 'gatl abjs evzw psrz';              // Remplacez par votre mot de passe d'application Gmail
+        $mail->Username = $smtp_user;      // adresse mail utilisée pour le test
+        $mail->Password = $smtp_pass;              // Remplacez par votre mot de passe d'application Gmail
+
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;   // Utilisation de TLS
         $mail->Port = 587; 
         $mail->CharSet = 'UTF-8';                             // Définir l'encodage des caractères

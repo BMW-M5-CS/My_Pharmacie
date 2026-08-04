@@ -24,23 +24,32 @@ $pharmacies = $stmt->fetchAll();
 </head>
 <body>
 
-        <?php  include '../../Include_general/header.php'; ?>
+    <?php include '../../Include_general/header.php'; ?>
+    <script src="../Dos-js/header.js" defer></script>
 
-    <!-- Entête de la page -->
+
     <div class="carte-entete">
-        <div class="title">
-            <h1><i class="fas fa-map-marked-alt"></i>  Carte des Pharmacies</h1>
+
+        <div class="entete-fond"></div>
+
+        <div class="entete-contenu">
+
+            <div class="title">
+                <i class="fas fa-map-marked-alt"></i>
+                <h1>Carte des Pharmacies</h1>
+            </div>
+
+            <p class="text">Retrouvez toutes les pharmacies partenaires localisées sur la carte</p>
+
+            <button class="btn-geoloc" id="btn-geoloc">
+                <i class="fas fa-location-crosshairs"></i> Me localiser
+            </button>
+
         </div>
 
-        <div class="text">Retrouvez toutes les pharmacies partenaires localisées sur la carte</div>
-
-        <button class="btn-geoloc" onclick="localiserUtilisateur()">
-            
-            <i class="fas fa-location-crosshairs"></i> Me localiser
-        </button>
     </div>
 
-    <!-- Légende -->
+
     <div class="legende">
         <div class="legende-item">
             <span class="legende-dot dot-vert"></span> Pharmacie ouverte
@@ -53,46 +62,50 @@ $pharmacies = $stmt->fetchAll();
         </div>
     </div>
 
-    <!-- Wrapper : liste + carte -->
-    <div class="carte-wrapper">
 
-        <!-- Panneau gauche : liste des pharmacies -->
-        <div class="liste-pharmacies">
+    <button class="btn-basculer-vue" id="btn-basculer-vue">
+        <i class="fas fa-list"></i> <span id="texte-basculer">Voir la liste</span>
+    </button>
+
+    <div class="carte-wrapper mode-carte" id="carte-wrapper">
+
+        <div class="liste-pharmacies" id="liste-pharmacies">
+
             <div class="liste-titre">
-                Pharmacies <span id="compteur"> (<?php echo count($pharmacies); ?>)</span>
+                Pharmacies <span id="compteur">(<?php echo count($pharmacies); ?>)</span>
             </div>
 
-            <?php foreach ($pharmacies as $index => $p) : ?>
-                <div class="pharmacie-item" 
-                     id="item-<?php echo $index; ?>"
-                     onclick="centrerSurPharmacie(<?php echo $index; ?>)">
+            <div class="liste-scroll">
 
-                    <div class="pharm-nom">
-                        <?php echo htmlspecialchars($p['nom_pharmacie']); ?>
+                <?php foreach ($pharmacies as $index => $p) : ?>
+
+                    <div class="pharmacie-item" id="item-<?php echo $index; ?>" data-index="<?php echo $index; ?>">
+
+                        <div class="pharm-nom">
+                            <?php echo htmlspecialchars($p['nom_pharmacie']); ?>
+                        </div>
+
+                        <div class="pharm-adresse">
+                            <i class="fas fa-location-dot"></i>
+                            <?php echo htmlspecialchars($p['adresse'] . ', ' . $p['ville']); ?>
+                        </div>
+
+                        <div class="pharm-statut">
+                            <?php if ($p['statut_garde']) : ?>
+                                <span class="statut-garde"><i class="fas fa-circle"></i> Pharmacie de garde</span>
+                            <?php else : ?>
+                                <span class="statut-ouvert"><i class="fas fa-circle"></i> Ouverte</span>
+                            <?php endif; ?>
+                        </div>
+
                     </div>
 
-                    <div class="pharm-adresse">
-                        <i class="fas fa-location-dot"></i>
-                        <?php echo htmlspecialchars($p['adresse'] . ', ' . $p['ville']); ?>
-                    </div>
+                <?php endforeach; ?>
 
-                    <div class="pharm-statut">
-                        <?php if ($p['statut_garde']) : ?>
-                            <span class="statut-garde">
-                                <i class="fas fa-circle"></i> Pharmacie de garde
-                            </span>
-                        <?php else : ?>
-                            <span class="statut-ouvert">
-                                <i class="fas fa-circle"></i> Ouverte
-                            </span>
-                        <?php endif; ?>
-                    </div>
+            </div>
 
-                </div>
-            <?php endforeach; ?>
         </div>
 
-        <!-- La carte -->
         <div id="map"></div>
 
     </div>
@@ -103,5 +116,6 @@ $pharmacies = $stmt->fetchAll();
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="../Dos-js/carte.js"></script>
+
 </body>
 </html>

@@ -16,14 +16,15 @@ session_start();
 <body>
 
         <?php  include '../../Include_general/header.php'; ?>
+        <script src="../Dos-js/header.js" defer></script>
 
     <section class="hero">
 
         <h1>Bienvenue sur Votre Pharmacie</h1>
+        
         <p>
-            Avec nous trouver un médicaments et la pharmacie ou il est disponible n'est plus une <br>
-            dificulté localisez instantanement la pharmacie la plus proche disposant <br>
-            du médicaments recherché en seulement quelques cliques
+            Avec nous, trouver un médicament et la pharmacie où il est disponible n'est plus une difficulté.
+            Localisez instantanément la pharmacie la plus proche disposant du médicament recherché en quelques clics.
         </p>
 
         <form method="GET" action="../Dos-page/produit.php" class="">

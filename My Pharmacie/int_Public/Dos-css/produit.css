@@ -1,192 +1,358 @@
-*{
+/* ======================================================================
+   Variables de couleur — un seul endroit à modifier pour changer le vert
+   ====================================================================== */
+
+:root {
+    --vert-principal: #00b000;
+    --vert-fonce: #1b5e20;
+    --vert-accent: #2ecc40;
+    --vert-clair: rgba(0, 176, 0, 0.12);
+}
+
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body{
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  justify-content: center;
-  background: linear-gradient(rgba(78, 41, 41, 0.5), rgba(0, 0, 0, 0.7)),
-    url("../Dos-img/farma.jpg") ;
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("../Dos-img/farma.jpg");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    color : white;
+    color: white;
 }
 
-form.tout_entete{
-   width: 100%;
-   height: auto;
-   display: flex;
-   flex-direction: column;
-   text-align: center;
-   font-size: 20px;
+
+/* ======================================================================
+   Entête / formulaire de recherche
+   ====================================================================== */
+
+form.tout_entete {
+    position: relative;
+    width: 100%;
+    padding: 30px 0px 10px;
+    display: flex;
+    justify-content: center;
 }
 
-.text{
-   font-size: 18px;
-   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
-   margin-bottom: 20px;
+.entete-fond {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(0, 176, 0, 0.25), transparent 60%);
+    pointer-events: none;
 }
 
-.title h1{
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-right: 15px;
-  justify-content: center;
+.entete-contenu {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
 }
 
-div.entete_input{
-   width: 100%;
-       font-size: 13px;
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
 }
 
-.sreach_input{
-   width: 400px;
-   height: 33px;
-   padding-left: 20px;
-   padding-right: 20px;
-   border-top-left-radius: 15px ;
-   border-bottom-left-radius: 15px;
-   border: 1px solid white;
-   font-size: 13px;
-   border-right: 1px solid black;
-   outline: none;
+.title i {
+    font-size: 34px;
 }
 
-select{
-   width: 200px;
-   height: 33px;
-   padding-left: 10px;
-   padding-right: 10px;
-   border: 1px solid white;
-   margin-left: -4px;
-   font-size: 13px;
-   border-left: 2px solid black;
-   outline: none;
+.title h1 {
+    font-size: 35px;
+    font-weight: 800;
 }
 
-option{
-   background-color: green;
-   color: white;
+.text {
+    font-size: 17px;
+    opacity: 0.95;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
 }
 
-.sreach_btn{
-   width: 180px;
-   height: 33px;
-   font-size: 12px;
-   background-color: green;
-   color: white;
-   border-top-right-radius: 15px ;
-   border-bottom-right-radius: 15px;
-   border: 1px solid white;
-   margin-left: -4px;
-   font-size: 13px;
-   transition: all 0.3s ease;
-   &:hover{
-     background-color : white;
-     color: green;
-   }
+
+div.entete_input {
+    width: 100%;
+    max-width: 750px;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
 }
 
-section.hero{
-  width: 100%;
-  height: auto;
-  flex-direction: column;
-  display: flex;
-  background-color: white;
-  color: black;
-  padding: 30px 20px 20px 20px;
-  margin-top: 30px;
-  justify-content: center;
+.champ-recherche-wrapper{
+    flex: 2 1 240;
+    position: relative;
 }
 
-div.grille{
-  width: 100%;
-  height: auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  column-gap: 20px;
-  row-gap: 20px;
-  padding: 20px 40px;
-  align-items: start;
-  justify-items: center;
+.champ-recherche {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 16px;
+    background-color: white;
+    border-radius: 14px;
 }
 
-div.produit{
-  margin-top: 20px;
-  width: 250px;
-  height: 360px;
-  border: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 15px;
-  transition: all 0.3s ease;
-  &:hover{
-    box-shadow: 5px 5px 5px black;
-  }
+.champ-recherche i {
+    color: #999;
+    font-size: 14px;
 }
 
-div.image{
-  width: 200px;
-  height: 200px;
-  background-color: green;
-  border-radius: 10px;
-  color: white;
+.sreach_input {
+    flex: 1;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    color: #2b2b2b;
 }
 
-.prod-name{
-  margin-top: 12px;
-  margin-bottom: 12px;
+select {
+    flex: 1 1 170px;
+    height: 44px;
+    padding: 0 14px;
+    border: none;
+    border-radius: 14px;
+    background-color: white;
+    color: #2b2b2b;
+    font-size: 14px;
+    outline: none;
 }
 
-.prix-prod{
-  margin-bottom: 12px;
+option {
+    background-color: var(--vert-principal);
+    color: white;
 }
 
-button.Voir-produit{
-  width: 200px;
-  height: 40px;
-  background-color: rgb(3, 173, 3);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-  &:hover{
-    background-color: green;
-  }
+.sreach_btn {
+    flex: 1 1 150px;
+    height: 44px;
+    padding: 0 26px;
+    border: none;
+    border-radius: 14px;
+    background-color: var(--vert-principal);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
 }
 
-.voir_plus{
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-  margin-bottom: 70px;
+.sreach_btn:hover {
+    background-color: var(--vert-fonce);
 }
 
-.btn-see_more{
-  width: 300px;
-  height: 40px;
-  border: 0.1px solid green;
-  border-radius: 25px;
-  transition: all 0.3s ease;
-  &:hover{
-     width: 350px;
-     height: 41px;
-     background-color: green;
-     color: white;
-  }
+
+@media (max-width: 420px) {
+
+    div.entete_input {
+        flex-direction: column;
+    }
+
+    .champ-recherche, select, .sreach_btn {
+        width: 100%;
+        height: 46px;
+    }
+
 }
 
-/* ========== MODAL PRODUIT ========== */
+
+/* ======================================================================
+   Section produits
+   ====================================================================== */
+
+section.hero {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    color: #222;
+    padding: 30px 40px 20px;
+    margin-top: 30px;
+}
+
+h2.sous-titre {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+
+
+.aucun-resultat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 60px 20px;
+    color: #888;
+}
+
+.aucun-resultat i {
+    font-size: 40px;
+    color: var(--vert-clair);
+}
+
+.aucun-resultat p {
+    font-size: 16px;
+}
+
+
+/* ======================================================================
+   Grille et cartes produit
+   ====================================================================== */
+
+div.grille {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 26px;
+    padding-bottom: 20px;
+}
+
+article.carte-produit {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border: 1px solid #ececec;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+article.carte-produit:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+
+.carte-produit-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: var(--vert-clair);
+}
+
+.carte-produit-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+}
+
+article.carte-produit:hover .carte-produit-image img {
+    transform: scale(1.08);
+}
+
+
+.carte-produit-corps {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    padding: 16px;
+}
+
+.carte-produit-nom {
+    font-size: 16px;
+    font-weight: 700;
+    color: #222;
+    line-height: 1.3;
+    min-height: 42px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.carte-produit-forme {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #999;
+}
+
+.carte-produit-bas {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.carte-produit-prix {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--vert-fonce);
+    white-space: nowrap;
+}
+
+button.Voir-produit {
+    padding: 9px 18px;
+    background-color: var(--vert-principal);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.25s ease;
+}
+
+button.Voir-produit:hover {
+    background-color: var(--vert-fonce);
+}
+
+
+.voir_plus {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+.btn-see_more {
+    width: 300px;
+    height: 42px;
+    background-color: transparent;
+    border: 1px solid var(--vert-principal);
+    border-radius: 25px;
+    color: var(--vert-fonce);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-see_more:hover {
+    background-color: var(--vert-principal);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 176, 0, 0.35);
+}
+
+
+/* ======================================================================
+   MODAL PRODUIT
+   ====================================================================== */
 
 .fenetre-produit {
     display: none;
@@ -199,6 +365,7 @@ button.Voir-produit{
     z-index: 1000;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
 .fenetre-produit.actif {
@@ -212,64 +379,71 @@ body.modal-ouvert {
 .modal-contenu-produit {
     background-color: #ffffff;
     color: #2b2b2b;
-    width: 1200px;
-    max-height: 89vh;
-    border-radius: 15px;
+    width: 100%;
+    max-width: 1100px;
+    max-height: 90vh;
+    border-radius: 18px;
     position: relative;
+
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 }
 
 .modal-fermer-produit {
     position: absolute;
-    top: 12px;
-    right: 18px;
-    background: none;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.45);
     border: none;
-    color: #2b2b2b;
-    font-size: 28px;
+    border-radius: 50%;
+    color: white;
+    font-size: 22px;
+    line-height: 1;
     cursor: pointer;
     z-index: 10;
-    transition: color 0.3s ease;
+    transition: background-color 0.25s ease;
 }
 
 .modal-fermer-produit:hover {
-    color: #2ecc40;
+    background-color: var(--vert-principal);
 }
 
-/* Partie haute : image + infos */
+
 .modal-haut-produit {
-    padding: 25px 25px 25px 25px;
+    padding: 28px 28px 24px;
     display: flex;
     flex-direction: row;
     width: 100%;
-    gap: 20px;
-    border-radius: 15px 15px 0 0;
-    overflow: hidden;
-    flex-shrink: 0;
-    min-height: 260px;
+    gap: 24px;
     align-items: stretch;
 }
 
 .modal-image-produit {
-    width: 45%;
-    min-height: 280px;
-    background-color: green;
+    width: 42%;
+    min-height: 300px;
+    background-color: var(--vert-clair);
     overflow: hidden;
     flex-shrink: 0;
-    border-radius: 10px;
+    border-radius: 14px;
 }
 
 .modal-image-produit img {
+    display: block;
     width: 100%;
     height: 100%;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: cover;
 }
 
 .modal-infos-produit {
-    width: 55%;
-    padding: 35px 30px 25px 30px;
+    width: 58%;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -277,61 +451,62 @@ body.modal-ouvert {
 }
 
 .modal-infos-produit h2 {
-    color: #2ecc40;
+    color: var(--vert-fonce);
     font-size: 22px;
-    margin: 0 0 8px 0;
-    font-weight: bold;
+    font-weight: 800;
+    margin: 0;
 }
 
-.modal-infos-produit p {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 20px;
-    color: #2b2b2b;
-}
-
-.modal-infos-produit i {
-    color: green;
-    width: 18px;
-    text-align: center;
-}
-
-/* Séparateur */
-.modal-separateur-produit {
-    height: 2px;
-    background-color: #f0f0f0;
-    margin: 0 25px;
-}
-
-/* Partie basse : pharmacies */
-.modal-bas-produit {
-    padding: 30px 50px 30px 50px;
+.modal-infos-liste {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    flex : 1;
+    gap: 9px;
+    margin-top: 4px;
+}
+
+.modal-infos-liste p {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #444;
+}
+
+.modal-infos-liste i {
+    color: var(--vert-principal);
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+
+.modal-separateur-produit {
+    height: 1px;
+    background-color: #f0f0f0;
+    margin: 0 28px;
+}
+
+
+.modal-bas-produit {
+    padding: 24px 28px 32px;
 }
 
 .modal-bas-produit h3 {
-    flex-shrink: 0;
-    padding: 0px 30px 15px 0px;
     color: #2b2b2b;
-    font-size: 20px;
-    margin-bottom: 15px;
-    font-weight: bold;
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 18px;
 }
 
 .modal-bas-produit h3 span {
-    color: #2ecc40;
+    color: var(--vert-accent);
+    font-weight: 600;
 }
 
 .modal-pharmacie-grille {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 40px;
-    overflow-y: auto;
-    margin: 0px 20px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
 }
 
 .modal-pharmacie-item {
@@ -339,34 +514,39 @@ body.modal-ouvert {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    padding: 15px;
-    background-color: #f8f8f8;
-    border-radius: 10px;
-    border-left: 2px solid #1aad2b;
-    font-size: 14px;
+    padding: 16px;
+    background-color: #fafafa;
+    border: 1px solid #f0f0f0;
+    border-radius: 14px;
     text-align: center;
+    transition: box-shadow 0.25s ease;
+}
+
+.modal-pharmacie-item:hover {
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
 }
 
 .modal-pharmacie-nom {
-    font-weight: bold;
+    font-weight: 700;
     color: #2b2b2b;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .btn-voir-pharmacie {
     width: 100%;
-    height: 38px;
-    background-color: rgb(8, 177, 8);
+    height: 34px;
+    background-color: var(--vert-principal);
     color: white;
     border: none;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 12px;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.25s ease;
 }
 
 .btn-voir-pharmacie:hover {
-    background-color: green;
+    background-color: var(--vert-fonce);
 }
 
 .modal-aucun {
@@ -375,7 +555,10 @@ body.modal-ouvert {
 }
 
 
-/* ========== MODAL PHARMACIE (partagé) ========== */
+/* ======================================================================
+   MODAL PHARMACIE (partagé)
+   ====================================================================== */
+
 .fenetre-pharmacie {
     display: none;
     position: fixed;
@@ -387,6 +570,7 @@ body.modal-ouvert {
     z-index: 1000;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
 .fenetre-pharmacie.actif {
@@ -400,65 +584,71 @@ body.fenetre-pharmacie-ouvert {
 .modal-contenu-pharmacie {
     background-color: #ffffff;
     color: #2b2b2b;
-    width: 1500px;
+    width: 100%;
+    max-width: 1300px;
     max-height: 90vh;
-    border-radius: 15px;
+    border-radius: 18px;
     position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 }
 
 .modal-fermer-pharmacie {
     position: absolute;
-    top: 12px;
-    right: 18px;
-    background: none;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.45);
     border: none;
-    color: #2b2b2b;
-    font-size: 28px;
+    border-radius: 50%;
+    color: white;
+    font-size: 22px;
+    line-height: 1;
     cursor: pointer;
     z-index: 10;
-    transition: color 0.3s ease;
+    transition: background-color 0.25s ease;
 }
 
 .modal-fermer-pharmacie:hover {
-    color: #2ecc40;
+    background-color: var(--vert-principal);
 }
 
-/* Partie haute : image + infos côte à côte */
+
 .modal-haut-pharmacie {
-    padding: 30px 20px 20px 30px;
+    padding: 28px 28px 24px;
     display: flex;
     flex-direction: row;
     width: 100%;
-    gap: 20px;
-    border-radius: 15px 15px 0 0;
-    overflow: hidden;
-    flex-shrink: 0;
-    min-height: 260px;
+    gap: 24px;
     align-items: stretch;
 }
 
 .modal-image-pharmacie {
-    width: 40%;
-    display: flex;
-    min-height: 380px;
-    background-color: green;
+    width: 38%;
+    min-height: 320px;
+    background-color: var(--vert-clair);
     overflow: hidden;
     flex-shrink: 0;
-    border-radius: 12px;
+    border-radius: 14px;
 }
 
 .modal-image-pharmacie img {
+    display: block;
     width: 100%;
     height: 100%;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: cover;
 }
 
 .modal-infos-pharmacie {
-    width: 25%;
-    padding-left: 10px;
+    width: 27%;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -466,124 +656,200 @@ body.fenetre-pharmacie-ouvert {
 }
 
 .modal-infos-pharmacie h2 {
-    color: #2ecc40;
+    color: var(--vert-fonce);
     font-size: 22px;
-    margin: 0 0 8px 0;
-    font-weight: bold;
+    font-weight: 800;
+    margin: 0;
 }
 
-.modal-infos-pharmacie p {
+.modal-notation {
     display: flex;
     align-items: center;
-    gap: 18px;
-    font-size: 20px;
-    color: #2b2b2b;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 14px;
 }
 
-.modal-infos-pharmacie i {
-    color: green;
-    width: 18px;
+.modal-notation .etoiles {
+    color: #f5a623;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
+.modal-notation .note-chiffre {
+    font-weight: 700;
+    color: #222;
+}
+
+.modal-notation .nb-avis {
+    color: #888;
+}
+
+.modal-notation .pas-avis {
+    color: #aaa;
+    font-style: italic;
+}
+
+.badge-recommandee-mini {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background-color: var(--vert-clair);
+    color: var(--vert-fonce);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.modal-infos-liste {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-top: 4px;
+}
+
+.modal-infos-liste p {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #444;
+}
+
+.modal-infos-liste i {
+    color: var(--vert-principal);
+    width: 16px;
     text-align: center;
+    flex-shrink: 0;
 }
 
 .modal-garde-badge {
     display: inline-block;
-    padding: 4px 14px;
+    padding: 3px 12px;
     border-radius: 20px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: bold;
-    background-color: #2ecc40;
+    background-color: var(--vert-accent);
     color: white;
-    margin-top: 5px;
     width: fit-content;
-}
-
-.modal-carte {
-    width: 38%;
-    min-height: 280px;
-    border-radius: 12px;
-    overflow: hidden;
-    flex-shrink: 0;
-    z-index: 1;
-    margin: 10px 20px;
 }
 
 .modal-garde-badge.fermee {
     background-color: #e74c3c;
 }
 
-/* Séparateur */
-.modal-separateur-pharmacie {
-    height: 2px;
-    background-color: #f0f0f0;
-    margin: 0 25px;
+.modal-carte {
+    width: 35%;
+    min-height: 260px;
+    border-radius: 14px;
+    overflow: hidden;
     flex-shrink: 0;
+    z-index: 1;
 }
 
-/* Partie basse : produits */
+
+.modal-separateur-pharmacie {
+    height: 1px;
+    background-color: #f0f0f0;
+    margin: 0 28px;
+}
+
+
 .modal-bas-pharmacie {
-    padding: 20px 50px 20px 50px;
-    display: flex;
-    overflow: hidden;
-    flex : 1;
-    flex-direction: column;
+    padding: 24px 28px 32px;
 }
 
 .modal-bas-pharmacie h3 {
-    flex-shrink: 0;
-    padding: 0px 30px 15px 0px;
     color: #2b2b2b;
-    font-size: 20px;
-    font-weight: bold;
-    
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 18px;
 }
 
 .modal-bas-pharmacie h3 span {
-    color: #2ecc40;
+    color: var(--vert-accent);
+    font-weight: 600;
 }
 
 .modal-produits-grille {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    row-gap: 20px;
-    column-gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 18px;
     justify-items: center;
-    /* padding: 20px 30px 20px 30px; */
-    overflow-y: auto;
-    flex: 1;
-
 }
 
 .modal-produit-item {
-    width: 180px;
-    height: 300px;
+    width: 100%;
+    max-width: 170px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    border-radius: 15px;
-    background-color: white;
-    gap: 8px;
-    transition: all 0.3s ease;
-    cursor: pointer;
+    border-radius: 14px;
+    background-color: #fafafa;
+    border: 1px solid #f0f0f0;
+    padding: 14px 10px;
+    gap: 6px;
+    transition: box-shadow 0.25s ease;
 }
+
 .modal-produit-item:hover {
-    box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.modal-produit-image {
+    width: 110px;
+    height: 110px;
+    background-color: var(--vert-clair);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.modal-produit-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
 }
 
 .modal-produit-nom {
-    font-weight: bold;
+    font-weight: 700;
     color: #2b2b2b;
-    font-size: 14px;
+    font-size: 13px;
+    text-align: center;
 }
 
 .modal-produit-forme {
-    color: #888;
+    color: #999;
+    font-size: 11px;
+    text-transform: uppercase;
 }
 
 .modal-produit-prix {
-    color: #2ecc40;
-    font-weight: bold;
+    color: var(--vert-fonce);
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.btn-reserver-produit {
+    width: 100%;
+    height: 32px;
+    margin-top: 4px;
+    background-color: var(--vert-principal);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+}
+
+.btn-reserver-produit:hover {
+    background-color: var(--vert-fonce);
 }
 
 .modal-aucun {
@@ -591,26 +857,152 @@ body.fenetre-pharmacie-ouvert {
     font-style: italic;
 }
 
-/* Actions */
-.modal-produit-image {
-    width: 140px;
-    height: 140px;
-    background-color: green;
-    border-radius: 10px;
+
+/* ======================================================================
+   Responsive
+   ====================================================================== */
+
+@media (max-width: 700px) {
+
+    .modal-haut-produit {
+        flex-direction: column;
+    }
+
+    .modal-image-produit,
+    .modal-infos-produit {
+        width: 100%;
+    }
+
+    .modal-image-produit {
+        min-height: 200px;
+    }
+
+    .modal-infos-produit {
+        padding: 10px 15px 20px;
+    }
+
+    .modal-haut-pharmacie {
+        flex-direction: column;
+    }
+
+    .modal-image-pharmacie,
+    .modal-infos-pharmacie {
+        width: 100%;
+    }
+
+    .modal-image-pharmacie {
+        min-height: 180px;
+    }
+
+    .modal-carte {
+        display: none;
+    }
+
+    section.hero {
+        padding: 30px 20px 20px;
+    }
+
 }
 
-.btn-reserver-produit {
-    width: 130px;
-    height: 34px;
-    background-color: rgb(8, 177, 8);
+
+@media (max-width: 420px) {
+
+    .modal-pharmacie-grille,
+    .modal-produits-grille {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    }
+
+    .title h1 {
+        font-size: 24px;
+    }
+
+    .title i {
+        font-size: 26px;
+    }
+
+    .text {
+        font-size: 15px;
+    }
+
+}
+
+/* ======================================================================
+   Zone scrollable des produits (au lieu de faire défiler toute la page)
+   ====================================================================== */
+
+.produits-conteneur {
+    position: relative;
+    max-height: 900px;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+.btn-remonter {
+    position: sticky;
+    bottom: 16px;
+    margin-left: auto;
+    margin-right: 16px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background-color: var(--vert-principal);
     color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 13px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    font-size: 16px;
+    z-index: 5;
+    transition: background-color 0.25s ease;
 }
 
-.btn-reserver-produit:hover {
-    background-color: green;
+.btn-remonter.visible {
+    display: flex;
+}
+
+.btn-remonter:hover {
+    background-color: var(--vert-fonce);
+}
+
+/* ======================================================================
+   Suggestions de recherche (auto-complétion)
+   ====================================================================== */
+
+.suggestions-liste {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    height: auto;
+    max-height: 220px;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    z-index: 50;
+    text-align: left;
+}
+
+.suggestions-liste.active {
+    display: block;
+}
+
+.suggestion-item {
+    padding: 10px 16px;
+    font-size: 14px;
+    color: #2b2b2b;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.suggestion-item:hover {
+    background-color: var(--vert-clair);
+}
+
+.suggestion-item + .suggestion-item {
+    border-top: 1px solid #f0f0f0;
 }

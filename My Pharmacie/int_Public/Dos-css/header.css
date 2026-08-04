@@ -1,157 +1,214 @@
+/* ===== Header principal ===== */
+
 header {
-  height: 8%;
-  box-sizing: border-box;
-  padding: 0px 25px 0px 25px;
-  padding-top: 10px;
-  justify-content: center;
-  justify-content: space-between;
-  display: flex;
-  align-items: center;
-  position: sticky;
-  top:  0;
-  z-index: 1000;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 40px;
+    background-color: #00b000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
-div.logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+/* ===== Logo ===== */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: white;
+    flex-shrink: 0;
+    transition: opacity 0.2s ease;
 }
 
-.entete{
-  width: 200px;
-  height: 60px;
-  border-radius: 20px;
+.logo:hover {
+    opacity: 0.85;
 }
 
+.logo i {
+    font-size: 30px;
+}
+
+.logo span {
+    font-size: 25px;
+    letter-spacing: 0.5px;
+    font-weight: 400;
+}
+
+.logo span strong {
+    font-weight: 800;
+}
+
+
+/* ===== Menu de navigation ===== */
+
+.menu-mobile {
+    display: contents;
+}
 
 div.menu ul {
-  display: flex;
-  list-style: none;
-  align-items: center;
-  padding-top: 5px;
-  margin-left: -10px;
-  padding-bottom: 5px;
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
 }
 
 a.btn {
-  background-color: white;
-  width: 140px;
-  height: 30px;
-  text-decoration: none;
-  font-size: large;
-  margin-right: 30px;
-  justify-content: space-between;
-  display: inline-flex;
-  color: black;
-  text-align: center;
-  align-items: center;
-  border-radius: 12px;
-  font-size: large;
-  /* border: 1px solid black; */
-  justify-content: center;
-  transition: color 0.3s ease;
-  gap: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: white;
+    font-size: 17px;
+    white-space: nowrap;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
 }
 
 a.btn:hover {
-  background-color: green;
-  color: white;
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+
+/* ===== Boutons connexion / inscription (visiteur) ===== */
+
+div.conex {
+    display: flex;
+    flex-shrink: 0;
 }
 
 div.conex .btn-conex {
-  width: 130px;
-  height: 34px;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-  background-color: green;
-  border: 1px solid white;
-  color: white;
-  transition: all 0.3s ease;
-  gap: 5px;
-
-  &:hover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 36px;
+    padding: 0 18px;
+    border: 1px solid white;
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
     background-color: white;
-    color: black;    
-  }
+    color: #00b000;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
 }
 
-div.conex{
-  display: flex;
+div.conex .btn-conex:hover {
+    background-color: #1b5e20;
+    color: white;
 }
 
-.btn-inscrit{
-  display: flex;
-  width: 130px;
-  height: 34px;
-  text-decoration: none;
-  align-items: center;
-  border: 1px solid white;
-  justify-content: center;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  background-color: green;
-  color: white;
-  margin-left: -1px;
-  transition: all 0.3s ease;
-  &:hover{
-     background-color: white;
-     color: black;
-  }
+.btn-inscrit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    padding: 0 18px;
+    margin-left: -1px;
+    border: 1px solid white;
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+    background-color: transparent;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
 }
 
-/* ===== Bloc client connecté (ajouté pour le header partagé) ===== */
+.btn-inscrit:hover {
+    background-color: white;
+    color: #00b000;
+}
+
+
+/* ===== Boutons profil / déconnexion (client connecté) ===== */
 
 div.profil {
-  display: flex;
-  justify-items: center;
+    display: flex;
+    flex-shrink: 0;
 }
 
 div.profil .btn-profil {
-  width: 130px;
-  height: 34px;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-  background-color: green;
-  border: 1px solid white;
-  color: white;
-  transition: all 0.3s ease;
-  gap: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 36px;
+    padding: 0 18px;
+    border: 1px solid white;
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
+    background-color: white;
+    color: #00b000;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
 }
 
 div.profil .btn-profil:hover {
-  background-color: white;
-  color: black;
+    background-color: #1b5e20;
+    color: white;
 }
 
 .btn-deconex {
-  display: flex;
-  width: 130px;
-  height: 34px;
-  text-decoration: none;
-  align-items: center;
-  border: 1px solid white;
-  justify-content: center;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  background-color: green;
-  color: white;
-  margin-left: -1px;
-  transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    padding: 0 18px;
+    margin-left: -1px;
+    border: 1px solid white;
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+    background-color: transparent;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
 }
 
 .btn-deconex:hover {
-  background-color: white;
-  color: black;
+    background-color: white;
+    color: #00b000;
 }
+
+
+/* ===== Bouton hamburger (mobile) ===== */
+
+.menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease;
+}
+
+.menu-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+
+/* ===== Bannières d'alerte — INCHANGÉES (copiées à l'identique) ===== */
 
 .alerte-recuperation {
     position: fixed;
@@ -241,77 +298,52 @@ div.profil .btn-profil:hover {
 }
 
 .alerte-reinitialisation {
-    top: 180px; /* ajuste selon la hauteur réelle de ta bannière alerte-recuperation */
+    top: 180px;
 }
 
 .alerte-recuperation-position {
-    top: 90px; /* remplace par la vraie valeur de top utilisée dans .alerte-recuperation */
+    top: 90px;
 }
 
 .alerte-recuperation, .alerte-reinitialisation, .alerte-recuperation-position {
     transition: top 0.3s ease;
 }
 
-/* ===== Responsive du header (menu hamburger) ===== */
 
-.menu-toggle {
-    display: none;
-    background: rgba(0, 176, 0);
-    color: white;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    font-size: 18px;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-}
+/* ===== Responsive : bascule en menu hamburger (nouveau) ===== */
 
-.menu-toggle:hover {
-    background: #1b5e20;
-}
-
-/* Sur desktop : le conteneur n'a aucun effet, tout se comporte comme avant */
-.menu-mobile {
-    display: contents;
-}
-
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
 
     header {
-        height: auto;
-        min-height: 60px;
         flex-wrap: wrap;
-        padding: 10px 15px;
+        padding: 10px 18px;
+        position: relative;
     }
 
-    .entete {
-        width: 140px;
-        height: 42px;
+    .logo span {
+        font-size: 17px;
+    }
+
+    .logo i {
+        font-size: 22px;
     }
 
     .menu-toggle {
         display: flex;
     }
 
-    /* Sur mobile : le conteneur devient un vrai panneau qui se déplie */
     .menu-mobile {
         display: none;
         flex-direction: column;
         align-items: stretch;
         position: absolute;
         top: 100%;
-        right: 15px;
-        background-color: rgba(0, 176, 0);
-        padding: 10px 15px 20px;
+        left: 0;
+        right: 0;
+        background-color: #1b5e20;
+        padding: 14px 18px 20px;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         z-index: 999;
-        border-radius: 6px;
-    }
-
-    header {
-        position: relative;
     }
 
     .menu-mobile.ouvert {
@@ -321,17 +353,19 @@ div.profil .btn-profil:hover {
     div.menu ul {
         flex-direction: column;
         align-items: stretch;
-        margin-left: 0;
-        padding: 0;
         gap: 8px;
     }
 
     a.btn {
         width: 100%;
-        height: auto;
         padding: 10px 16px;
         border-radius: 8px;
-        font-size: 15px;
+        justify-content: flex-start;
+        background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    a.btn:hover {
+        background-color: rgba(255, 255, 255, 0.2);
     }
 
     div.profil,
@@ -348,11 +382,18 @@ div.profil .btn-profil:hover {
     .btn-inscrit {
         width: 100%;
         box-sizing: border-box;
-        border-radius: 15px;
+        border-radius: 10px;
         height: 42px;
         margin-left: 0;
         font-size: 15px;
     }
+
+}
+
+
+/* ===== Bannières d'alerte en mobile — INCHANGÉES (palier 900px d'origine, copié à l'identique) ===== */
+
+@media (max-width: 900px) {
 
     .alerte-recuperation {
         right: 10px;
@@ -368,9 +409,12 @@ div.profil .btn-profil:hover {
     .alerte-recuperation-position {
         top: 70px;
     }
+
 }
 
+
 @media (max-width: 400px) {
+
     .alerte-recuperation-texte {
         font-size: 12px;
     }
@@ -379,4 +423,5 @@ div.profil .btn-profil:hover {
         font-size: 12px;
         padding: 6px 10px;
     }
+
 }

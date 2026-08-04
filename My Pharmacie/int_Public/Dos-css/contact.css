@@ -1,117 +1,318 @@
-*{
+/* ======================================================================
+   Variables de couleur
+   ====================================================================== */
+
+:root {
+    --vert-principal: #00b000;
+    --vert-fonce: #1b5e20;
+    --vert-accent: #2ecc40;
+    --vert-clair: rgba(0, 176, 0, 0.12);
+}
+
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html, body{
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  justify-content: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
-    url("../Dos-img/farma.jpg") ;
+html, body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("../Dos-img/farma.jpg");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    color : white;
-}
-
-.contact-container{
-  height: 68%;
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 30px;
-  max-width: 1100px;
-  margin : 0 auto;
-  margin-top: 50px;
-  font-size: large;
-  justify-content: center;
-}
-
-.entrer-section{
-  display: flex;
-  flex-direction: column;
-  gap: 35px;
-  align-items: center;
-}
-
-div.form-group{
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-label, input, textarea{
-  display: flex;
-}
-
-input {
-  margin-top: 8px;
-  margin-bottom: 10px;
-  width: 450px;
-  height: 35px;
-  border: none;
-  border-radius: 10px;
-  padding: 10px;
-  outline: none;
-}
-
-textarea{
-  margin-top: 8px;
-  margin-bottom: 20px;
-  width: 450px;
-  height: 150px;
-  border-radius: 8px;
-  outline: none;
-  padding: 10px;
-}
-
-.btn-envoyer{
-  margin-top: 20px;
-  width: 450px;
-  height: 35px;
-  border-radius: 20px;
-  border: none;
-  outline: none;
-  transition: all 0.3s;
-}
-
-.info-section{
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.info-item{
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  font-size: large;
-  line-height: 1.5;
-  margin-bottom: 13px;
-}
-
-.info-item i{
-  color: #2ecc40;
-  font-size: 1.1rem;
-  margin-top: 3px;
-  min-width: 20px;
-}
-
-.map-container{
-  border-radius: 8px;
-  overflow: hidden;
-  border: 2px solid #3a3a3a;
-}
-
-.map-container iframe{
-  width: 100%;
-  height: 220px;
-  border: none;
-  display: block;
+    background-attachment: fixed;
+    color: white;
 }
 
 
+/* ======================================================================
+   Entête
+   ====================================================================== */
+
+.contact-entete {
+    position: relative;
+    width: 100%;
+    padding: 55px 20px 45px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.entete-fond {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(0, 176, 0, 0.25), transparent 60%);
+    pointer-events: none;
+}
+
+.entete-contenu {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.title i {
+    font-size: 32px;
+}
+
+.title h1 {
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.text {
+    font-size: 16px;
+    opacity: 0.92;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+    max-width: 480px;
+}
+
+
+/* ======================================================================
+   Section formulaire (fond blanc)
+   ====================================================================== */
+
+.contact-section {
+    width: 100%;
+    background-color: white;
+    color: #222;
+    padding: 50px 20px 70px;
+    display: flex;
+    justify-content: center;
+}
+
+.contact-container {
+    width: 100%;
+    max-width: 1050px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 50px;
+}
+
+
+/* ======================================================================
+   Colonne formulaire
+   ====================================================================== */
+
+.entrer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.message-succes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    background-color: #eafce8;
+    border: 1px solid #b7e8ab;
+    border-left: 4px solid var(--vert-principal);
+    border-radius: 10px;
+    color: var(--vert-fonce);
+    font-size: 14px;
+}
+
+.message-succes i {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+}
+
+input, textarea {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+    color: #222;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus, textarea:focus {
+    border-color: var(--vert-principal);
+    box-shadow: 0 0 0 3px var(--vert-clair);
+}
+
+textarea {
+    height: 140px;
+    resize: vertical;
+}
+
+.btn-envoyer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 46px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 24px;
+    background-color: var(--vert-principal);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+}
+
+.btn-envoyer:hover {
+    background-color: var(--vert-fonce);
+}
+
+
+/* ======================================================================
+   Colonne infos
+   ====================================================================== */
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.info-item i {
+    color: var(--vert-principal);
+    font-size: 17px;
+    margin-top: 2px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.map-container {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #eee;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 200px;
+    border: none;
+    display: block;
+}
+
+.btn-voir-carte {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    border-radius: 22px;
+    background-color: var(--vert-clair);
+    color: var(--vert-fonce);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.25s ease;
+}
+
+.btn-voir-carte:hover {
+    background-color: var(--vert-principal);
+    color: white;
+}
+
+
+/* ======================================================================
+   Responsive
+   ====================================================================== */
+
+@media (max-width: 900px) {
+
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .info-section {
+        order: -1;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .contact-entete {
+        padding: 35px 20px 30px;
+    }
+
+    .title h1 {
+        font-size: 24px;
+    }
+
+    .title i {
+        font-size: 26px;
+    }
+
+    .contact-section {
+        padding: 35px 15px 50px;
+    }
+
+    /* La carte Google Maps intégrée n'a plus sa place sur petit écran :
+       trop réduite pour être exploitable, et redondante avec la page
+       Carte dédiée (Leaflet) — on affiche un bouton vers celle-ci à la place */
+    .map-container {
+        display: none;
+    }
+
+    .btn-voir-carte {
+        display: flex;
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    input, textarea {
+        font-size: 16px;
+    }
+
+}

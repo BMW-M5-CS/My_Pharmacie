@@ -32,7 +32,22 @@ function ouvrirModalPharmacie(id){
                 gardeEl.innerHTML = '<span class="modal-garde-badge">Ouverte</span>';
             }
             
+            
             document.getElementById('modal-nb-produits').textContent = '(' + data.produits.length + ')';
+
+            // ---------------------------------- Résumé notation ----------------------------------------
+            const notationEl = document.getElementById('modal-notation');
+
+            if (data.nombre_avis > 0) {
+                notationEl.innerHTML = `
+                    <span class="etoiles">${data.etoiles_html}</span>
+                    <span class="note-chiffre">${data.note_moyenne.toFixed(1)}</span>
+                    <span class="nb-avis">(${data.nombre_avis} avis)</span>
+                    ${data.recommandee ? '<span class="badge-recommandee-mini"><i class="fa-solid fa-award"></i> Recommandée</span>' : ''}
+                `;
+            } else {
+                notationEl.innerHTML = '<span class="pas-avis">Pas encore d\'avis</span>';
+            }
 
             //  ------------------- declaration des donnée de la carte et affichage ------------------
             const lat = parseFloat(data.latitude);
