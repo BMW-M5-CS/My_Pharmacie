@@ -114,7 +114,7 @@ if ($action === 'modifier_mdp') {
     }
 
    if (strlen($nouveau_mdp) < 8) {
-        echo json_encode(["success" => false, "message" => 'Le nouveau mot de passe doit contenir au moins 6 caractères.']);
+        echo json_encode(["success" => false, "message" => 'Le nouveau mot de passe doit contenir au moins 8 caractères.']);
         exit();
     }
 
@@ -138,13 +138,20 @@ if ($action === 'modifier_mdp') {
     // hachage du nouveau mot de passe et mise à jour dans la base de données
     $nouveau_mdp_hash = password_hash($nouveau_mdp, PASSWORD_DEFAULT);
 
-    $sql_update       = "UPDATE users SET \"password\" = ? WHERE id_user = ?";
+    $sql_update       = "UPDATE users SET \"password\" = ?, info_modif_mdp = NOW() WHERE id_user = ?";
     $stmt_update      = $pdo->prepare($sql_update);
     $stmt_update->execute([$nouveau_mdp_hash, $id_user]);
 
+    // On relit la vraie valeur enregistrée pour resynchroniser CETTE session :
+    // sans ça, la vérification de config.php nous déconnecterait nous-même
+    // à la prochaine page, en plus des autres sessions (ce qui est le but recherché pour elles).
+    $stmt_ts = $pdo->prepare("SELECT info_modif_mdp FROM users WHERE id_user = ?");
+    $stmt_ts->execute([$id_user]);
+    $_SESSION['info_modif_mdp'] = $stmt_ts->fetchColumn();
+
     echo json_encode([
         'success' => true, 
-        'message' => 'Mot de passe mis à jour avec succès.'
+        'message' => 'Mot de passe mis à jour avec succès. Vos autres appareils connectés ont été déconnectés par sécurité.'
     ]);
 
     exit();

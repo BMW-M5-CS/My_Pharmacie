@@ -49,6 +49,12 @@ function ouvrirModalPharmacie(id){
                 notationEl.innerHTML = '<span class="pas-avis">Pas encore d\'avis</span>';
             }
 
+            notationEl.innerHTML += `
+                <a href="avis-pharmacie.php?id_pharmacie=${data.id_pharmacie}" class="lien-voir-avis">
+                    Voir tous les avis <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            `;
+
             //  ------------------- declaration des donnée de la carte et affichage ------------------
             const lat = parseFloat(data.latitude);
             const lng = parseFloat(data.longitude);

@@ -1,10 +1,12 @@
 <?php
    session_start();
-   $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+   if (empty($_SESSION['csrf_token'])) {
+       $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+   }
 
    $messages_erreur = [
         'champs_obligatoires' => 'Tous les champs sont obligatoires.',
-        'mdp_court'           => 'Le mot de passe doit contenir au moins 6 caractères.',
+        'mdp_court'           => 'Le mot de passe doit contenir au moins 8 caractères.',
         'mdp_differents'      => 'Les deux mots de passe ne sont pas identiques.',
         'contact_invalide'    => 'Le contact de récupération doit être un email ou un numéro valide.',
         'deja_utilise'        => 'Cet email ou téléphone est déjà utilisé.',

@@ -135,6 +135,25 @@ body {
     flex-shrink: 0;
 }
 
+.msg-erreur {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    background-color: #fdeaea;
+    border: 1px solid #f3b9b9;
+    border-left: 4px solid #d9534f;
+    border-radius: 10px;
+    color: #a83232;
+    font-size: 14px;
+}
+
+.msg-erreur i {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
 form {
     display: flex;
     flex-direction: column;

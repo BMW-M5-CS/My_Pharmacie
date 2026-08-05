@@ -1,0 +1,421 @@
+:root {
+    --vert-principal: #00b000;
+    --vert-fonce: #1b5e20;
+    --vert-accent: #2ecc40;
+    --vert-clair: rgba(0, 176, 0, 0.12);
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("../Dos-img/farma.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: white;
+}
+
+
+/* ======================================================================
+   Entête
+   ====================================================================== */
+
+.avis-entete {
+    position: relative;
+    width: 100%;
+    padding: 40px 20px 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.entete-fond {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(0, 176, 0, 0.25), transparent 60%);
+    pointer-events: none;
+}
+
+.entete-contenu {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    max-width: 600px;
+}
+
+.lien-retour {
+    align-self: flex-start;
+    color: white;
+    opacity: 0.85;
+    text-decoration: none;
+    font-size: 13px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lien-retour:hover {
+    opacity: 1;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.title i {
+    font-size: 28px;
+    color: #f5a623;
+}
+
+.title h1 {
+    font-size: 26px;
+    font-weight: 800;
+}
+
+.text {
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+
+/* ======================================================================
+   Section principale
+   ====================================================================== */
+
+.avis-section {
+    width: 100%;
+    background-color: white;
+    color: #222;
+    padding: 40px 20px 70px;
+    display: flex;
+    justify-content: center;
+}
+
+.avis-container {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+}
+
+.message-succes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    background-color: #eafce8;
+    border: 1px solid #b7e8ab;
+    border-left: 4px solid var(--vert-principal);
+    border-radius: 10px;
+    color: var(--vert-fonce);
+    font-size: 14px;
+}
+
+
+/* ======================================================================
+   Résumé + barres de répartition
+   ====================================================================== */
+
+.resume-notation {
+    display: flex;
+    gap: 40px;
+    padding: 28px;
+    background-color: #fafafa;
+    border-radius: 16px;
+    border: 1px solid #f0f0f0;
+    flex-wrap: wrap;
+}
+
+.resume-moyenne {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 140px;
+}
+
+.resume-chiffre {
+    font-size: 44px;
+    font-weight: 800;
+    color: var(--vert-fonce);
+    line-height: 1;
+}
+
+.resume-etoiles {
+    color: #f5a623;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+.resume-total {
+    color: #888;
+    font-size: 13px;
+}
+
+.resume-barres {
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+.barre-ligne {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.barre-label {
+    width: 42px;
+    font-size: 13px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+}
+
+.barre-label i {
+    color: #f5a623;
+    font-size: 11px;
+}
+
+.barre-fond {
+    flex: 1;
+    height: 8px;
+    background-color: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.barre-remplie {
+    height: 100%;
+    background-color: #f5a623;
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+
+.barre-total {
+    width: 24px;
+    text-align: right;
+    font-size: 12px;
+    color: #999;
+    flex-shrink: 0;
+}
+
+
+/* ======================================================================
+   Formulaire d'avis
+   ====================================================================== */
+
+.ecrire-avis h3 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 16px;
+}
+
+.avis-non-eligible {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 30px 20px;
+    background-color: #fafafa;
+    border-radius: 14px;
+    text-align: center;
+    color: #666;
+}
+
+.avis-non-eligible i {
+    font-size: 26px;
+    color: var(--vert-clair);
+}
+
+.btn-lien-conex {
+    margin-top: 6px;
+    padding: 9px 22px;
+    background-color: var(--vert-principal);
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.25s ease;
+}
+
+.btn-lien-conex:hover {
+    background-color: var(--vert-fonce);
+}
+
+
+/* Widget d'étoiles cliquables — astuce CSS pure, sans JS.
+   Les inputs radio sont cachés ; grâce à row-reverse + le sélecteur ~,
+   survoler ou cocher une étoile colore automatiquement toutes celles
+   qui la précèdent visuellement (donc "remplit" vers la gauche). */
+
+.etoiles-input {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.etoiles-input input {
+    display: none;
+}
+
+.etoiles-input label {
+    font-size: 32px;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.etoiles-input input:checked ~ label,
+.etoiles-input label:hover,
+.etoiles-input label:hover ~ label {
+    color: #f5a623;
+}
+
+textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    margin-bottom: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea:focus {
+    border-color: var(--vert-principal);
+    box-shadow: 0 0 0 3px var(--vert-clair);
+}
+
+.btn-envoyer-avis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 28px;
+    background-color: var(--vert-principal);
+    color: white;
+    border: none;
+    border-radius: 22px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+}
+
+.btn-envoyer-avis:hover {
+    background-color: var(--vert-fonce);
+}
+
+
+/* ======================================================================
+   Liste des avis
+   ====================================================================== */
+
+.liste-avis h3 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+
+.liste-avis h3 span {
+    color: var(--vert-accent);
+    font-weight: 600;
+}
+
+.aucun-avis {
+    color: #888;
+    font-style: italic;
+}
+
+.avis-item {
+    padding: 18px 0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.avis-item:last-child {
+    border-bottom: none;
+}
+
+.avis-item-haut {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.avis-auteur {
+    font-weight: 700;
+    font-size: 14px;
+    color: #222;
+}
+
+.avis-date {
+    font-size: 12px;
+    color: #999;
+}
+
+.avis-etoiles {
+    color: #f5a623;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.avis-commentaire {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+}
+
+
+/* ======================================================================
+   Responsive
+   ====================================================================== */
+
+@media (max-width: 600px) {
+
+    .resume-notation {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .resume-barres {
+        width: 100%;
+    }
+
+    .title h1 {
+        font-size: 21px;
+    }
+
+}

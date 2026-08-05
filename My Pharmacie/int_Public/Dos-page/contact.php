@@ -3,10 +3,21 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 $nom_auto               = $_SESSION['nom'] ?? '';
 $phone_email_auto       = $_SESSION['phone_email'] ?? '';
+
+$messages_erreur = [
+    'champs_obligatoires' => 'Tous les champs sont obligatoires.',
+    'technique'           => 'Une erreur technique est survenue, réessayez.',
+];
+$erreur = $messages_erreur[$_GET['erreur'] ?? ''] ?? null;
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -53,6 +64,15 @@ $phone_email_auto       = $_SESSION['phone_email'] ?? '';
                     <div class="message-succes">
                         <i class="fa-solid fa-circle-check"></i>
                         <span>Votre message a bien été envoyé ! Nous te répondrons rapidement.</span>
+                    </div>
+
+                <?php endif; ?>
+
+                <?php if ($erreur) : ?>
+
+                    <div class="msg-erreur">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span><?php echo htmlspecialchars($erreur); ?></span>
                     </div>
 
                 <?php endif; ?>

@@ -15,7 +15,8 @@ try {
     $plateforme   = 'web';
 
     if (empty($nom) || empty($phone_email) || empty($sujet) || empty($message)) {
-        die("Erreur : Tous les champs sont obligatoires.");
+        header("Location: ../Dos-page/contact.php?erreur=champs_obligatoires");
+        exit();
     }
 
     $sql = "INSERT INTO contacts (id_user, nom, phone_email, sujet, message, plateforme)
@@ -26,6 +27,10 @@ try {
     header("Location: ../Dos-page/contact.php?succes=1");
     exit();
 
-}catch (PDOException $e) {
-    echo "Erreur : " . $e->getMessage();
+} catch (PDOException $e) {
+    // On ne montre jamais le détail technique de l'erreur au visiteur,
+    // on la garde seulement dans les logs serveur.
+    error_log("Erreur envoi contact : " . $e->getMessage());
+    header("Location: ../Dos-page/contact.php?erreur=technique");
+    exit();
 }

@@ -1,10 +1,13 @@
 <?php
     session_start();
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
     $redirect = $_GET['redirect'] ?? '';
 
     $messages_erreur = [
         'identifiants_incorrects' => 'Identifiant ou mot de passe incorrect.',
+        'trop_de_tentatives'      => 'Trop de tentatives de connexion. Réessayez dans quelques minutes.',
         'technique'               => 'Une erreur technique est survenue, réessayez.',
     ];
     $erreur = $messages_erreur[$_GET['erreur'] ?? ''] ?? null;
