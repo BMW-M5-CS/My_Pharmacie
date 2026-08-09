@@ -2,17 +2,32 @@
 
 require_once '../../int_Public/Dos-php/config.php';
 
+
+// ===== Redirection si une réinitialisation de mot de passe est en attente =====
+
 if (!empty($_SESSION['reinitialisation_en_attente'])) {
+
     header("Location: ../../int_Public/Dos-page/reinitialisation_mdp.php?token=" . urlencode($_SESSION['reinitialisation_token']));
     exit();
 }
 
+
+// ===== Vérification de la session =====
+
 if (!isset($_SESSION['user_id'])) {
+
     header('Location: ../../int_Public/Dos-page/conex.php');
     exit();
 }
 
 $id_user = $_SESSION['user_id'];
+
+
+// ===== Génération du jeton CSRF, réutilisé s'il existe déjà =====
+
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 
 // ===== Récupération des infos actuelles de l'utilisateur =====
@@ -294,6 +309,8 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
     </div>
 
     <?php include '../../Include_general/footer.php'; ?>
+
+    <input type="hidden" id="csrf-token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
     <script src="../Dos-js/profil.js"></script>
 

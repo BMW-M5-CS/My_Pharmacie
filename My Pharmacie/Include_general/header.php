@@ -24,7 +24,7 @@ if ($est_connecte) {
 
     <a href="<?php echo $est_connecte ? '../../int_Client/Dos-page/acceuil.php' : '../../int_Public/Dos-page/acceuil.php'; ?>" class="logo">
         <i class="fa-solid fa-mortar-pestle"></i>
-        <span>My<strong>Pharmacie</strong></span>
+        <span>Ma<strong>Pharmacie</strong></span>
     </a>
 
 

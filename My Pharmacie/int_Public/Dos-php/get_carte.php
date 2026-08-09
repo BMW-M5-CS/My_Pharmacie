@@ -1,7 +1,8 @@
 <?php
+
 require_once 'config.php';
 
-$sql  = "SELECT nom_pharmacie, adresse, ville, commune, quartier,
+$sql  = "SELECT id_pharmacie, nom_pharmacie, adresse, ville, commune, quartier,
                 latitude, longitude, statut_garde,
                 heure_ouverture, heure_fermeture, telephone_pharmacie
          FROM pharmacies

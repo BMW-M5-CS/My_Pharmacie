@@ -1,27 +1,49 @@
 <?php
+
 require_once '../../int_Public/Dos-php/config.php';
 
+
+// ===== Vérification de la session =====
+
 if (!isset($_SESSION['user_id'])) {
+
     header('Location: ../../int_Public/Dos-page/conex.php');
     exit();
 }
 
+
+// ===== Vérification du paramètre id_pharmacie =====
+
 $id_pharmacie = $_GET['id_pharmacie'] ?? null;
+
 if (!$id_pharmacie || !is_numeric($id_pharmacie)) {
+
     header('Location: ../../int_Public/Dos-page/pharmacie.php');
     exit();
 }
 
 $produit_init = $_GET['produit'] ?? null;
 
+
+// ===== Génération du jeton CSRF, réutilisé s'il existe déjà =====
+
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+
+// ===== Récupération des infos de la pharmacie =====
+
 $sql = "SELECT id_pharmacie, nom_pharmacie, adresse, ville, commune, quartier,
                heure_ouverture, heure_fermeture, telephone_pharmacie, statut_garde
         FROM pharmacies WHERE id_pharmacie = ?";
+
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$id_pharmacie]);
 $pharmacie = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$pharmacie) {
+
     header('Location: ../../int_Public/Dos-page/pharmacie.php');
     exit();
 }
@@ -143,6 +165,8 @@ if (!$pharmacie) {
             <a href="../Dos-page/acceuil.php" class="resa-confirm-btn">Retour à mon espace</a>
         </div>
     </div>
+
+    <input type="hidden" id="csrf-token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
     <script src="../Dos-js/reservation.js"></script>
 </body>

@@ -1,0 +1,288 @@
+:root {
+    --vert-principal: #00b000;
+    --vert-fonce: #1b5e20;
+    --vert-accent: #2ecc40;
+    --vert-clair: rgba(0, 176, 0, 0.12);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #f7f7f7;
+    color: #222;
+}
+
+
+/* ======================================================================
+   Entête
+   ====================================================================== */
+
+.historique-hero {
+    background-color: black;
+    padding: 28px 60px 24px 60px;
+    flex-shrink: 0;
+}
+
+.historique-retour {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #777;
+    font-size: 12px;
+    text-decoration: none;
+    margin-bottom: 16px;
+}
+
+.historique-retour:hover {
+    color: #2ecc40;
+}
+
+.historique-eyebrow {
+    display: block;
+    color: #2ecc40;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.historique-hero-haut {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.historique-hero h1 {
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.historique-hero h1 i {
+    color: #2ecc40;
+    font-size: 22px;
+}
+
+.historique-hero p {
+    color: #aaa;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.btn-vider {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    background-color: #fdecea;
+    color: #c0392b;
+    border: 1px solid #f3c2bc;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-vider:hover {
+    background-color: #f8d3ce;
+}
+
+
+/* ======================================================================
+   Section principale
+   ====================================================================== */
+
+.historique-section {
+    padding: 30px 40px 60px;
+}
+
+.message-succes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    background-color: #eafce8;
+    border: 1px solid #b7e8ab;
+    border-left: 4px solid var(--vert-principal);
+    border-radius: 10px;
+    color: var(--vert-fonce);
+    font-size: 14px;
+}
+
+.aucun-historique {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 70px 20px;
+    color: #999;
+    text-align: center;
+}
+
+.aucun-historique i {
+    font-size: 40px;
+    color: var(--vert-clair);
+}
+
+.btn-parcourir {
+    margin-top: 6px;
+    padding: 10px 26px;
+    background-color: var(--vert-principal);
+    color: white;
+    text-decoration: none;
+    border-radius: 22px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.25s ease;
+}
+
+.btn-parcourir:hover {
+    background-color: var(--vert-fonce);
+}
+
+
+/* ======================================================================
+   Grille des cartes
+   ====================================================================== */
+
+.grille-historique {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 22px;
+}
+
+.carte-historique {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid #eee;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.25s ease;
+}
+
+.carte-historique:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.carte-historique-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: var(--vert-clair);
+}
+
+.carte-historique-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.carte-historique-corps {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px;
+}
+
+.carte-historique-corps h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #222;
+}
+
+.carte-historique-forme {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #999;
+}
+
+.carte-historique-bas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    padding-top: 10px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.carte-historique-prix {
+    font-weight: 800;
+    color: var(--vert-fonce);
+    font-size: 14px;
+}
+
+.carte-historique-date {
+    font-size: 11px;
+    color: #aaa;
+}
+
+.btn-voir-produit-historique {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+    width: 100%;
+    height: 38px;
+    background-color: var(--vert-principal);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+}
+
+.btn-voir-produit-historique:hover {
+    background-color: var(--vert-fonce);
+}
+
+.historique-scroll {
+    height: calc(400vh - 300px);
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+
+/* ======================================================================
+   Responsive
+   ====================================================================== */
+
+@media (max-width: 700px) {
+
+    .historique-entete,
+    .historique-section {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .historique-entete-haut {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn-vider {
+        width: 100%;
+        justify-content: center;
+    }
+
+}

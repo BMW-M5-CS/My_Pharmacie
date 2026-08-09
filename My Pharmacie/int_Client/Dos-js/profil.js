@@ -1,15 +1,16 @@
+// ===================================================================
+// VARIABLES GLOBALES
+// ===================================================================
 
-// section des variable globales
+const btnModifierInfos   = document.getElementById("btn-modifier-infos");
+const btnAnnulerInfos    = document.getElementById("btn-annuler-infos");
+const btnEnregistrerInfo = document.getElementById("btn-enregistrer-infos");
+const infosLecture       = document.getElementById("infos-lecture");
+const infosEdition       = document.getElementById("infos-edition");
+const messageInfos       = document.getElementById("message-infos");
 
-const btnModifierInfos      = document.getElementById("btn-modifier-infos");
-const btnAnnulerInfos       = document.getElementById("btn-annuler-infos");
-const btnEnregistrerInfo    = document.getElementById("btn-enregistrer-infos");
-const infosLecture          = document.getElementById("infos-lecture");
-const infosEdition          = document.getElementById("infos-edition");
-const messageInfos          = document.getElementById("message-infos");
-
-const btnEnregistrerMdp     = document.getElementById("btn-enregistrer-mdp");
-const messageMdp            = document.getElementById("message-mdp");
+const btnEnregistrerMdp = document.getElementById("btn-enregistrer-mdp");
+const messageMdp        = document.getElementById("message-mdp");
 
 const overlay               = document.getElementById("profil-overlay");
 const modaleAnnuler         = document.getElementById("modale-annuler");
@@ -18,10 +19,10 @@ const mdpConfirmationModale = document.getElementById("mdp-confirmation-modale")
 const messageModale         = document.getElementById("message-modale");
 
 
+// ===================================================================
+// SECTION 1 — ÉDITION DES INFOS PERSONNELLES
+// ===================================================================
 
-
-
-// section d'edition des infos personnelles
 btnModifierInfos.addEventListener("click", function() {
 
     infosLecture.style.display = "none";
@@ -30,12 +31,11 @@ btnModifierInfos.addEventListener("click", function() {
     btnModifierInfos.style.display = "none";
 
     messageInfos.textContent = "";
-    messageInfos.className = "profil-message";
-
+    messageInfos.className   = "profil-message";
 });
 
 
-// Annulation de l'edition des infos personnelles
+// ----- Annulation de l'édition des infos personnelles -----
 
 btnAnnulerInfos.addEventListener("click", function() {
 
@@ -50,24 +50,23 @@ btnAnnulerInfos.addEventListener("click", function() {
     document.getElementById('edit-contact-recuperation').value = (document.getElementById('lecture-contact-recuperation').textContent.trim() === 'Non renseigné') ? '' : document.getElementById('lecture-contact-recuperation').textContent.trim();
 
     messageInfos.textContent = "";
-    messageInfos.className = "profil-message";
-
+    messageInfos.className   = "profil-message";
 });
 
 
-//Click sur Enregistrer avec l'ouverture du modal de confirmation
+// ----- Clic sur "Enregistrer" : ouverture du modal de confirmation -----
 
 btnEnregistrerInfo.addEventListener("click", function() {
+
     const nom                 = document.getElementById('edit-nom').value.trim();
-    const prenom              = document.getElementById('edit-prenom').value.trim();
+    const prenom               = document.getElementById('edit-prenom').value.trim();
     const phoneEmail          = document.getElementById('edit-phone-email').value.trim();
     const contactRecuperation = document.getElementById('edit-contact-recuperation').value.trim();
-    
-    //validation rapide avant l'ouverture du modal
 
+    // Validation rapide avant l'ouverture du modal
     if (!nom || !prenom || !phoneEmail) {
-       afficherMessage(messageInfos, "Tous les champs sont obligatoires.", "erreur");
-       return;
+        afficherMessage(messageInfos, "Tous les champs sont obligatoires.", "erreur");
+        return;
     }
 
     // Ouverture du modal de confirmation
@@ -78,24 +77,29 @@ btnEnregistrerInfo.addEventListener("click", function() {
 });
 
 
-// section modale de confirmation 
+// ===================================================================
+// SECTION 2 — MODALE DE CONFIRMATION
+// ===================================================================
 
 modaleAnnuler.addEventListener('click', function() {
     overlay.classList.remove('actif');
 });
 
 overlay.addEventListener('click', function(e) {
-    if (e.target === overlay){
+
+    if (e.target === overlay) {
         overlay.classList.remove('actif');
     }
 });
 
-//confirmation envoyer les modification au backend 
-modaleConfirmer.addEventListener('click', function(){
+
+// ----- Confirmation : envoi des modifications au backend -----
+
+modaleConfirmer.addEventListener('click', function() {
 
     const mdpActuel = mdpConfirmationModale.value.trim();
 
-    if(!mdpActuel){
+    if (!mdpActuel) {
         afficherMessage(messageModale, 'Veuillez entrer votre mode passe.', 'erreur ');
         return;
     }
@@ -110,20 +114,22 @@ modaleConfirmer.addEventListener('click', function(){
 
     fetch('../Dos-php/traite_profil.php', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            action:              'modifier_infos',
-            nom:                  nom,
-            prenom:               prenom,
-            phone_email:          phoneEmail,
-            contact_recuperation: contactRecuperation,
-            mdp_actuel:           mdpActuel
+            action:               'modifier_infos',
+            csrf_token:            document.getElementById('csrf-token').value,
+            nom:                   nom,
+            prenom:                prenom,
+            phone_email:           phoneEmail,
+            contact_recuperation:  contactRecuperation,
+            mdp_actuel:            mdpActuel
         })
     })
     .then(function(response) { return response.json(); })
     .then(function(data) {
 
-        if(data.success) {
+        if (data.success) {
+
             // Fermer la modale
             overlay.classList.remove('actif');
 
@@ -134,7 +140,7 @@ modaleConfirmer.addEventListener('click', function(){
             document.getElementById('lecture-contact-recuperation').textContent = data.contact_recuperation || 'Non renseigné';
 
             // Mettre à jour la carte avatar
-            document.getElementById('profil-nom-complet').textContent       = data.prenom + ' ' + data.nom;
+            document.getElementById('profil-nom-complet').textContent        = data.prenom + ' ' + data.nom;
             document.getElementById('profil-phone-email-resume').textContent = data.phone_email;
 
             // Mettre à jour les initiales de l'avatar
@@ -142,8 +148,8 @@ modaleConfirmer.addEventListener('click', function(){
             document.querySelector('.profil-avatar').textContent = initiales;
 
             // Repasser en mode lecture
-            infosEdition.style.display  = 'none';
-            infosLecture.style.display  = 'block';
+            infosEdition.style.display     = 'none';
+            infosLecture.style.display     = 'block';
             btnModifierInfos.style.display = 'flex';
 
             afficherMessage(messageInfos, 'Informations mises à jour avec succès.', 'succes');
@@ -151,27 +157,26 @@ modaleConfirmer.addEventListener('click', function(){
         } else {
             afficherMessage(messageModale, data.message, 'erreur');
         }
-
     })
     .catch(function() {
         afficherMessage(messageModale, 'Erreur réseau. Veuillez réessayer.', 'erreur');
     })
-
     .finally(function() {
-        modaleConfirmer.disabled    = false;
-        modaleConfirmer.innerHTML   = '<i class="fa-solid fa-check"></i> Confirmer';
+        modaleConfirmer.disabled  = false;
+        modaleConfirmer.innerHTML = '<i class="fa-solid fa-check"></i> Confirmer';
     });
-})
+});
 
 
+// ===================================================================
+// SECTION 3 — CHANGEMENT DU MOT DE PASSE
+// ===================================================================
 
-
-// section changement du mot de passe 
 btnEnregistrerMdp.addEventListener('click', function() {
 
-    const mdpActuel   = document.getElementById('mdp-actuel').value.trim();
-    const nouveauMdp  = document.getElementById('nouveau-mdp').value.trim();
-    const confirmMdp  = document.getElementById('confirm-mdp').value.trim();
+    const mdpActuel  = document.getElementById('mdp-actuel').value.trim();
+    const nouveauMdp = document.getElementById('nouveau-mdp').value.trim();
+    const confirmMdp = document.getElementById('confirm-mdp').value.trim();
 
     // Validation côté client
     if (!mdpActuel || !nouveauMdp || !confirmMdp) {
@@ -184,8 +189,8 @@ btnEnregistrerMdp.addEventListener('click', function() {
         return;
     }
 
-    if (nouveauMdp.length < 6) {
-        afficherMessage(messageMdp, 'Le mot de passe doit contenir au moins 6 caractères.', 'erreur');
+    if (nouveauMdp.length < 8) {
+        afficherMessage(messageMdp, 'Le mot de passe doit contenir au moins 8 caractères.', 'erreur');
         return;
     }
 
@@ -197,6 +202,7 @@ btnEnregistrerMdp.addEventListener('click', function() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             action:       'modifier_mdp',
+            csrf_token:   document.getElementById('csrf-token').value,
             mdp_actuel:   mdpActuel,
             nouveau_mdp:  nouveauMdp,
             confirmation: confirmMdp
@@ -217,20 +223,21 @@ btnEnregistrerMdp.addEventListener('click', function() {
         } else {
             afficherMessage(messageMdp, data.message, 'erreur');
         }
-
     })
     .catch(function() {
         afficherMessage(messageMdp, 'Erreur réseau. Veuillez réessayer.', 'erreur');
     })
     .finally(function() {
-        btnEnregistrerMdp.disabled   = false;
-        btnEnregistrerMdp.innerHTML  = '<i class="fa-solid fa-lock"></i> Changer le mot de passe';
+        btnEnregistrerMdp.disabled  = false;
+        btnEnregistrerMdp.innerHTML = '<i class="fa-solid fa-lock"></i> Changer le mot de passe';
     });
-
 });
 
 
-// section fonction d'affichage et maquage du mot de passe 
+// ===================================================================
+// SECTION 4 — AFFICHAGE / MASQUAGE DU MOT DE PASSE
+// ===================================================================
+
 document.querySelectorAll('.profil-toggle-mdp').forEach(function(icone) {
 
     icone.addEventListener('click', function() {
@@ -238,20 +245,21 @@ document.querySelectorAll('.profil-toggle-mdp').forEach(function(icone) {
         const cible = document.getElementById(this.dataset.cible);
 
         if (cible.type === 'password') {
-            cible.type      = 'text';
-            this.className  = this.className.replace('fa-eye', 'fa-eye-slash');
+            cible.type     = 'text';
+            this.className = this.className.replace('fa-eye', 'fa-eye-slash');
         } else {
-            cible.type      = 'password';
-            this.className  = this.className.replace('fa-eye-slash', 'fa-eye');
+            cible.type     = 'password';
+            this.className = this.className.replace('fa-eye-slash', 'fa-eye');
         }
-
     });
-
 });
 
 
-// section fonction d'affichage des messages
-function afficherMessage(element, texte, type ) {
+// ===================================================================
+// SECTION 5 — AFFICHAGE DES MESSAGES
+// ===================================================================
+
+function afficherMessage(element, texte, type) {
 
     element.textContent = texte;
     element.className   = 'profil-message profil-message-' + type;
@@ -263,7 +271,4 @@ function afficherMessage(element, texte, type ) {
             element.className   = 'profil-message';
         }, 4000);
     }
-
 }
-
-

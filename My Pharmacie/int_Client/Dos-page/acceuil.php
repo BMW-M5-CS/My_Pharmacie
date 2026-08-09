@@ -174,32 +174,49 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
             </div>
 
             <div class="card actions-card">
-                <div class="card-title"><span><i class="fa-solid fa-bolt"></i> Actions rapides</span></div>
+
+                <div class="card-title">
+                    <span>
+                        <i class="fa-solid fa-bolt"></i> Actions rapides
+                    </span>
+                </div>
+
                 <a href="../../int_Public/Dos-page/produit.php" class="action-btn">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <span>Chercher un médicament</span>
                     <i class="fa-solid fa-chevron-right arrow"></i>
                 </a>
+
                 <a href="../../int_Public/Dos-page/pharmacie.php" class="action-btn">
                     <i class="fa-solid fa-location-dot"></i>
                     <span>Trouver une pharmacie</span>
                     <i class="fa-solid fa-chevron-right arrow"></i>
                 </a>
+
                 <a href="../../int_Public/Dos-page/carte.php" class="action-btn">
                     <i class="fa-solid fa-map"></i>
                     <span>Voir la carte</span>
                     <i class="fa-solid fa-chevron-right arrow"></i>
                 </a>
+
                 <a href="../Dos-page/mes_reservations.php" class="action-btn">
                     <i class="fa-solid fa-clipboard-list"></i>
                     <span>Toutes mes réservations</span>
                     <i class="fa-solid fa-chevron-right arrow"></i>
                 </a>
+
+                <a href="../Dos-page/historique.php" class="action-btn">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Mon historique</span>
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+                </a>
+
                 <a href="../../int_Public/Dos-page/contact.php" class="action-btn">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Nous contacter</span>
                     <i class="fa-solid fa-chevron-right arrow"></i>
                 </a>
+                
             </div>
         </div>
 

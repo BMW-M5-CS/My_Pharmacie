@@ -28,11 +28,17 @@ session_start();
         </p>
 
         <form method="GET" action="../Dos-page/produit.php" class="">
-            <div class="search-box">
-                <input type="text" name="recherche" class="recherche" placeholder="Rechercher... ">
-                <button type="submit" class="btn-search">
-                    <i class="fas fa-search"></i> search
-                </button>
+            <div class="search-box-wrapper">
+
+                <div class="search-box">
+                    <input type="text" name="recherche" class="recherche sreach_input" id="champ-recherche-input" placeholder="Rechercher... ">
+                    <button type="submit" class="btn-search">
+                        <i class="fas fa-search"></i> search
+                    </button>
+                </div>
+
+                <div class="suggestions-liste" id="suggestions-liste"></div>
+
             </div>
         </form>
 
@@ -40,6 +46,7 @@ session_start();
 
         <?php include'../../Include_general/footer.php'; ?>
 
-    
+    <script src="../Dos-js/autocomplete-produit.js"></script>
+
 </body>
 </html>

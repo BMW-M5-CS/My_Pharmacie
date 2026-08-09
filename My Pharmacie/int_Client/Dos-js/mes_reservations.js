@@ -81,7 +81,10 @@ btnOui.addEventListener('click', function() {
     fetch('../Dos-php/annuler_reservation.php', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ code_reservation: codeAnnulationEnCours })
+        body:    JSON.stringify({
+            csrf_token: document.getElementById('csrf-token').value,
+            code_reservation: codeAnnulationEnCours
+        })
     })
     .then(function(response) { return response.json(); })
     .then(function(data) {
@@ -130,7 +133,7 @@ document.querySelectorAll('.mresa-btn-renouveler').forEach(function(btn) {
 });
 
 function lancerRenouvellement(code, produitsChoisis) {
-    const corps = { code_reservation: code };
+    const corps = { code_reservation: code, csrf_token: document.getElementById('csrf-token').value };
     if (produitsChoisis !== null) {
         corps.produits_choisis = produitsChoisis;
     }
@@ -178,7 +181,7 @@ function afficherModaleSucces(nouveauCode, expireAt, ancienCode) {
     document.getElementById('mresa-succes-code').textContent   = nouveauCode;
     document.getElementById('mresa-succes-expire').textContent = expireAt;
     overlaySucces.classList.add('actif');
-    mettreAJourCarteRenouvele(ancienCode);
+    mettreAJourCarteRenouvele(ancienCode, nouveauCode);
     mettreAJourCompteurs();
 }
 
@@ -190,19 +193,45 @@ overlaySucces.addEventListener('click', function(e) {
     if (e.target === overlaySucces) overlaySucces.classList.remove('actif');
 });
 
-function mettreAJourCarteRenouvele(code) {
-    const btn = document.querySelector('.mresa-btn-renouveler[data-code="' + code + '"]');
+function mettreAJourCarteRenouvele(ancienCode, nouveauCode) {
+
+    const btn = document.querySelector('.mresa-btn-renouveler[data-code="' + ancienCode + '"]');
     if (!btn) return;
+
     const carte = btn.closest('.mresa-carte');
     if (!carte) return;
-    btn.remove();
-    const foot = carte.querySelector('.mresa-carte-foot');
-    if (foot) {
-        const msg = document.createElement('span');
-        msg.className   = 'mresa-renouvele-info';
-        msg.textContent = '✓ Réservation renouvelée avec succès';
-        foot.appendChild(msg);
+
+
+    // ----- Mise à jour du badge de statut -----
+
+    const badge = carte.querySelector('.badge');
+    if (badge) {
+        badge.className   = 'badge badge-renouvele';
+        badge.textContent = 'Renouvelée';
     }
+
+
+    // ----- Ajout de la ligne "Renouvelée vers RES-XXXX", comme côté serveur -----
+
+    const dates = carte.querySelector('.mresa-dates');
+    if (dates) {
+        const ligne = document.createElement('span');
+        ligne.className = 'mresa-date-ligne mresa-renouvele-info';
+        ligne.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Renouvelée vers ' + echapperHtmlLocal(nouveauCode);
+        dates.appendChild(ligne);
+    }
+
+    btn.remove();
+    carte.dataset.statut = 'renouvele';
+}
+
+
+// Échappe le texte avant de l'insérer dans du HTML (le code de réservation est généré
+// côté serveur donc sans risque réel, mais on reste cohérent avec le reste du site)
+function echapperHtmlLocal(texte) {
+    const div = document.createElement('div');
+    div.textContent = texte ?? '';
+    return div.innerHTML;
 }
 
 // ===================================================================

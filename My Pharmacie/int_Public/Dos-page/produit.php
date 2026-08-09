@@ -268,7 +268,9 @@ function imagePlaceholderProduit($id) {
 
     <?php include '../../Include_general/footer.php'; ?>
 
+    <script src="../Dos-js/distance-utils.js"></script>
     <script src="../Dos-js/modal-pharmacie.js"></script>
+    <script src="../Dos-js/autocomplete-produit.js"></script>
     <script src="../Dos-js/produit.js"></script>
 
 </body>

@@ -41,7 +41,9 @@ $sql_pharmacies = "SELECT
                      p.quartier,
                      p.telephone_pharmacie,
                      p.heure_ouverture,
-                     p.heure_fermeture
+                     p.heure_fermeture,
+                     p.latitude,
+                     p.longitude
                 FROM pharmacies p JOIN stocks s ON s.id_pharmacie = p.id_pharmacie 
                 WHERE s.id_produit = ? AND s.quantite_disponible > 0
                 ORDER BY p.nom_pharmacie ASC";

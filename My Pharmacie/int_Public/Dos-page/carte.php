@@ -1,7 +1,7 @@
 <?php
 require_once '../Dos-php/config.php';
 
-$sql = "SELECT nom_pharmacie, adresse, ville, latitude, longitude, 
+$sql = "SELECT id_pharmacie, nom_pharmacie, adresse, ville, latitude, longitude, 
                statut_garde, heure_ouverture, heure_fermeture, telephone_pharmacie
         FROM pharmacies
         ORDER BY nom_pharmacie ASC";
@@ -22,7 +22,7 @@ $pharmacies = $stmt->fetchAll();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 </head>
-<body>
+<body data-connecte="<?php echo isset($_SESSION['user_id']) ? '1' : '0'; ?>">
 
     <?php include '../../Include_general/header.php'; ?>
     <script src="../Dos-js/header.js" defer></script>
@@ -41,9 +41,33 @@ $pharmacies = $stmt->fetchAll();
 
             <p class="text">Retrouvez toutes les pharmacies partenaires localisées sur la carte</p>
 
-            <button class="btn-geoloc" id="btn-geoloc">
-                <i class="fas fa-location-crosshairs"></i> Me localiser
-            </button>
+            <div class="entete_input">
+
+                <div class="champ-recherche-wrapper">
+
+                    <div class="champ-recherche">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="carte-recherche-produit-input" class="sreach_input" placeholder="Chercher un médicament (ex : Paracétamol)" autocomplete="off">
+                        <button type="button" id="carte-recherche-produit-effacer" class="carte-recherche-effacer" title="Effacer la recherche">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <div class="carte-suggestions-produit" id="carte-suggestions-produit"></div>
+
+                </div>
+
+                <button type="button" id="carte-recherche-produit-btn" class="sreach_btn">
+                    <i class="fas fa-search"></i> Rechercher
+                </button>
+
+                <button class="sreach_btn" id="btn-geoloc">
+                    <i class="fas fa-location-crosshairs"></i> Me localiser
+                </button>
+
+            </div>
+
+            <div class="carte-recherche-statut" id="carte-recherche-statut"></div>
 
         </div>
 
@@ -59,6 +83,9 @@ $pharmacies = $stmt->fetchAll();
         </div>
         <div class="legende-item">
             <span class="legende-dot dot-bleu"></span> Votre position
+        </div>
+        <div class="legende-item">
+            <span class="legende-dot dot-or"></span> La plus proche avec ce produit
         </div>
     </div>
 
@@ -98,6 +125,10 @@ $pharmacies = $stmt->fetchAll();
                             <?php endif; ?>
                         </div>
 
+                        <button class="pharm-btn-voir" data-id="<?php echo $p['id_pharmacie']; ?>">
+                            <i class="fa-solid fa-store"></i> Voir la pharmacie
+                        </button>
+
                     </div>
 
                 <?php endforeach; ?>
@@ -112,9 +143,56 @@ $pharmacies = $stmt->fetchAll();
 
     <div id="msg-geoloc"></div>
 
+
+    <div class="fenetre-pharmacie" id="modal-pharmacie">
+        <div class="modal-contenu-pharmacie">
+
+            <button class="modal-fermer-pharmacie" id="modal-fermer-pharmacie">&times;</button>
+
+            <div class="modal-haut-pharmacie">
+
+                <div class="modal-image-pharmacie">
+                    <img id="modal-image-pharmacie-img" src="" alt="">
+                </div>
+
+                <div class="modal-infos-pharmacie">
+
+                    <h2 id="modal-nom-pharmacie"></h2>
+
+                    <div class="modal-notation" id="modal-notation"></div>
+
+                    <div class="modal-infos-liste">
+                        <p><i class="fa-solid fa-location-dot"></i> <span id="modal-adresse"></span></p>
+                        <p><i class="fa-solid fa-city"></i> <span id="modal-ville"></span></p>
+                        <p><i class="fa-solid fa-map"></i> <span id="modal-commune"></span></p>
+                        <p><i class="fa-solid fa-map-pin"></i> <span id="modal-quartier"></span></p>
+                        <p><i class="fa-solid fa-clock"></i> <span id="modal-horaire"></span></p>
+                        <p><i class="fa-solid fa-phone"></i> <span id="modal-telephone"></span></p>
+                        <p><i class="fa-solid fa-circle"></i> <span id="modal-garde"></span></p>
+                    </div>
+
+                </div>
+
+                <div class="modal-carte" id="modal-carte"></div>
+
+            </div>
+
+            <div class="modal-separateur-pharmacie"></div>
+
+            <div class="modal-bas-pharmacie">
+                <h3>Produits disponibles <span id="modal-nb-produits"></span></h3>
+                <div class="modal-produits-grille" id="modal-liste-produits"></div>
+            </div>
+
+        </div>
+    </div>
+
+
     <?php include '../../Include_general/footer.php'; ?>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../Dos-js/distance-utils.js"></script>
+    <script src="../Dos-js/modal-pharmacie.js"></script>
     <script src="../Dos-js/carte.js"></script>
 
 </body>

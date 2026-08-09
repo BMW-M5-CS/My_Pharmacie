@@ -1,7 +1,12 @@
 <?php
+
 require_once '../../int_Public/Dos-php/config.php';
 
+
+// ===== Vérification de la session =====
+
 if (!isset($_SESSION['user_id'])) {
+
     header('Location: ../../int_Public/Dos-page/conex.php');
     exit();
 }
@@ -9,13 +14,23 @@ if (!isset($_SESSION['user_id'])) {
 $id_user = $_SESSION['user_id'];
 $prenom  = $_SESSION['prenom'] ?? '';
 
+
+// ===== Génération du jeton CSRF, réutilisé s'il existe déjà =====
+
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+
 // ===== Récupération de toutes les réservations =====
+
 $sql = "SELECT
             r.code_reservation,
             r.statut,
             r.date_reservation,
             r.expire_at,
             r.quantite_reservee,
+            r.reserve_code_renouvele,
             ph.nom_pharmacie,
             ph.ville,
             ph.quartier,
@@ -32,20 +47,24 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute([$id_user]);
 $lignes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
 // ===== Regroupement PHP par code_reservation =====
+
 $groupes = [];
+
 foreach ($lignes as $ligne) {
     $code = $ligne['code_reservation'];
     if (!isset($groupes[$code])) {
         $groupes[$code] = [
-            'code_reservation' => $code,
-            'statut'           => $ligne['statut'],
-            'date_reservation' => $ligne['date_reservation'],
-            'expire_at'        => $ligne['expire_at'],
-            'nom_pharmacie'    => $ligne['nom_pharmacie'],
-            'ville'            => $ligne['ville'],
-            'quartier'         => $ligne['quartier'],
-            'produits'         => []
+            'code_reservation'       => $code,
+            'statut'                 => $ligne['statut'],
+            'date_reservation'       => $ligne['date_reservation'],
+            'expire_at'              => $ligne['expire_at'],
+            'reserve_code_renouvele' => $ligne['reserve_code_renouvele'],
+            'nom_pharmacie'          => $ligne['nom_pharmacie'],
+            'ville'                  => $ligne['ville'],
+            'quartier'               => $ligne['quartier'],
+            'produits'               => []
         ];
     }
     $groupes[$code]['produits'][] = [
@@ -145,6 +164,7 @@ $badges = [
             </div>
 
         <?php else : ?>
+            
             <?php foreach ($groupes as $groupe) :
                 $badge         = $badges[$groupe['statut']] ?? ['label' => $groupe['statut'], 'classe' => 'badge-expire'];
                 $date_formatee = date('d/m/Y à H:i', strtotime($groupe['date_reservation']));
@@ -154,21 +174,27 @@ $badges = [
 
                     <!-- En-tête -->
                     <div class="mresa-carte-head">
+
                         <div class="mresa-head-left">
+
                             <span class="mresa-code">
                                 <i class="fa-solid fa-tag"></i>
                                 <?php echo htmlspecialchars($groupe['code_reservation']); ?>
                             </span>
+
                             <span class="mresa-pharmacie">
                                 <i class="fa-solid fa-location-dot"></i>
                                 <?php echo htmlspecialchars($groupe['nom_pharmacie']); ?> —
                                 <?php echo htmlspecialchars($groupe['ville']); ?>,
                                 <?php echo htmlspecialchars($groupe['quartier']); ?>
                             </span>
+
                         </div>
+
                         <span class="badge <?php echo $badge['classe']; ?>">
                             <?php echo $badge['label']; ?>
                         </span>
+
                     </div>
 
                    <!-- Produits en grille -->
@@ -177,13 +203,16 @@ $badges = [
                         <?php foreach ($groupe['produits'] as $produit) : ?>
 
                             <div class="mresa-produit-tuile">
+
                                 <i class="fa-solid fa-pills"></i>
                                 <span class="mresa-produit-nom">
                                     <?php echo htmlspecialchars($produit['nom']); ?>
                                 </span>
+
                                 <span class="mresa-produit-forme">
                                     <?php echo htmlspecialchars($produit['forme']); ?>
                                 </span>
+
                                 <span class="mresa-produit-qte">
                                     Qté : <?php echo (int)$produit['quantite']; ?>
                                 </span>
@@ -194,16 +223,26 @@ $badges = [
 
                     <!-- Pied de carte -->
                     <div class="mresa-carte-foot">
+
                         <div class="mresa-dates">
+
                             <span class="mresa-date-ligne">
                                 <i class="fa-regular fa-calendar"></i>
                                 Réservé le <?php echo $date_formatee; ?>
                             </span>
+
                             <?php if ($groupe['statut'] === 'en_attente') : ?>
                                 <span class="mresa-date-ligne mresa-expire-info">
                                     <i class="fa-solid fa-hourglass-half"></i>
                                     Expire le <?php echo $expire_fmt; ?>
                                 </span>
+
+                            <?php elseif ($groupe['statut'] === 'renouvele' && !empty($groupe['reserve_code_renouvele'])) : ?>
+                                <span class="mresa-date-ligne mresa-renouvele-info">
+                                    <i class="fa-solid fa-rotate-right"></i>
+                                    Renouvelée vers <?php echo htmlspecialchars($groupe['reserve_code_renouvele']); ?>
+                                </span>
+
                             <?php endif; ?>
                         </div>
 
@@ -266,15 +305,20 @@ $badges = [
 
     <!-- ===== Modale succès renouvellement ===== -->
 <div class="mresa-overlay" id="mresa-overlay-succes">
+
     <div class="mresa-modale">
+
         <i class="fa-solid fa-circle-check" style="font-size:44px; color:#2ecc40; display:block; margin-bottom:14px;"></i>
         <h3>Réservation renouvelée !</h3>
+
         <p>Votre nouveau code de réservation est :</p>
         <div class="mresa-code-affiche" id="mresa-succes-code"></div>
+
         <p class="mresa-succes-expire">
             Valable jusqu'au <strong id="mresa-succes-expire"></strong>.<br>
             Présentez-vous à la pharmacie avant cette heure.
         </p>
+
         <div class="mresa-modale-btns">
             <button class="mresa-modale-oui" id="mresa-succes-fermer">Fermer</button>
         </div>
@@ -283,23 +327,30 @@ $badges = [
 
 <!-- ===== Modale renouvellement partiel (3 choix) ===== -->
 <div class="mresa-overlay" id="mresa-overlay-partiel">
+
     <div class="mresa-modale mresa-modale-large">
+
         <i class="fa-solid fa-triangle-exclamation" style="font-size:40px; color:#e67e22; display:block; margin-bottom:14px;"></i>
         <h3>Stock modifié</h3>
+
         <p>Certains produits de votre réservation ne sont plus disponibles en quantité suffisante :</p>
         <div class="mresa-partiel-liste" id="mresa-partiel-liste"></div>
         <p class="mresa-partiel-question">Que souhaitez-vous faire ?</p>
 
         <div class="mresa-partiel-btns">
+
             <button class="mresa-partiel-btn-prendre" id="mresa-partiel-prendre">
                 <i class="fa-solid fa-check"></i> Prendre le reste
             </button>
+
             <button class="mresa-partiel-btn-modifier" id="mresa-partiel-modifier">
                 <i class="fa-solid fa-pen-to-square"></i> Modifier la réservation
             </button>
+
             <button class="mresa-partiel-btn-refaire" id="mresa-partiel-refaire">
                 <i class="fa-solid fa-rotate-left"></i> Refaire la composition complète
             </button>
+            
             <button class="mresa-partiel-btn-abandonner" id="mresa-partiel-abandonner">
                 <i class="fa-solid fa-xmark"></i> Abandonner
             </button>
@@ -307,6 +358,8 @@ $badges = [
 
     </div>
 </div>
+
+    <input type="hidden" id="csrf-token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
     <script src="../Dos-js/mes_reservations.js"></script>
 </body>

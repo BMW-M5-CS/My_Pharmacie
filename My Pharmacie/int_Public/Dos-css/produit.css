@@ -415,6 +415,37 @@ body.modal-ouvert {
 }
 
 
+/* ── Barre sticky (nom du produit + fermeture), reste visible au défilement ── */
+
+.modal-barre-sticky-produit {
+    position: sticky;
+    top: 0;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 56px 12px 22px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #f0f0f0;
+    border-radius: 18px 18px 0 0;
+}
+
+.modal-nom-produit-sticky {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--vert-fonce);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.modal-barre-sticky-produit .modal-fermer-produit {
+    position: static;
+    flex-shrink: 0;
+    margin-left: 12px;
+}
+
+
 .modal-haut-produit {
     padding: 28px 28px 24px;
     display: flex;
@@ -503,6 +534,89 @@ body.modal-ouvert {
     font-weight: 600;
 }
 
+
+/* ── Recherche d'une pharmacie précise à l'intérieur du modal produit ── */
+
+.modal-recherche-pharmacie-wrapper {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.modal-recherche-pharmacie-wrapper i.fa-magnifying-glass {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 14px;
+}
+
+.modal-recherche-pharmacie-input {
+    width: 100%;
+    height: 42px;
+    padding: 0 16px 0 40px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.25s ease;
+}
+
+.modal-recherche-pharmacie-input:focus {
+    border-color: var(--vert-principal);
+}
+
+.modal-suggestions-pharmacie {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 20;
+}
+
+.modal-suggestions-pharmacie.actif {
+    display: block;
+}
+
+.modal-suggestion-pharmacie-item {
+    padding: 10px 16px;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.modal-suggestion-pharmacie-item:hover {
+    background-color: var(--vert-clair);
+}
+
+.modal-recherche-pharmacie-vider {
+    display: none;
+    margin-bottom: 14px;
+    background: none;
+    border: 1px solid var(--vert-principal);
+    color: var(--vert-principal);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    align-items: center;
+    gap: 6px;
+}
+
+.modal-recherche-pharmacie-vider.actif {
+    display: inline-flex;
+}
+
+
 .modal-pharmacie-grille {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -530,6 +644,31 @@ body.modal-ouvert {
     font-weight: 700;
     color: #2b2b2b;
     font-size: 14px;
+}
+
+.badge-plus-proche {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background-color: var(--vert-principal);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.modal-pharmacie-distance {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #888;
+}
+
+.modal-pharmacie-distance i {
+    color: var(--vert-principal);
 }
 
 .btn-voir-pharmacie {
@@ -617,6 +756,37 @@ body.fenetre-pharmacie-ouvert {
 
 .modal-fermer-pharmacie:hover {
     background-color: var(--vert-principal);
+}
+
+
+/* ── Barre sticky (nom de la pharmacie + fermeture), reste visible au défilement ── */
+
+.modal-barre-sticky-pharmacie {
+    position: sticky;
+    top: 0;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 56px 12px 22px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #f0f0f0;
+    border-radius: 18px 18px 0 0;
+}
+
+.modal-nom-pharmacie-sticky {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--vert-fonce);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.modal-barre-sticky-pharmacie .modal-fermer-pharmacie {
+    position: static;
+    flex-shrink: 0;
+    margin-left: 12px;
 }
 
 
@@ -771,6 +941,89 @@ body.fenetre-pharmacie-ouvert {
     color: var(--vert-accent);
     font-weight: 600;
 }
+
+
+/* ── Recherche de produit à l'intérieur du modal pharmacie ── */
+
+.modal-recherche-produit-wrapper {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.modal-recherche-produit-wrapper i.fa-magnifying-glass {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 14px;
+}
+
+.modal-recherche-produit-input {
+    width: 100%;
+    height: 42px;
+    padding: 0 16px 0 40px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.25s ease;
+}
+
+.modal-recherche-produit-input:focus {
+    border-color: var(--vert-principal);
+}
+
+.modal-suggestions-produit {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 20;
+}
+
+.modal-suggestions-produit.actif {
+    display: block;
+}
+
+.modal-suggestion-produit-item {
+    padding: 10px 16px;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.modal-suggestion-produit-item:hover {
+    background-color: var(--vert-clair);
+}
+
+.modal-recherche-produit-vider {
+    display: none;
+    margin-bottom: 14px;
+    background: none;
+    border: 1px solid var(--vert-principal);
+    color: var(--vert-principal);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    align-items: center;
+    gap: 6px;
+}
+
+.modal-recherche-produit-vider.actif {
+    display: inline-flex;
+}
+
 
 .modal-produits-grille {
     display: grid;
