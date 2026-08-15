@@ -141,3 +141,53 @@ if (inputRecherche && suggestionsListe) {
     });
 
 }
+
+
+// ----------------------------------- menu déroulant personnalisé (réutilisé pour ville et assurance) -------------------------------
+
+function initialiserMenuDeroulant(idWrapper, idAffiche, idTexte, idValeur, idListe, texteParDefaut) {
+
+    const wrapper       = document.getElementById(idWrapper);
+    const affiche       = document.getElementById(idAffiche);
+    const texteAffiche  = document.getElementById(idTexte);
+    const champValeur   = document.getElementById(idValeur);
+    const liste         = document.getElementById(idListe);
+
+    if (!wrapper || !affiche || !liste) return;
+
+    affiche.addEventListener('click', function (e) {
+        e.stopPropagation();
+        wrapper.classList.toggle('active');
+    });
+
+    liste.querySelectorAll('.ville-item').forEach(function (item) {
+
+        if (item.dataset.valeur === champValeur.value) {
+            item.classList.add('selectionnee');
+        }
+
+        item.addEventListener('click', function () {
+
+            liste.querySelectorAll('.ville-item').forEach(function (autre) {
+                autre.classList.remove('selectionnee');
+            });
+
+            item.classList.add('selectionnee');
+
+            champValeur.value     = item.dataset.valeur;
+            texteAffiche.textContent = item.dataset.valeur !== '' ? item.dataset.valeur : texteParDefaut;
+
+            wrapper.classList.remove('active');
+        });
+
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!wrapper.contains(e.target)) {
+            wrapper.classList.remove('active');
+        }
+    });
+}
+
+initialiserMenuDeroulant('select-ville-wrapper', 'select-ville-affiche', 'select-ville-texte', 'ville-valeur', 'villes-liste', 'Toutes les villes');
+initialiserMenuDeroulant('select-assurance-wrapper', 'select-assurance-affiche', 'select-assurance-texte', 'assurance-valeur', 'assurances-liste', 'Toutes les assurances');

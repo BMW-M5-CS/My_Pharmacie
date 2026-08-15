@@ -271,6 +271,54 @@ body {
 }
 
 
+/* ========== CHIPS DE SÉLECTION DE L'ASSURANCE PAR DÉFAUT ========== */
+
+.profil-chips-assurance {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.profil-chip-assurance {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px 8px 10px;
+    background-color: #fafafa;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2b2b2b;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.profil-chip-assurance img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.profil-chip-assurance:hover {
+    border-color: #2ecc40;
+}
+
+.profil-chip-assurance.active {
+    background-color: #2ecc40;
+    border-color: #2ecc40;
+    color: white;
+}
+
+.profil-aide-champ {
+    font-size: 12px;
+    color: #999;
+    margin: 4px 0 0;
+}
+
+
 /* ========== CHAMP MOT DE PASSE AVEC ICÔNE ŒIL ========== */
 
 .profil-input-mdp {

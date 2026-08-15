@@ -83,7 +83,7 @@
             <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">
 
             <button type="submit" class="bouton-principal">Se connecter</button>
-            <button type="button" class="bouton-google"><i class="fa-brands fa-google"></i> Continuer avec Google</button>
+            <!-- <button type="button" class="bouton-google"><i class="fa-brands fa-google"></i> Continuer avec Google</button> -->
 
             <p class="lien-connexion">Pas encore de compte ? <a href="../Dos-page/inscription.php">S'inscrire</a></p>
         </form>

@@ -93,7 +93,7 @@ div.entete_input {
 }
 
 .champ-recherche-wrapper{
-    flex: 2 1 240;
+    flex: 3 1 260px;
     position: relative;
 }
 
@@ -120,10 +120,16 @@ div.entete_input {
     background: transparent;
     font-size: 14px;
     color: #2b2b2b;
+    min-width: 0;
 }
 
-select {
-    flex: 1 1 170px;
+.select-forme-wrapper {
+    flex: 1 1 150px;
+    position: relative;
+}
+
+.select-forme-affiche {
+    width: 100%;
     height: 44px;
     padding: 0 14px;
     border: none;
@@ -132,17 +138,74 @@ select {
     color: #2b2b2b;
     font-size: 14px;
     outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
 }
 
-option {
+.select-forme-affiche span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.select-forme-affiche i {
+    color: #999;
+    font-size: 12px;
+    flex-shrink: 0;
+    transition: transform 0.15s ease;
+}
+
+.select-forme-wrapper.active .select-forme-affiche i {
+    transform: rotate(180deg);
+}
+
+.formes-liste {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    max-height: 220px;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    z-index: 50;
+    text-align: left;
+}
+
+.select-forme-wrapper.active .formes-liste {
+    display: block;
+}
+
+.forme-item {
+    padding: 10px 16px;
+    font-size: 14px;
+    color: #2b2b2b;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.forme-item:hover {
+    background-color: var(--vert-clair);
+}
+
+.forme-item.selectionnee {
     background-color: var(--vert-principal);
     color: white;
 }
 
+.forme-item + .forme-item {
+    border-top: 1px solid #f0f0f0;
+}
+
 .sreach_btn {
-    flex: 1 1 150px;
+    flex: 1 1 130px;
     height: 44px;
-    padding: 0 26px;
+    padding: 0 20px;
     border: none;
     border-radius: 14px;
     background-color: var(--vert-principal);
@@ -162,11 +225,20 @@ option {
 
     div.entete_input {
         flex-direction: column;
+        background-color: rgba(0, 0, 0, 0.32);
+        border-radius: 18px;
+        padding: 14px;
+        gap: 10px;
     }
 
-    .champ-recherche, select, .sreach_btn {
+    .champ-recherche-wrapper, .select-forme-wrapper, .sreach_btn {
+        flex: 0 0 auto;
         width: 100%;
         height: 46px;
+    }
+
+    .champ-recherche, .select-forme-affiche {
+        height: 100%;
     }
 
 }
@@ -183,16 +255,15 @@ section.hero {
     flex-direction: column;
     background-color: white;
     color: #222;
-    padding: 30px 40px 20px;
+    padding: 25px 40px 0px 40px;
     margin-top: 30px;
 }
 
 h2.sous-titre {
     font-size: 26px;
     font-weight: 800;
-    margin-bottom: 18px;
+    margin-bottom: 10px;
 }
-
 
 .aucun-resultat {
     display: flex;
@@ -201,6 +272,8 @@ h2.sous-titre {
     gap: 12px;
     padding: 60px 20px;
     color: #888;
+    min-height: 540px;
+    border-top: 1px solid rgb(250, 206, 206);
 }
 
 .aucun-resultat i {
@@ -328,8 +401,8 @@ button.Voir-produit:hover {
 .voir_plus {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
-    margin-bottom: 60px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .btn-see_more {
@@ -340,10 +413,11 @@ button.Voir-produit:hover {
     border-radius: 25px;
     color: var(--vert-fonce);
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.5s ease ;
 }
 
 .btn-see_more:hover {
+    width: 500px;
     background-color: var(--vert-principal);
     color: white;
     box-shadow: 0 4px 12px rgba(0, 176, 0, 0.35);
@@ -617,6 +691,77 @@ body.modal-ouvert {
 }
 
 
+/* ── Chips de filtrage par assurance, sous la barre de recherche du modal produit ── */
+
+.modal-chips-assurance {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.chip-assurance {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px 6px 8px;
+    background-color: #fafafa;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #2b2b2b;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.chip-assurance img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.chip-assurance-toutes {
+    padding: 6px 14px;
+}
+
+.chip-assurance-toutes i {
+    font-size: 12px;
+    color: inherit;
+}
+
+.chip-assurance:hover {
+    border-color: var(--vert-principal);
+}
+
+.chip-assurance.active {
+    background-color: var(--vert-principal);
+    border-color: var(--vert-principal);
+    color: white;
+}
+
+.modal-reinitialiser-assurance {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    background: none;
+    border: 1px solid var(--vert-principal);
+    color: var(--vert-principal);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.modal-reinitialiser-assurance:hover {
+    background-color: var(--vert-clair);
+}
+
+
 .modal-pharmacie-grille {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -644,6 +789,20 @@ body.modal-ouvert {
     font-weight: 700;
     color: #2b2b2b;
     font-size: 14px;
+}
+
+.modal-pharmacie-assurances {
+    display: flex;
+    gap: 6px;
+}
+
+.badge-assurance-logo {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    border-radius: 50%;
+    border: 1px solid #eee;
+    background-color: white;
 }
 
 .badge-plus-proche {
@@ -894,6 +1053,56 @@ body.fenetre-pharmacie-ouvert {
     flex-shrink: 0;
 }
 
+
+.modal-assurances-pharmacie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.modal-assurances-titre {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+}
+
+.modal-assurances-titre i {
+    color: var(--vert-principal);
+}
+
+.modal-assurance-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px 4px 4px;
+    background-color: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #2b2b2b;
+}
+
+.modal-assurance-item img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.modal-assurance-aucune {
+    font-size: 13px;
+    color: #888;
+    font-style: italic;
+}
+
+
 .modal-garde-badge {
     display: inline-block;
     padding: 3px 12px;
@@ -905,8 +1114,12 @@ body.fenetre-pharmacie-ouvert {
     width: fit-content;
 }
 
+.modal-garde-badge.garde {
+    background-color: #7c3aed;
+}
+
 .modal-garde-badge.fermee {
-    background-color: #e74c3c;
+    background-color: #9e9e9e;
 }
 
 .modal-carte {
@@ -1185,9 +1398,12 @@ body.fenetre-pharmacie-ouvert {
 
 .produits-conteneur {
     position: relative;
+    min-height: 540px;
     max-height: 900px;
     overflow-y: auto;
-    padding-right: 6px;
+    padding: 15px 5px 0px 5px;
+    border-top: 1px solid rgb(250, 206, 206);
+    border-bottom: 1px solid rgb(250, 206, 206);
 }
 
 .btn-remonter {

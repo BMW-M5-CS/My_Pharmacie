@@ -2,6 +2,15 @@
 
 require_once '../Dos-php/config.php';
 
+// Empêche le navigateur de garder cette page en cache (y compris via le bouton
+// "précédent" / bfcache). Sans ça, la page peut réafficher une version périmée
+// du bouton "Ignorer" après la limite de 2 essais atteinte. Ce n'est pas une
+// faille de sécurité en soi (traite_reinitialise_mdp.php revérifie déjà la
+// limite côté serveur avant d'agir), mais c'est trompeur pour la personne :
+// le bouton a l'air de fonctionner alors qu'il ne fait que la renvoyer ici.
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -95,6 +104,16 @@ if (!empty($token)) {
     </div>
 
     <script>
+    // Si cette page est restaurée depuis le cache de navigation arrière du
+    // navigateur (bouton "précédent"), certains navigateurs ignorent l'en-tête
+    // Cache-Control pour cette restauration précise. On force donc un rechargement
+    // complet dans ce cas, pour être sûr que l'état "Ignorer" affiché est à jour.
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
+
     document.getElementById('form-reinitialisation')?.addEventListener('submit', function(e) {
         const mdp = document.getElementById('nouveau-mdp').value;
         const confirm = document.getElementById('confirm-mdp').value;

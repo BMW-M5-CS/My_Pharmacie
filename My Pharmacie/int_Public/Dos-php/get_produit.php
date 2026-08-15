@@ -1,6 +1,7 @@
 <?php
 
 require_once 'config.php';
+require_once 'fonctions_horaires.php';
 
 $id_produit = $_GET['id_produit'] ?? null;
 
@@ -42,6 +43,7 @@ $sql_pharmacies = "SELECT
                      p.telephone_pharmacie,
                      p.heure_ouverture,
                      p.heure_fermeture,
+                     p.statut_garde,
                      p.latitude,
                      p.longitude
                 FROM pharmacies p JOIN stocks s ON s.id_pharmacie = p.id_pharmacie 
@@ -51,6 +53,49 @@ $sql_pharmacies = "SELECT
 $stmt2 = $pdo->prepare($sql_pharmacies);
 $stmt2->execute([$id_produit]);
 $id_pharmacies = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+
+// ---------------------------- Récupération des assurances acceptées par ces pharmacies ----------------------------
+// Requête séparée plutôt qu'une jointure directe : évite de dupliquer une ligne pharmacie
+// par assurance acceptée, et reste simple à rattacher ensuite en PHP
+
+$id_pharmacies_liste = array_column($id_pharmacies, 'id_pharmacie');
+
+$assurances_par_pharmacie = [];
+
+if (!empty($id_pharmacies_liste)) {
+
+    $marqueurs = implode(',', array_fill(0, count($id_pharmacies_liste), '?'));
+
+    $sql_assurances = "SELECT
+                            pa.id_pharmacie,
+                            a.nom_assurance,
+                            a.logo_assurance
+                        FROM pharmacie_assurances pa
+                        JOIN assurances a ON a.id_assurance = pa.id_assurance
+                        WHERE pa.id_pharmacie IN ($marqueurs)";
+
+    $stmt3 = $pdo->prepare($sql_assurances);
+    $stmt3->execute($id_pharmacies_liste);
+
+    foreach ($stmt3->fetchAll(PDO::FETCH_ASSOC) as $ligne) {
+        $assurances_par_pharmacie[$ligne['id_pharmacie']][] = [
+            'nom_assurance'  => $ligne['nom_assurance'],
+            'logo_assurance' => $ligne['logo_assurance'],
+        ];
+    }
+}
+
+foreach ($id_pharmacies as &$pharmacie) {
+    $pharmacie['assurances'] = $assurances_par_pharmacie[$pharmacie['id_pharmacie']] ?? [];
+    $pharmacie['statut_calcule'] = calculerStatutPharmacie(
+        (bool) $pharmacie['statut_garde'],
+        $pharmacie['heure_ouverture'],
+        $pharmacie['heure_fermeture']
+    );
+}
+unset($pharmacie);
+
 
 $produit['pharmacies'] = $id_pharmacies;
 

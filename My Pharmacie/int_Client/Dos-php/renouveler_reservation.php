@@ -168,8 +168,31 @@ try {
         exit();
     }
 
+    // Sécurité : jamais confiance aveugle à "produits_choisis" envoyé par le client.
+    // On ne garde que les entrées dont l'id_stock fait bien partie de la réservation
+    // d'origine, avec la quantité d'origine (jamais celle envoyée par le client) —
+    // sinon un client malveillant pourrait injecter n'importe quel id_stock/quantité
+    // et contourner la vérification de disponibilité faite au Bloc 3.
     if ($produits_choisis !== null) {
-        $liste_finale = $produits_choisis;
+
+        $quantites_par_stock = [];
+        foreach ($produits_ok as $p) {
+            $quantites_par_stock[$p['id_stock']] = $p['quantite'];
+        }
+
+        $liste_finale = [];
+        foreach ((array) $produits_choisis as $choix) {
+
+            $id_stock_choisi = $choix['id_stock'] ?? null;
+
+            if ($id_stock_choisi !== null && array_key_exists($id_stock_choisi, $quantites_par_stock)) {
+                $liste_finale[] = [
+                    'id_stock' => $id_stock_choisi,
+                    'quantite' => $quantites_par_stock[$id_stock_choisi],
+                ];
+            }
+        }
+
     } else {
         $liste_finale = $produits_ok;
     }
@@ -190,6 +213,21 @@ try {
     $nouveau_code  = 'RES-' . strtoupper(bin2hex(random_bytes(3)));
     $expire_at_sql = "NOW() + INTERVAL '5 hours'";
 
+    // Revalidation finale, verrouillée, dans la transaction : entre le Bloc 3 et cet
+    // instant, un autre client a pu réserver la même quantité entre-temps.
+    $sql_stock_verrou = "SELECT
+                            s.quantite_disponible - COALESCE((
+                                SELECT SUM(r2.quantite_reservee)
+                                FROM reservations r2
+                                WHERE r2.id_stock = s.id_stock
+                                  AND r2.statut = 'en_attente'
+                                  AND r2.expire_at > NOW()
+                            ), 0) AS max_reservable
+                          FROM stocks s
+                          WHERE s.id_stock = ?
+                          FOR UPDATE";
+    $stmt_stock_verrou = $pdo->prepare($sql_stock_verrou);
+
     $sql_insert = "INSERT INTO reservations
                         (id_user, id_stock, quantite_reservee, code_reservation, date_reservation, expire_at, statut)
                     VALUES (?, ?, ?, ?, NOW(), $expire_at_sql, 'en_attente')";
@@ -197,6 +235,15 @@ try {
     $stmt_insert = $pdo->prepare($sql_insert);
 
     foreach ($liste_finale as $produit) {
+
+        $stmt_stock_verrou->execute([$produit['id_stock']]);
+        $stock_verrou = $stmt_stock_verrou->fetch(PDO::FETCH_ASSOC);
+        $stmt_stock_verrou->closeCursor();
+        $disponible_final = max(0, (int) ($stock_verrou['max_reservable'] ?? 0));
+
+        if ($disponible_final < (int) $produit['quantite']) {
+            throw new Exception('Un produit n\'est plus disponible en quantité suffisante.');
+        }
 
         $stmt_insert->execute([
             $id_user,

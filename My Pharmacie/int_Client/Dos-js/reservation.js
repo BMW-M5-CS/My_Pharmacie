@@ -2,6 +2,18 @@
 // RÉSERVATION — gestion des produits, du panier et de la confirmation
 // ===================================================================
 
+// Échappe le texte avant de l'insérer dans du HTML, pour éviter qu'un nom de
+// produit contenant du code HTML ne s'exécute dans le navigateur (XSS).
+// Absente jusqu'ici de ce fichier : reservation.php ne charge aucun autre
+// script qui la définirait globalement (contrairement à produit.php/carte.php).
+function echapperHtml(texte) {
+
+    const div = document.createElement('div');
+    div.textContent = texte ?? '';
+    return div.innerHTML;
+}
+
+
 const idPharmacie = document.body.dataset.idPharmacie;
 const produitInit  = document.body.dataset.produitInit; // id_stock pré-sélectionné, peut être vide
 
@@ -71,8 +83,8 @@ function afficherProduits(liste) {
 
         carte.innerHTML = `
             <div class="resa-produit-vignette"></div>
-            <span class="resa-produit-nom">${produit.nom_medicament}</span>
-            <span class="resa-produit-forme">${produit.forme_pharmaceutique}</span>
+            <span class="resa-produit-nom">${echapperHtml(produit.nom_medicament)}</span>
+            <span class="resa-produit-forme">${echapperHtml(produit.forme_pharmaceutique)}</span>
             <span class="resa-produit-prix">${Number(produit.prix_unitaire_fcfa).toLocaleString('fr-FR')} FCFA</span>
             <div class="resa-stepper">
                 <button class="resa-moins" ${qteActuelle === 0 ? 'disabled' : ''}>−</button>
@@ -209,7 +221,7 @@ function rafraichirAffichage() {
 
             ligne.innerHTML = `
                 <div class="resa-ligne-info">
-                    <span class="resa-ligne-nom">${item.nom}</span>
+                    <span class="resa-ligne-nom">${echapperHtml(item.nom)}</span>
                     <span class="resa-ligne-prix">${Number(item.prix).toLocaleString('fr-FR')} FCFA</span>
                 </div>
                 <div class="resa-ligne-stepper">

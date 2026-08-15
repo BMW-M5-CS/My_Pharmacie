@@ -129,6 +129,56 @@ if ($action === 'modifier_infos') {
 
 
 // ===================================================================
+// ACTION : modification de l'assurance par défaut
+// ===================================================================
+
+if ($action === 'modifier_assurance') {
+
+    $assurance_defaut = trim($donnees['assurance_defaut'] ?? '');
+
+
+    // ----- Validation : soit vide (aucune assurance), soit l'une des 3 assurances existantes -----
+    // On revérifie côté serveur contre la vraie liste en base plutôt que de faire confiance
+    // à ce qu'envoie le client, au cas où la liste des assurances évoluerait un jour
+
+    if ($assurance_defaut !== '') {
+
+        $sql_verif_assurance  = "SELECT 1 FROM assurances WHERE nom_assurance = ?";
+        $stmt_verif_assurance = $pdo->prepare($sql_verif_assurance);
+        $stmt_verif_assurance->execute([$assurance_defaut]);
+
+        if (!$stmt_verif_assurance->fetch()) {
+
+            echo json_encode(["success" => false, "message" => 'Assurance invalide.']);
+            exit();
+        }
+    }
+
+
+    // ----- Mise à jour de la base de données -----
+    // Pas de vérification du mot de passe ici : préférence à faible enjeu, contrairement
+    // aux informations personnelles ou au mot de passe lui-même
+
+    $sql_update  = "UPDATE users SET assurance_defaut = ? WHERE id_user = ?";
+    $stmt_update = $pdo->prepare($sql_update);
+    $stmt_update->execute([$assurance_defaut !== '' ? $assurance_defaut : null, $id_user]);
+
+
+    // ----- Mise à jour de la session : utilisée immédiatement par carte.php et le modal produit -----
+
+    $_SESSION['assurance_defaut'] = $assurance_defaut;
+
+    echo json_encode([
+        "success"          => true,
+        "message"          => 'Assurance mise à jour avec succès.',
+        "assurance_defaut" => $assurance_defaut
+    ]);
+
+    exit();
+}
+
+
+// ===================================================================
 // ACTION : modification du mot de passe
 // ===================================================================
 

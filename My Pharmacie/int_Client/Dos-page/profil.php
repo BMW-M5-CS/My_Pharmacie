@@ -32,7 +32,7 @@ if (empty($_SESSION['csrf_token'])) {
 
 // ===== Récupération des infos actuelles de l'utilisateur =====
 
-$sql  = "SELECT nom, prenom, phone_email, contact_recuperation FROM users WHERE id_user = ?";
+$sql  = "SELECT nom, prenom, phone_email, contact_recuperation, assurance_defaut FROM users WHERE id_user = ?";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$id_user]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -41,8 +41,17 @@ $nom                  = $user['nom']                  ?? '';
 $prenom               = $user['prenom']               ?? '';
 $phone_email          = $user['phone_email']          ?? '';
 $contact_recuperation = $user['contact_recuperation'] ?? '';
+$assurance_defaut     = $user['assurance_defaut']     ?? '';
 
 $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
+
+
+// ===== Référentiel des assurances, pour construire les chips de sélection =====
+
+$sql_assurances = "SELECT nom_assurance, logo_assurance FROM assurances ORDER BY nom_assurance ASC";
+$stmt_assurances = $pdo->prepare($sql_assurances);
+$stmt_assurances->execute();
+$assurances_disponibles = $stmt_assurances->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>
@@ -206,6 +215,82 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
                 </div>
 
                 <div class="profil-message" id="message-infos"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===== Section — Assurance santé ===== -->
+
+        <div class="profil-section">
+
+            <div class="profil-section-head">
+                <div class="profil-section-titre">
+                    <i class="fa-solid fa-notes-medical"></i>
+                    <h3>Assurance santé</h3>
+                </div>
+                <button class="profil-btn-modifier" id="btn-modifier-assurance">
+                    <i class="fa-solid fa-pen"></i> Modifier
+                </button>
+            </div>
+
+
+            <!-- Affichage lecture seule -->
+
+            <div class="profil-champs-lecture" id="assurance-lecture">
+
+                <div class="profil-champ-ligne">
+                    <span class="profil-champ-label">Assurance par défaut</span>
+                    <span class="profil-champ-valeur" id="lecture-assurance-defaut">
+                        <?php echo $assurance_defaut !== '' ? htmlspecialchars($assurance_defaut) : 'Aucune'; ?>
+                    </span>
+                </div>
+
+            </div>
+
+
+            <!-- Formulaire d'édition (caché par défaut) -->
+
+            <div class="profil-champs-edition" id="assurance-edition" style="display: none;">
+
+                <div class="profil-input-groupe">
+
+                    <label>Assurance par défaut <span class="profil-optionnel">(optionnel)</span></label>
+
+                    <input type="hidden" id="edit-assurance-defaut" value="<?php echo htmlspecialchars($assurance_defaut); ?>">
+
+                    <div class="profil-chips-assurance" id="profil-chips-assurance">
+
+                        <button type="button" class="profil-chip-assurance" data-nom-assurance="">
+                            <i class="fa-solid fa-ban"></i> Aucune
+                        </button>
+
+                        <?php foreach ($assurances_disponibles as $assurance_option) : ?>
+
+                            <button type="button" class="profil-chip-assurance" data-nom-assurance="<?php echo htmlspecialchars($assurance_option['nom_assurance']); ?>">
+                                <img src="../../int_Public/Dos-img/<?php echo htmlspecialchars($assurance_option['logo_assurance']); ?>" alt="">
+                                <?php echo htmlspecialchars($assurance_option['nom_assurance']); ?>
+                            </button>
+
+                        <?php endforeach; ?>
+
+                    </div>
+
+                    <p class="profil-aide-champ">Cette assurance sera proposée automatiquement lors de tes recherches de pharmacies.</p>
+
+                </div>
+
+                <div class="profil-edition-btns">
+                    <button class="profil-btn-annuler-edition" id="btn-annuler-assurance">
+                        Annuler
+                    </button>
+                    <button class="profil-btn-enregistrer" id="btn-enregistrer-assurance">
+                        <i class="fa-solid fa-check"></i> Enregistrer
+                    </button>
+                </div>
+
+                <div class="profil-message" id="message-assurance"></div>
 
             </div>
 

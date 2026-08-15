@@ -93,7 +93,7 @@
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
             <button type="submit" class="bouton-principal">Créer mon compte</button>
-            <button type="button" class="bouton-google"><i class="fa-brands fa-google"></i> Continuer avec Google</button>
+            <!-- <button type="button" class="bouton-google"><i class="fa-brands fa-google"></i> Continuer avec Google</button> -->
 
             <p class="lien-connexion">Vous avez déjà un compte ? <a href="../Dos-page/conex.php">Se connecter</a></p>
         </form>

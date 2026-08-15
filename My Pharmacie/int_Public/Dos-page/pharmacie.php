@@ -5,6 +5,26 @@ require_once '../Dos-php/fonctions_notation.php';
 
 $ville     = $_GET['ville'] ?? '';
 $recherche = $_GET['recherche'] ?? '';
+$assurance = $_GET['assurance'] ?? '';
+
+
+// ---------------------------- Récupération dynamique des villes réellement présentes en base ----------------------------
+// Remplace l'ancienne liste codée en dur : élimine tout risque de désaccord entre les valeurs du filtre
+// et les vraies valeurs stockées (accents, orthographe), et suit automatiquement l'ajout de nouvelles pharmacies
+
+$sql_villes = "SELECT DISTINCT ville FROM pharmacies ORDER BY ville ASC";
+$stmt_villes = $pdo->prepare($sql_villes);
+$stmt_villes->execute();
+$villes_disponibles = $stmt_villes->fetchAll(PDO::FETCH_COLUMN);
+
+
+// ---------------------------- Récupération dynamique des assurances depuis la base ----------------------------
+// Même principe que pour les villes : jamais de liste codée en dur, toujours la source de vérité en base
+
+$sql_assurances_liste = "SELECT nom_assurance, logo_assurance FROM assurances ORDER BY nom_assurance ASC";
+$stmt_assurances_liste = $pdo->prepare($sql_assurances_liste);
+$stmt_assurances_liste->execute();
+$assurances_disponibles = $stmt_assurances_liste->fetchAll(PDO::FETCH_ASSOC);
 
 
 // ---------------------------- Préparation du calcul de fiabilité (partagé par les 4 requêtes ci-dessous) ----------------------------
@@ -34,36 +54,40 @@ $sql_champs_notation = "COALESCE((SELECT AVG(a.note) FROM avis a WHERE a.id_phar
                          COALESCE($sql_taux, 0) AS taux_disponibilite";
 
 
-// ---------------------------- Les 4 variantes de recherche, notation incluse ----------------------------
+// ---------------------------- Construction dynamique de la requête (ville + recherche + assurance combinables) ----------------------------
 
-if ($ville !== '' && $recherche !== '') {
-    $sql = "SELECT p.id_pharmacie, p.nom_pharmacie, p.adresse, p.ville, p.heure_ouverture, p.heure_fermeture, p.telephone_pharmacie, p.statut_garde,
-                   $sql_champs_notation
-            FROM pharmacies p WHERE p.ville = ? AND p.nom_pharmacie ILIKE ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute(array_merge($params_taux, [$ville, '%' . $recherche . '%']));
+$conditions = [];
+$params     = $params_taux;
 
-} elseif ($ville !== '') {
-    $sql = "SELECT p.id_pharmacie, p.nom_pharmacie, p.adresse, p.ville, p.heure_ouverture, p.heure_fermeture, p.telephone_pharmacie, p.statut_garde,
-                   $sql_champs_notation
-            FROM pharmacies p WHERE p.ville = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute(array_merge($params_taux, [$ville]));
-
-} elseif ($recherche !== '') {
-    $sql = "SELECT p.id_pharmacie, p.nom_pharmacie, p.adresse, p.ville, p.heure_ouverture, p.heure_fermeture, p.telephone_pharmacie, p.statut_garde,
-                   $sql_champs_notation
-            FROM pharmacies p WHERE p.nom_pharmacie ILIKE ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute(array_merge($params_taux, ['%' . $recherche . '%']));
-
-} else {
-    $sql = "SELECT p.id_pharmacie, p.nom_pharmacie, p.adresse, p.ville, p.heure_ouverture, p.heure_fermeture, p.telephone_pharmacie, p.statut_garde,
-                   $sql_champs_notation
-            FROM pharmacies p";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($params_taux);
+if ($ville !== '') {
+    $conditions[] = 'p.ville = ?';
+    $params[]     = $ville;
 }
+
+if ($recherche !== '') {
+    $conditions[] = 'p.nom_pharmacie ILIKE ?';
+    $params[]     = '%' . $recherche . '%';
+}
+
+if ($assurance !== '') {
+    $conditions[] = 'EXISTS (
+                         SELECT 1 FROM pharmacie_assurances pa
+                         JOIN assurances a ON a.id_assurance = pa.id_assurance
+                         WHERE pa.id_pharmacie = p.id_pharmacie AND a.nom_assurance = ?
+                     )';
+    $params[]     = $assurance;
+}
+
+$sql_where = !empty($conditions) ? 'WHERE ' . implode(' AND ', $conditions) : '';
+
+$sql = "SELECT p.id_pharmacie, p.nom_pharmacie, p.adresse, p.ville, p.heure_ouverture, p.heure_fermeture, p.telephone_pharmacie, p.statut_garde,
+               $sql_champs_notation
+        FROM pharmacies p
+        $sql_where
+        ORDER BY p.nom_pharmacie ASC";
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
 
 $pharmacies = $stmt->fetchAll();
 
@@ -120,42 +144,56 @@ function imagePlaceholderPharmacie($id) {
 
                 </div>
 
-                <select name="ville" id="ville">
+                <div class="select-ville-wrapper" id="select-ville-wrapper">
 
-                    <option value="">Toutes les villes</option>
+                    <input type="hidden" name="ville" id="ville-valeur" value="<?php echo htmlspecialchars($ville); ?>">
 
-                    <!-- Région Maritime -->
-                    <option value="Lomé">Lomé</option>
-                    <option value="Aneho">Aného</option>
-                    <option value="Tabligbo">Tabligbo</option>
-                    <option value="Vogan">Vogan</option>
-                    <option value="Tsevie">Tsévié</option>
+                    <button type="button" class="select-ville-affiche" id="select-ville-affiche">
+                        <span id="select-ville-texte"><?php echo $ville !== '' ? htmlspecialchars($ville) : 'Toutes les villes'; ?></span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
 
-                    <!-- Région Plateaux -->
-                    <option value="Kpalime">Kpalimé</option>
-                    <option value="Atakpame">Atakpamé</option>
-                    <option value="Badou">Badou</option>
-                    <option value="Notsè">Notsè</option>
+                    <div class="villes-liste" id="villes-liste">
 
-                    <!-- Région Centrale -->
-                    <option value="Sokode">Sokodé</option>
-                    <option value="Tchamba">Tchamba</option>
-                    <option value="Blitta">Blitta</option>
+                        <div class="ville-item" data-valeur="">Toutes les villes</div>
 
-                    <!-- Région Kara -->
-                    <option value="Kara">Kara</option>
-                    <option value="Bafilo">Bafilo</option>
-                    <option value="Niamtougou">Niamtougou</option>
-                    <option value="Bassari">Bassari</option>
+                        <?php foreach ($villes_disponibles as $ville_option) : ?>
 
-                    <!-- Région Savanes -->
-                    <option value="Dapaong">Dapaong</option>
-                    <option value="Mango">Mango</option>
-                    <option value="Tandjouare">Tandjouaré</option>
+                            <div class="ville-item" data-valeur="<?php echo htmlspecialchars($ville_option); ?>">
+                                <?php echo htmlspecialchars($ville_option); ?>
+                            </div>
 
-                </select>
+                        <?php endforeach; ?>
 
-                <!-- Emplacement réservé pour le futur filtre "Assurance" : un <select> de plus ici, aucune autre modif nécessaire -->
+                    </div>
+
+                </div>
+
+                <div class="select-assurance-wrapper" id="select-assurance-wrapper">
+
+                    <input type="hidden" name="assurance" id="assurance-valeur" value="<?php echo htmlspecialchars($assurance); ?>">
+
+                    <button type="button" class="select-ville-affiche" id="select-assurance-affiche">
+                        <span id="select-assurance-texte"><?php echo $assurance !== '' ? htmlspecialchars($assurance) : 'Toutes les assurances'; ?></span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                    <div class="villes-liste" id="assurances-liste">
+
+                        <div class="ville-item" data-valeur="">Toutes les assurances</div>
+
+                        <?php foreach ($assurances_disponibles as $assurance_option) : ?>
+
+                            <div class="ville-item assurance-item-avec-logo" data-valeur="<?php echo htmlspecialchars($assurance_option['nom_assurance']); ?>">
+                                <img src="../Dos-img/<?php echo htmlspecialchars($assurance_option['logo_assurance']); ?>" alt="">
+                                <?php echo htmlspecialchars($assurance_option['nom_assurance']); ?>
+                            </div>
+
+                        <?php endforeach; ?>
+
+                    </div>
+
+                </div>
 
                 <button type="submit" class="sreach_btn"><i class="fas fa-search"></i> Rechercher</button>
 
@@ -282,6 +320,8 @@ function imagePlaceholderPharmacie($id) {
                         <p><i class="fa-solid fa-phone"></i> <span id="modal-telephone"></span></p>
                         <p><i class="fa-solid fa-circle"></i> <span id="modal-garde"></span></p>
                     </div>
+
+                    <div class="modal-assurances-pharmacie" id="modal-assurances-pharmacie"></div>
 
                 </div>
 

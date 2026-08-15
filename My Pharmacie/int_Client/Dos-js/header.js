@@ -24,6 +24,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 banniereReinit.classList.remove('alerte-reinitialisation');
                 banniereReinit.classList.add('alerte-recuperation-position');
             }
+
+            // Persiste l'ignorance côté serveur pour le reste de cette session de connexion,
+            // pour que la bannière ne réapparaisse pas à chaque changement de page.
+            fetch('../../../My Pharmacie/int_Public/Dos-php/ignore_alert_recuperat.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ csrf_token: alerteFermer.dataset.csrf })
+            }).catch(function () {
+                // Échec silencieux : la bannière reste au moins masquée visuellement
+                // pour la page en cours, même si la persistance serveur a échoué.
+            });
         });
     }
 

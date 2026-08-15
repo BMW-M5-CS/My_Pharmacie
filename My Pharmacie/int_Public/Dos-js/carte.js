@@ -15,7 +15,18 @@ const iconeVerte = L.divIcon({
 
 const iconeRouge = L.divIcon({
     className: '',
-    html: '<div style="background-color:#e74c3c;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.4);"></div>',
+    html: '<div style="background-color:#7c3aed;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.4);"></div>',
+    iconSize:    [16, 16],
+    iconAnchor:  [8, 8],
+    popupAnchor: [0, -10]
+});
+
+// Marqueur gris : pharmacie fermée en ce moment (ni de garde, ni dans son
+// créneau horaire normal). Calculé côté serveur avec l'heure réelle
+// (voir fonctions_horaires.php), plus la seule valeur statut_garde.
+const iconeGrise = L.divIcon({
+    className: '',
+    html: '<div style="background-color:#9e9e9e;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.4);"></div>',
     iconSize:    [16, 16],
     iconAnchor:  [8, 8],
     popupAnchor: [0, -10]
@@ -39,9 +50,208 @@ const iconeOr = L.divIcon({
     popupAnchor: [0, -13]
 });
 
+// Choisit l'icône du marqueur à partir du statut calculé côté serveur
+// (voir fonctions_horaires.php : 'garde', 'ouverte', ou 'fermee').
+function iconePourStatut(statutCalcule) {
+    if (statutCalcule === 'garde') return iconeRouge;
+    if (statutCalcule === 'ouverte') return iconeVerte;
+    return iconeGrise;
+}
+
+function couleurPourStatut(statutCalcule) {
+    if (statutCalcule === 'garde') return '#7c3aed';
+    if (statutCalcule === 'ouverte') return '#00b000';
+    return '#9e9e9e';
+}
+
+function libellePourStatut(statutCalcule) {
+    if (statutCalcule === 'garde') return 'Pharmacie de garde';
+    if (statutCalcule === 'ouverte') return 'Ouverte';
+    return 'Fermée';
+}
+
 
 // Mode recherche produit actif ou non (filtre la liste/les marqueurs affichés)
 let modeRechercheProduitActif = false;
+
+
+// ===================================================================
+// FLUX ASSURANCE — posé avant chaque recherche produit sur la carte
+// ===================================================================
+
+// Référentiel des 3 assurances gérées, utilisé pour les chips de choix et les badges
+const ASSURANCES_DISPONIBLES = [
+    { nom: 'INAM',            logo: '../Dos-img/INAM.png' },
+    { nom: 'AMU',              logo: '../Dos-img/AMU.png' },
+    { nom: 'SUNU Assurance',   logo: '../Dos-img/SUNU.png' },
+];
+
+
+function construireModalAssurance() {
+
+    if (document.getElementById('modal-question-assurance')) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'fenetre-assurance';
+    overlay.id         = 'modal-question-assurance';
+
+    overlay.innerHTML = `
+        <div class="modal-contenu-assurance">
+            <button type="button" class="modal-assurance-fermer" id="modal-assurance-fermer">&times;</button>
+            <div id="modal-assurance-corps"></div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    document.getElementById('modal-assurance-fermer').addEventListener('click', fermerModalAssurance);
+
+    // Fermeture au clic en dehors du contenu (sur le fond assombri)
+    overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) fermerModalAssurance();
+    });
+}
+
+construireModalAssurance();
+
+
+function ouvrirEtapeModalAssurance(html, brancherEcouteurs) {
+
+    document.getElementById('modal-assurance-corps').innerHTML = html;
+    document.getElementById('modal-question-assurance').classList.add('actif');
+
+    brancherEcouteurs();
+}
+
+function fermerModalAssurance() {
+    document.getElementById('modal-question-assurance').classList.remove('actif');
+}
+
+
+// ── Constructeurs HTML des 3 étapes possibles ──
+
+function htmlEtapeOuiNon() {
+    return `
+        <p class="modal-assurance-question">Souhaitez-vous utiliser une assurance ?</p>
+        <div class="modal-assurance-boutons">
+            <button type="button" class="btn-assurance-principal" id="ma-btn-oui">Oui</button>
+            <button type="button" class="btn-assurance-secondaire" id="ma-btn-non">Non</button>
+        </div>
+    `;
+}
+
+function htmlEtapeConnecte(assuranceDefaut) {
+
+    const infosLogo = ASSURANCES_DISPONIBLES.find(function (a) { return a.nom === assuranceDefaut; });
+    const logoHtml  = infosLogo ? '<img src="' + infosLogo.logo + '" alt="">' : '';
+
+    return `
+        <p class="modal-assurance-question">Quelle assurance souhaitez-vous utiliser ?</p>
+        <div class="modal-assurance-boutons modal-assurance-boutons-colonne">
+            <button type="button" class="btn-assurance-principal btn-mon-assurance" id="ma-btn-mon-assurance">
+                ${logoHtml} Utiliser mon assurance (${echapperHtml(assuranceDefaut)})
+            </button>
+            <button type="button" class="btn-assurance-secondaire" id="ma-btn-autre-assurance">Choisir une autre assurance</button>
+            <button type="button" class="btn-assurance-lien" id="ma-btn-laisser-tomber">Laisser tomber l'assurance</button>
+        </div>
+    `;
+}
+
+function htmlEtapeChoixListe() {
+
+    const chips = ASSURANCES_DISPONIBLES.map(function (a) {
+        return `
+            <button type="button" class="btn-choix-assurance-item" data-nom-assurance="${echapperHtml(a.nom)}">
+                <img src="${a.logo}" alt="">
+                <span>${echapperHtml(a.nom)}</span>
+            </button>
+        `;
+    }).join('');
+
+    return `
+        <p class="modal-assurance-question">Choisissez votre assurance</p>
+        <div class="modal-assurance-boutons modal-assurance-boutons-colonne">
+            ${chips}
+            <button type="button" class="btn-assurance-lien" id="ma-btn-laisser-tomber-liste">Laisser tomber l'assurance</button>
+        </div>
+    `;
+}
+
+
+// ── Orchestration des étapes ──
+
+// Point d'entrée principal : à appeler avant toute recherche produit sur la carte.
+// callback(assuranceChoisie) est appelé une fois la réponse obtenue (null = pas de filtre assurance)
+function demanderAssurance(callback) {
+
+    ouvrirEtapeModalAssurance(htmlEtapeOuiNon(), function () {
+
+        document.getElementById('ma-btn-oui').addEventListener('click', function () {
+            afficherEtapeChoixAssurance(callback);
+        });
+
+        document.getElementById('ma-btn-non').addEventListener('click', function () {
+            fermerModalAssurance();
+            callback(null);
+        });
+    });
+}
+
+function afficherEtapeChoixAssurance(callback) {
+
+    const connecte        = document.body.dataset.connecte === '1';
+    const assuranceDefaut = document.body.dataset.assuranceDefaut || '';
+
+    // Client connecté avec une assurance déjà enregistrée en profil : 3 choix.
+    // Sinon (visiteur, ou client sans assurance en profil) : directement les 4 choix (voir plus bas)
+    if (connecte && assuranceDefaut !== '') {
+
+        ouvrirEtapeModalAssurance(htmlEtapeConnecte(assuranceDefaut), function () {
+
+            document.getElementById('ma-btn-mon-assurance').addEventListener('click', function () {
+                fermerModalAssurance();
+                callback(assuranceDefaut);
+            });
+
+            document.getElementById('ma-btn-autre-assurance').addEventListener('click', function () {
+                afficherEtapeChoixListe(callback);
+            });
+
+            document.getElementById('ma-btn-laisser-tomber').addEventListener('click', function () {
+                fermerModalAssurance();
+                callback(null);
+            });
+        });
+
+    } else {
+
+        afficherEtapeChoixListe(callback);
+    }
+}
+
+function afficherEtapeChoixListe(callback) {
+
+    ouvrirEtapeModalAssurance(htmlEtapeChoixListe(), function () {
+
+        document.querySelectorAll('.btn-choix-assurance-item').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                fermerModalAssurance();
+                callback(this.dataset.nomAssurance);
+            });
+        });
+
+        document.getElementById('ma-btn-laisser-tomber-liste').addEventListener('click', function () {
+            fermerModalAssurance();
+            callback(null);
+        });
+    });
+}
+
+// Utilisée par le bouton "Utiliser une autre assurance" du panneau de repli (cas "aucun résultat") :
+// l'utilisateur a déjà répondu "Oui" à la question initiale, donc on saute directement au choix
+function demanderAssuranceChoixSeul(callback) {
+    afficherEtapeChoixListe(callback);
+}
 
 
 function centrerSurPharmacie(index) {
@@ -249,7 +459,7 @@ if (champRechercheProduitCarte && suggestionsProduitCarte) {
                             champRechercheProduitCarte.value = nom;
                             suggestionsProduitCarte.innerHTML = '';
                             suggestionsProduitCarte.classList.remove('actif');
-                            rechercherProduitSurCarte(nom);
+                            lancerRechercheAvecAssurance(nom);
                         });
 
                         suggestionsProduitCarte.appendChild(item);
@@ -277,28 +487,46 @@ if (champRechercheProduitCarte && suggestionsProduitCarte) {
             e.preventDefault();
             suggestionsProduitCarte.innerHTML = '';
             suggestionsProduitCarte.classList.remove('actif');
-            rechercherProduitSurCarte(this.value);
+            lancerRechercheAvecAssurance(this.value);
         }
     });
 }
 
 if (btnRechercheProduitCarte) {
     btnRechercheProduitCarte.addEventListener('click', function () {
-        rechercherProduitSurCarte(champRechercheProduitCarte.value);
+        lancerRechercheAvecAssurance(champRechercheProduitCarte.value);
     });
 }
 
 if (btnEffacerRechercheCarte) {
     btnEffacerRechercheCarte.addEventListener('click', function () {
         champRechercheProduitCarte.value = '';
+        masquerRepliAssurance();
         reinitialiserRechercheProduitCarte();
+    });
+}
+
+
+// ── Point d'entrée : pose la question assurance puis lance la recherche avec la réponse obtenue ──
+
+function lancerRechercheAvecAssurance(nomProduit) {
+
+    const q = nomProduit.trim();
+
+    if (q === '') {
+        reinitialiserRechercheProduitCarte();
+        return;
+    }
+
+    demanderAssurance(function (assuranceChoisie) {
+        rechercherProduitSurCarte(q, assuranceChoisie);
     });
 }
 
 
 // ── Lancement de la recherche : interroge le serveur, regroupe par pharmacie ──
 
-function rechercherProduitSurCarte(recherche) {
+function rechercherProduitSurCarte(recherche, assuranceChoisie) {
 
     const q = recherche.trim();
 
@@ -307,6 +535,7 @@ function rechercherProduitSurCarte(recherche) {
         return;
     }
 
+    masquerRepliAssurance();
     afficherStatutRecherche('Recherche en cours...');
 
     fetch('../Dos-php/get_carte_produit.php?recherche=' + encodeURIComponent(q))
@@ -330,14 +559,47 @@ function rechercherProduitSurCarte(recherche) {
                     pharmaciesTrouvees.sort(function (a, b) { return a.distanceKm - b.distanceKm; });
                 }
 
+                // ----- Pas de filtre assurance : comportement classique à 2 contraintes -----
+
+                if (!assuranceChoisie) {
+
+                    appliquerFiltreProduitCarte(pharmaciesTrouvees);
+
+                    const plusProche      = pharmaciesTrouvees[0];
+                    const suffixeDistance = plusProche.distanceKm !== undefined
+                        ? ' — la plus proche est à ' + formaterDistance(plusProche.distanceKm)
+                        : '';
+
+                    afficherStatutRecherche(pharmaciesTrouvees.length + ' pharmacie(s) ont ce produit' + suffixeDistance);
+                    return;
+                }
+
+                // ----- Filtre assurance actif : 3ᵉ contrainte -----
+
+                const pharmaciesAvecAssurance = pharmaciesTrouvees.filter(function (p) {
+                    return (p.assurances || []).some(function (a) { return a.nom_assurance === assuranceChoisie; });
+                });
+
+                if (pharmaciesAvecAssurance.length > 0) {
+
+                    appliquerFiltreProduitCarte(pharmaciesAvecAssurance);
+
+                    const plusProche      = pharmaciesAvecAssurance[0];
+                    const suffixeDistance = plusProche.distanceKm !== undefined
+                        ? ' — la plus proche est à ' + formaterDistance(plusProche.distanceKm)
+                        : '';
+
+                    afficherStatutRecherche(pharmaciesAvecAssurance.length + ' pharmacie(s) ont ce produit et acceptent ' + assuranceChoisie + suffixeDistance);
+                    return;
+                }
+
+                // ----- Aucune pharmacie avec ce produit n'accepte cette assurance -----
+                // On affiche quand même la carte/liste normale (2 contraintes), et on propose en plus
+                // la pharmacie la plus proche sans la contrainte assurance, avec les options de repli
+
                 appliquerFiltreProduitCarte(pharmaciesTrouvees);
-
-                const plusProche      = pharmaciesTrouvees[0];
-                const suffixeDistance = plusProche.distanceKm !== undefined
-                    ? ' — la plus proche est à ' + formaterDistance(plusProche.distanceKm)
-                    : '';
-
-                afficherStatutRecherche(pharmaciesTrouvees.length + ' pharmacie(s) ont ce produit' + suffixeDistance);
+                afficherStatutRecherche("Aucune pharmacie avec ce produit n'accepte " + assuranceChoisie + ".", true);
+                afficherRepliAssurance(pharmaciesTrouvees[0], assuranceChoisie, q);
             });
         })
         .catch(function () {
@@ -353,7 +615,7 @@ function grouperResultatsParPharmacie(resultats) {
     resultats.forEach(function (r) {
 
         if (!groupes[r.id_pharmacie]) {
-            groupes[r.id_pharmacie] = Object.assign({}, r, { produitsCorrespondants: [] });
+            groupes[r.id_pharmacie] = Object.assign({}, r, { produitsCorrespondants: [], assurances: r.assurances || [] });
         }
 
         groupes[r.id_pharmacie].produitsCorrespondants.push({
@@ -372,6 +634,68 @@ function afficherStatutRecherche(texte, aucunResultat) {
         statutRechercheCarte.classList.add('actif');
         statutRechercheCarte.classList.toggle('aucun-resultat', !!aucunResultat);
     }
+}
+
+
+// ── Panneau de repli affiché quand aucune pharmacie disposant du produit n'accepte l'assurance choisie ──
+
+function obtenirConteneurRepliAssurance() {
+
+    let conteneur = document.getElementById('carte-repli-assurance');
+
+    if (!conteneur && statutRechercheCarte) {
+        conteneur = document.createElement('div');
+        conteneur.id        = 'carte-repli-assurance';
+        conteneur.className = 'carte-repli-assurance';
+        statutRechercheCarte.parentNode.insertBefore(conteneur, statutRechercheCarte.nextSibling);
+    }
+
+    return conteneur;
+}
+
+function masquerRepliAssurance() {
+    const conteneur = document.getElementById('carte-repli-assurance');
+    if (conteneur) {
+        conteneur.innerHTML = '';
+        conteneur.classList.remove('actif');
+    }
+}
+
+function afficherRepliAssurance(pharmacieProche, assuranceChoisie, recherche) {
+
+    const conteneur = obtenirConteneurRepliAssurance();
+    if (!conteneur) return;
+
+    const distanceTexte = pharmacieProche.distanceKm !== undefined
+        ? ' (à ' + formaterDistance(pharmacieProche.distanceKm) + ')'
+        : '';
+
+    conteneur.innerHTML = `
+        <p class="repli-assurance-texte">
+            <strong>${echapperHtml(pharmacieProche.nom_pharmacie)}</strong> a ce produit${distanceTexte},
+            mais ne prend pas ${echapperHtml(assuranceChoisie)}.
+        </p>
+        <div class="repli-assurance-boutons">
+            <button type="button" class="btn-repli-autre-assurance" id="btn-repli-autre-assurance">
+                <i class="fa-solid fa-rotate"></i> Utiliser une autre assurance
+            </button>
+            <button type="button" class="btn-repli-sans-assurance" id="btn-repli-sans-assurance">
+                <i class="fa-solid fa-xmark"></i> Refaire sans assurance
+            </button>
+        </div>
+    `;
+
+    conteneur.classList.add('actif');
+
+    document.getElementById('btn-repli-autre-assurance').addEventListener('click', function () {
+        demanderAssuranceChoixSeul(function (nouvelleAssurance) {
+            rechercherProduitSurCarte(recherche, nouvelleAssurance);
+        });
+    });
+
+    document.getElementById('btn-repli-sans-assurance').addEventListener('click', function () {
+        rechercherProduitSurCarte(recherche, null);
+    });
 }
 
 
@@ -398,7 +722,7 @@ function appliquerFiltreProduitCarte(pharmaciesTrouvees) {
             if (correspond) {
 
                 if (!map.hasLayer(marqueurs[index])) marqueurs[index].addTo(map);
-                marqueurs[index].setIcon(p.statut_garde ? iconeRouge : iconeVerte);
+                marqueurs[index].setIcon(iconePourStatut(p.statut_calcule));
 
             } else if (map.hasLayer(marqueurs[index])) {
 
@@ -442,6 +766,8 @@ function reinitialiserRechercheProduitCarte() {
 
     modeRechercheProduitActif = false;
 
+    masquerRepliAssurance();
+
     pharmaciesData.forEach(function (p, index) {
 
         const item = document.getElementById('item-' + index);
@@ -450,7 +776,7 @@ function reinitialiserRechercheProduitCarte() {
         if (marqueurs[index]) {
 
             if (!map.hasLayer(marqueurs[index])) marqueurs[index].addTo(map);
-            marqueurs[index].setIcon(p.statut_garde ? iconeRouge : iconeVerte);
+            marqueurs[index].setIcon(iconePourStatut(p.statut_calcule));
         }
     });
 
@@ -492,7 +818,15 @@ fetch('../Dos-php/get_carte.php')
 
             if (isNaN(lat) || isNaN(lng)) return;
 
-            const icone = p.statut_garde ? iconeRouge : iconeVerte;
+            const icone = iconePourStatut(p.statut_calcule);
+
+            const badgesAssurancesHtml = (p.assurances && p.assurances.length > 0)
+                ? '<div style="display:flex;gap:4px;margin-bottom:6px;">' +
+                    p.assurances.map(function (a) {
+                        return '<img src="../Dos-img/' + encodeURIComponent(a.logo_assurance) + '" alt="' + echapperHtml(a.nom_assurance) + '" title="' + echapperHtml(a.nom_assurance) + '" style="width:20px;height:20px;object-fit:contain;border-radius:50%;border:1px solid #eee;background:white;">';
+                    }).join('') +
+                  '</div>'
+                : '';
 
             // Les champs venant de la BDD sont échappés avant insertion dans le HTML
             // du popup, pour éviter qu'un nom/adresse/téléphone contenant du code
@@ -514,10 +848,11 @@ fetch('../Dos-php/get_carte.php')
                         <i class="fas fa-phone" style="color:#00b000;"></i>
                         ${echapperHtml(p.telephone_pharmacie)}
                     </div>
-                    <div style="font-size:12px;font-weight:600;color:${p.statut_garde ? '#e74c3c' : '#00b000'};margin-bottom:8px;">
+                    <div style="font-size:12px;font-weight:600;color:${couleurPourStatut(p.statut_calcule)};margin-bottom:8px;">
                         <i class="fas fa-circle"></i>
-                        ${p.statut_garde ? 'Pharmacie de garde' : 'Ouverte'}
+                        ${libellePourStatut(p.statut_calcule)}
                     </div>
+                    ${badgesAssurancesHtml}
                     <button type="button" class="popup-btn-voir-pharmacie" data-id="${p.id_pharmacie}" style="width:100%;height:32px;background-color:#00b000;color:white;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">
                         <i class="fa-solid fa-store"></i> Voir la pharmacie
                     </button>

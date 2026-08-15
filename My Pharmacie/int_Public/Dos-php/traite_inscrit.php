@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
     die("Requête invalide.");
 }
 
@@ -58,6 +58,12 @@ try {
     exit();
 
 } catch (PDOException $e) {
+    // Code SQLSTATE 23505 = violation de contrainte unique (ex: double inscription
+    // simultanée avec le même identifiant, entre la vérification et l'insertion).
+    if ($e->getCode() === '23505') {
+        header("Location: ../Dos-page/inscription.php?erreur=deja_utilise");
+        exit();
+    }
     error_log("Erreur inscription : " . $e->getMessage());
     header("Location: ../Dos-page/inscription.php?erreur=technique");
     exit();

@@ -53,13 +53,39 @@ function ouvrirModalPharmacie(id) {
 
             const gardeEl = document.getElementById('modal-garde');
 
-            if (data.statut_garde) {
-                gardeEl.innerHTML = '<span class="modal-garde-badge">Pharmacie de garde</span>';
-            } else {
+            if (data.statut_calcule === 'garde') {
+                gardeEl.innerHTML = '<span class="modal-garde-badge garde">Pharmacie de garde</span>';
+            } else if (data.statut_calcule === 'ouverte') {
                 gardeEl.innerHTML = '<span class="modal-garde-badge">Ouverte</span>';
+            } else {
+                gardeEl.innerHTML = '<span class="modal-garde-badge fermee">Fermée</span>';
             }
 
             document.getElementById('modal-nb-produits').textContent = '(' + data.produits.length + ')';
+
+
+            // ----- Assurances acceptées -----
+
+            const assurancesEl = document.getElementById('modal-assurances-pharmacie');
+
+            if (assurancesEl) {
+
+                if (data.assurances && data.assurances.length > 0) {
+
+                    assurancesEl.innerHTML = '<span class="modal-assurances-titre"><i class="fa-solid fa-notes-medical"></i> Assurances acceptées :</span>'
+                        + data.assurances.map(function (a) {
+                            return '<span class="modal-assurance-item">'
+                                + '<img src="../Dos-img/' + encodeURIComponent(a.logo_assurance) + '" alt="' + echapperHtml(a.nom_assurance) + '">'
+                                + echapperHtml(a.nom_assurance)
+                                + '</span>';
+                        }).join('');
+
+                } else {
+
+                    assurancesEl.innerHTML = '<span class="modal-assurances-titre"><i class="fa-solid fa-notes-medical"></i></span>'
+                        + '<span class="modal-assurance-aucune">Aucune assurance acceptée</span>';
+                }
+            }
 
 
             // ----- Résumé notation -----

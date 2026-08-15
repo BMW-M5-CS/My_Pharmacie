@@ -1,5 +1,6 @@
 <?php
 require_once '../Dos-php/config.php';
+require_once '../Dos-php/fonctions_horaires.php';
 
 $sql = "SELECT id_pharmacie, nom_pharmacie, adresse, ville, latitude, longitude, 
                statut_garde, heure_ouverture, heure_fermeture, telephone_pharmacie
@@ -8,6 +9,42 @@ $sql = "SELECT id_pharmacie, nom_pharmacie, adresse, ville, latitude, longitude,
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $pharmacies = $stmt->fetchAll();
+
+foreach ($pharmacies as &$p) {
+    $p['statut_calcule'] = calculerStatutPharmacie(
+        (bool) $p['statut_garde'],
+        $p['heure_ouverture'],
+        $p['heure_fermeture']
+    );
+}
+unset($p);
+
+
+// ---------------------------- Assurances acceptées par chaque pharmacie (pour les badges de la liste latérale) ----------------------------
+
+$id_pharmacies_liste = array_column($pharmacies, 'id_pharmacie');
+
+$assurances_par_pharmacie = [];
+
+if (!empty($id_pharmacies_liste)) {
+
+    $marqueurs = implode(',', array_fill(0, count($id_pharmacies_liste), '?'));
+
+    $sql_assurances = "SELECT pa.id_pharmacie, a.nom_assurance, a.logo_assurance
+                        FROM pharmacie_assurances pa
+                        JOIN assurances a ON a.id_assurance = pa.id_assurance
+                        WHERE pa.id_pharmacie IN ($marqueurs)";
+
+    $stmt_assurances = $pdo->prepare($sql_assurances);
+    $stmt_assurances->execute($id_pharmacies_liste);
+
+    foreach ($stmt_assurances->fetchAll(PDO::FETCH_ASSOC) as $ligne) {
+        $assurances_par_pharmacie[$ligne['id_pharmacie']][] = [
+            'nom_assurance'  => $ligne['nom_assurance'],
+            'logo_assurance' => $ligne['logo_assurance'],
+        ];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +59,7 @@ $pharmacies = $stmt->fetchAll();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 </head>
-<body data-connecte="<?php echo isset($_SESSION['user_id']) ? '1' : '0'; ?>">
+<body data-connecte="<?php echo isset($_SESSION['user_id']) ? '1' : '0'; ?>" data-assurance-defaut="<?php echo htmlspecialchars($_SESSION['assurance_defaut'] ?? ''); ?>">
 
     <?php include '../../Include_general/header.php'; ?>
     <script src="../Dos-js/header.js" defer></script>
@@ -82,6 +119,9 @@ $pharmacies = $stmt->fetchAll();
             <span class="legende-dot dot-rouge"></span> Pharmacie de garde
         </div>
         <div class="legende-item">
+            <span class="legende-dot dot-gris"></span> Pharmacie fermée
+        </div>
+        <div class="legende-item">
             <span class="legende-dot dot-bleu"></span> Votre position
         </div>
         <div class="legende-item">
@@ -118,12 +158,24 @@ $pharmacies = $stmt->fetchAll();
                         </div>
 
                         <div class="pharm-statut">
-                            <?php if ($p['statut_garde']) : ?>
+                            <?php if ($p['statut_calcule'] === 'garde') : ?>
                                 <span class="statut-garde"><i class="fas fa-circle"></i> Pharmacie de garde</span>
-                            <?php else : ?>
+                            <?php elseif ($p['statut_calcule'] === 'ouverte') : ?>
                                 <span class="statut-ouvert"><i class="fas fa-circle"></i> Ouverte</span>
+                            <?php else : ?>
+                                <span class="statut-ferme"><i class="fas fa-circle"></i> Fermée</span>
                             <?php endif; ?>
                         </div>
+
+                        <?php if (!empty($assurances_par_pharmacie[$p['id_pharmacie']])) : ?>
+
+                            <div class="pharm-assurances">
+                                <?php foreach ($assurances_par_pharmacie[$p['id_pharmacie']] as $assurance_p) : ?>
+                                    <img src="../Dos-img/<?php echo htmlspecialchars($assurance_p['logo_assurance']); ?>" alt="<?php echo htmlspecialchars($assurance_p['nom_assurance']); ?>" title="<?php echo htmlspecialchars($assurance_p['nom_assurance']); ?>" class="pharm-assurance-logo">
+                                <?php endforeach; ?>
+                            </div>
+
+                        <?php endif; ?>
 
                         <button class="pharm-btn-voir" data-id="<?php echo $p['id_pharmacie']; ?>">
                             <i class="fa-solid fa-store"></i> Voir la pharmacie
@@ -170,6 +222,8 @@ $pharmacies = $stmt->fetchAll();
                         <p><i class="fa-solid fa-phone"></i> <span id="modal-telephone"></span></p>
                         <p><i class="fa-solid fa-circle"></i> <span id="modal-garde"></span></p>
                     </div>
+
+                    <div class="modal-assurances-pharmacie" id="modal-assurances-pharmacie"></div>
 
                 </div>
 

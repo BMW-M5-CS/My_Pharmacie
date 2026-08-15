@@ -46,6 +46,54 @@ if (btnVoirPlus) {
 
 
 // ===================================================================
+// MENU DÉROULANT PERSONNALISÉ DU FILTRE "FORME"
+// ===================================================================
+
+const selectFormeWrapper = document.getElementById('select-forme-wrapper');
+const selectFormeAffiche = document.getElementById('select-forme-affiche');
+const selectFormeTexte   = document.getElementById('select-forme-texte');
+const formeValeur        = document.getElementById('forme-valeur');
+const formesListe        = document.getElementById('formes-liste');
+
+if (selectFormeWrapper && selectFormeAffiche && formesListe) {
+
+    selectFormeAffiche.addEventListener('click', function (e) {
+        e.stopPropagation();
+        selectFormeWrapper.classList.toggle('active');
+    });
+
+    formesListe.querySelectorAll('.forme-item').forEach(function (item) {
+
+        if (item.dataset.valeur === formeValeur.value) {
+            item.classList.add('selectionnee');
+        }
+
+        item.addEventListener('click', function () {
+
+            formesListe.querySelectorAll('.forme-item').forEach(function (autre) {
+                autre.classList.remove('selectionnee');
+            });
+
+            item.classList.add('selectionnee');
+
+            formeValeur.value        = item.dataset.valeur;
+            selectFormeTexte.textContent = item.dataset.valeur !== '' ? item.dataset.valeur : 'Toutes les formes';
+
+            selectFormeWrapper.classList.remove('active');
+        });
+
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!selectFormeWrapper.contains(e.target)) {
+            selectFormeWrapper.classList.remove('active');
+        }
+    });
+
+}
+
+
+// ===================================================================
 // RECHERCHE LOCALE PARMI LES CARTES AFFICHÉES
 // ===================================================================
 
@@ -88,6 +136,16 @@ const modalFermerProduit = document.getElementById('modal-fermer-produit');
 // actuellement affiché dans le modal, utilisée pour le filtrage local de la recherche
 let pharmaciesProduitActuelles = [];
 
+// Assurance actuellement sélectionnée dans les chips du modal produit (null = aucun filtre)
+let filtreAssuranceActif = null;
+
+// Référentiel des 3 assurances gérées, utilisé pour construire les chips et les badges
+const ASSURANCES_DISPONIBLES = [
+    { nom: 'INAM',            logo: '../Dos-img/INAM.png' },
+    { nom: 'AMU',              logo: '../Dos-img/AMU.png' },
+    { nom: 'SUNU Assurance',   logo: '../Dos-img/SUNU.png' },
+];
+
 document.querySelectorAll('.Voir-produit').forEach(function (btn) {
 
     btn.addEventListener('click', function () {
@@ -95,6 +153,20 @@ document.querySelectorAll('.Voir-produit').forEach(function (btn) {
         ouvrirModalProduit(id);
     });
 });
+
+
+// Construit les petits badges logo des assurances acceptées par une pharmacie
+// (aucun badge si la pharmacie n'accepte aucune assurance : pas de bruit visuel inutile)
+function rendreBadgesAssurance(assurances) {
+
+    if (!assurances || assurances.length === 0) return '';
+
+    return '<div class="modal-pharmacie-assurances">' +
+        assurances.map(function (a) {
+            return '<img src="../Dos-img/' + encodeURIComponent(a.logo_assurance) + '" alt="' + echapperHtml(a.nom_assurance) + '" title="' + echapperHtml(a.nom_assurance) + '" class="badge-assurance-logo">';
+        }).join('') +
+        '</div>';
+}
 
 
 // Affiche (ou ré-affiche, triée) la liste des pharmacies qui ont le produit.
@@ -106,7 +178,22 @@ function rendrePharmaciesProduit(liste, conteneur) {
 
     if (liste.length === 0) {
 
-        conteneur.innerHTML = '<p class="modal-aucun">Aucune pharmacie, pour le moment, ne dispose de ce produit.</p>';
+        const messageAssurance = filtreAssuranceActif
+            ? '<p class="modal-aucun">Aucune pharmacie disponible ne correspond à ta recherche et accepte ' + echapperHtml(filtreAssuranceActif) + '.</p>'
+              + '<button type="button" class="modal-reinitialiser-assurance" id="modal-reinitialiser-assurance-depuis-vide">'
+              + '<i class="fa-solid fa-xmark"></i> Retirer le filtre ' + echapperHtml(filtreAssuranceActif)
+              + '</button>'
+            : '<p class="modal-aucun">Aucune pharmacie, pour le moment, ne dispose de ce produit.</p>';
+
+        conteneur.innerHTML = messageAssurance;
+
+        const btnRetraitDepuisVide = document.getElementById('modal-reinitialiser-assurance-depuis-vide');
+        if (btnRetraitDepuisVide) {
+            btnRetraitDepuisVide.addEventListener('click', function () {
+                selectionnerChipAssurance(null);
+            });
+        }
+
         return;
     }
 
@@ -127,6 +214,7 @@ function rendrePharmaciesProduit(liste, conteneur) {
         item.innerHTML = `
             ${badgeProche}
             <span class="modal-pharmacie-nom">${echapperHtml(pharmacie.nom_pharmacie)}</span>
+            ${rendreBadgesAssurance(pharmacie.assurances)}
             ${distanceHtml}
             <button class="btn-voir-pharmacie" data-id="${pharmacie.id_pharmacie}">
                 <i class="fa-solid fa-store"></i> Voir la pharmacie
@@ -190,12 +278,27 @@ function ouvrirModalProduit(id) {
             if (viderProduitModal) viderProduitModal.classList.remove('actif');
 
 
+            // ----- Filtre assurance : réinitialisation pour le nouveau produit -----
+            // Comportement passif : si le client connecté a une assurance enregistrée dans son
+            // profil, elle est appliquée automatiquement (désactivable ensuite via les chips).
+            // Sinon (visiteur, ou pas d'assurance enregistrée), aucun filtre par défaut.
+
+            const assuranceDefautProfil = document.body.dataset.assuranceDefaut || '';
+
+            filtreAssuranceActif = assuranceDefautProfil !== '' ? assuranceDefautProfil : null;
+
+            document.querySelectorAll('.chip-assurance').forEach(function (chip) {
+                const valeurChip = chip.dataset.nomAssurance || null;
+                chip.classList.toggle('active', valeurChip === filtreAssuranceActif);
+            });
+
+
             // ----- Remplissage de la liste des pharmacies (triée par distance si possible) -----
 
             const listePharmacies = document.getElementById('modal-liste-pharmacie');
 
             pharmaciesProduitActuelles = data.pharmacies;
-            rendrePharmaciesProduit(pharmaciesProduitActuelles, listePharmacies);
+            rendrePharmaciesProduit(appliquerFiltresCombines(''), listePharmacies);
 
             // La géolocalisation est asynchrone : on affiche d'abord la liste telle
             // quelle (ordre alphabétique venant du serveur), puis on la re-trie et
@@ -211,7 +314,7 @@ function ouvrirModalProduit(id) {
                 }).sort(function (a, b) { return a.distanceKm - b.distanceKm; });
 
                 pharmaciesProduitActuelles = pharmaciesAvecDistance;
-                rendrePharmaciesProduit(pharmaciesProduitActuelles, listePharmacies);
+                rendrePharmaciesProduit(appliquerFiltresCombines(''), listePharmacies);
             });
 
             modalOuvrirProduit.classList.add('actif');
@@ -312,24 +415,105 @@ function construireBarreRechercheModalPharmacie() {
 
 function filtrerPharmaciesModalProduit(recherche) {
 
-    const q          = recherche.trim().toLowerCase();
     const listeConteneur = document.getElementById('modal-liste-pharmacie');
-    const viderModal  = document.getElementById('modal-recherche-pharmacie-vider');
+    const viderModal      = document.getElementById('modal-recherche-pharmacie-vider');
 
-    if (q === '') {
+    const q = recherche.trim().toLowerCase();
 
-        rendrePharmaciesProduit(pharmaciesProduitActuelles, listeConteneur);
-        if (viderModal) viderModal.classList.remove('actif');
-
-    } else {
-
-        const resultats = pharmaciesProduitActuelles.filter(function (p) {
-            return p.nom_pharmacie.toLowerCase().includes(q);
-        });
-
-        rendrePharmaciesProduit(resultats, listeConteneur);
+    if (q !== '') {
         if (viderModal) viderModal.classList.add('actif');
+    } else {
+        if (viderModal) viderModal.classList.remove('actif');
     }
+
+    rendrePharmaciesProduit(appliquerFiltresCombines(q), listeConteneur);
+}
+
+
+// Applique ensemble le filtre texte (nom de pharmacie) et le filtre assurance (chip active),
+// à partir de la liste courante (déjà triée par distance si la position est connue)
+function appliquerFiltresCombines(rechercheTexte) {
+
+    let resultats = pharmaciesProduitActuelles;
+
+    if (rechercheTexte) {
+        resultats = resultats.filter(function (p) {
+            return p.nom_pharmacie.toLowerCase().includes(rechercheTexte);
+        });
+    }
+
+    if (filtreAssuranceActif) {
+        resultats = resultats.filter(function (p) {
+            return (p.assurances || []).some(function (a) {
+                return a.nom_assurance === filtreAssuranceActif;
+            });
+        });
+    }
+
+    return resultats;
+}
+
+
+// Applique/retire le filtre assurance suite à un clic sur une chip (ou sur le bouton
+// de retrait affiché quand le filtre ne donne aucun résultat)
+function selectionnerChipAssurance(nomAssurance) {
+
+    // La chip "Toutes les pharmacies" (valeur vide) réinitialise toujours le filtre,
+    // sans dépendre d'un état "déjà actif" que l'utilisateur devrait deviner.
+    // Pour les autres chips, re-cliquer sur celle déjà active la désactive aussi (raccourci).
+    if (!nomAssurance) {
+        filtreAssuranceActif = null;
+    } else {
+        filtreAssuranceActif = (filtreAssuranceActif === nomAssurance) ? null : nomAssurance;
+    }
+
+    document.querySelectorAll('.chip-assurance').forEach(function (chip) {
+        const valeurChip = chip.dataset.nomAssurance || null;
+        chip.classList.toggle('active', valeurChip === filtreAssuranceActif);
+    });
+
+    const champRechercheModal = document.getElementById('modal-recherche-pharmacie-input');
+    const rechercheActuelle   = champRechercheModal ? champRechercheModal.value.trim().toLowerCase() : '';
+
+    rendrePharmaciesProduit(appliquerFiltresCombines(rechercheActuelle), document.getElementById('modal-liste-pharmacie'));
+}
+
+
+// ===================================================================
+// CHIPS DE FILTRAGE PAR ASSURANCE, SOUS LA BARRE DE RECHERCHE DU MODAL
+// ===================================================================
+
+function construireChipsAssuranceModal() {
+
+    if (document.getElementById('modal-chips-assurance')) return;
+
+    const listePharmacies = document.getElementById('modal-liste-pharmacie');
+    if (!listePharmacies) return;
+
+    const conteneur = document.createElement('div');
+    conteneur.id        = 'modal-chips-assurance';
+    conteneur.className = 'modal-chips-assurance';
+
+    conteneur.innerHTML = '<button type="button" class="chip-assurance chip-assurance-toutes active" data-nom-assurance="">'
+        + '<i class="fa-solid fa-store"></i><span>Toutes les pharmacies</span>'
+        + '</button>'
+        + ASSURANCES_DISPONIBLES.map(function (assurance) {
+            return `
+                <button type="button" class="chip-assurance" data-nom-assurance="${echapperHtml(assurance.nom)}">
+                    <img src="${assurance.logo}" alt="${echapperHtml(assurance.nom)}">
+                    <span>${echapperHtml(assurance.nom)}</span>
+                </button>
+            `;
+        }).join('');
+
+    listePharmacies.parentNode.insertBefore(conteneur, listePharmacies);
+
+    conteneur.querySelectorAll('.chip-assurance').forEach(function (chip) {
+
+        chip.addEventListener('click', function () {
+            selectionnerChipAssurance(this.dataset.nomAssurance);
+        });
+    });
 }
 
 
@@ -398,9 +582,10 @@ document.addEventListener('click', function (e) {
 });
 
 
-// Mise en place, une seule fois, de la barre sticky et de la barre de recherche
+// Mise en place, une seule fois, de la barre sticky, de la barre de recherche et des chips assurance
 construireBarreStickyProduit();
 construireBarreRechercheModalPharmacie();
+construireChipsAssuranceModal();
 
 
 // ===================================================================

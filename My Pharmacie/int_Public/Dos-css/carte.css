@@ -233,15 +233,222 @@ div.entete_input {
 }
 
 
+/* ── Panneau de repli affiché quand l'assurance choisie ne donne aucun résultat ── */
+
+.carte-repli-assurance {
+    display: none;
+    max-width: 480px;
+    margin: 10px auto 0;
+    padding: 14px 18px;
+    background-color: white;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.carte-repli-assurance.actif {
+    display: block;
+}
+
+.repli-assurance-texte {
+    font-size: 13px;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.repli-assurance-boutons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-repli-autre-assurance,
+.btn-repli-sans-assurance {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-repli-autre-assurance {
+    background-color: var(--vert-principal);
+    color: white;
+    border: none;
+}
+
+.btn-repli-autre-assurance:hover {
+    background-color: var(--vert-fonce);
+}
+
+.btn-repli-sans-assurance {
+    background: none;
+    border: 1px solid #ccc;
+    color: #555;
+}
+
+.btn-repli-sans-assurance:hover {
+    background-color: #f5f5f5;
+}
+
+
+/* ── Modal question assurance (Oui/Non puis choix), posé avant chaque recherche produit ── */
+
+.fenetre-assurance {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 1100;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.fenetre-assurance.actif {
+    display: flex;
+}
+
+.modal-contenu-assurance {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    background-color: white;
+    border-radius: 18px;
+    padding: 32px 24px 24px;
+    text-align: center;
+}
+
+.modal-assurance-fermer {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-assurance-fermer:hover {
+    color: #333;
+}
+
+.modal-assurance-question {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2b2b2b;
+    margin-bottom: 20px;
+}
+
+.modal-assurance-boutons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.modal-assurance-boutons-colonne {
+    flex-direction: column;
+}
+
+.btn-assurance-principal,
+.btn-assurance-secondaire,
+.btn-choix-assurance-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 46px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-assurance-principal {
+    background-color: var(--vert-principal);
+    color: white;
+    border: none;
+}
+
+.btn-assurance-principal:hover {
+    background-color: var(--vert-fonce);
+}
+
+.btn-assurance-secondaire {
+    background-color: white;
+    color: var(--vert-principal);
+    border: 1.5px solid var(--vert-principal);
+}
+
+.btn-assurance-secondaire:hover {
+    background-color: var(--vert-clair);
+}
+
+.btn-choix-assurance-item {
+    background-color: #fafafa;
+    color: #2b2b2b;
+    border: 1.5px solid #e0e0e0;
+}
+
+.btn-choix-assurance-item:hover {
+    border-color: var(--vert-principal);
+    background-color: var(--vert-clair);
+}
+
+.btn-mon-assurance img,
+.btn-choix-assurance-item img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.btn-assurance-lien {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.btn-assurance-lien:hover {
+    color: #555;
+}
+
+
 @media (max-width: 420px) {
 
     div.entete_input {
         flex-direction: column;
+        background-color: rgba(0, 0, 0, 0.32);
+        border-radius: 18px;
+        padding: 14px;
+        gap: 10px;
     }
 
-    .champ-recherche, .sreach_btn {
+    .champ-recherche-wrapper, .sreach_btn {
+        flex: 0 0 auto;
         width: 100%;
         height: 46px;
+    }
+
+    .champ-recherche {
+        height: 100%;
     }
 
 }
@@ -271,17 +478,18 @@ div.entete_input {
 }
 
 .legende-dot {
-    width: 13px;
-    height: 13px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     display: inline-block;
     border: 2px solid rgba(0, 0, 0, 0.15);
 }
 
 .dot-vert  { background-color: var(--vert-principal); }
-.dot-rouge { background-color: #e74c3c; }
+.dot-rouge { background-color: #7c3aed; }
 .dot-bleu  { background-color: #2980b9; }
 .dot-or    { background-color: #f5a623; }
+.dot-gris  { background-color: #9e9e9e; }
 
 
 /* ======================================================================
@@ -301,11 +509,13 @@ div.entete_input {
     display: flex;
     height: calc(100vh - 300px);
     min-height: 500px;
+    overflow: hidden;
 }
 
 .liste-pharmacies {
     width: 330px;
     min-width: 280px;
+    min-height: 0;
     background-color: white;
     color: #1a1a1a;
     border-right: 1px solid #eee;
@@ -314,6 +524,7 @@ div.entete_input {
 }
 
 .liste-titre {
+    flex-shrink: 0;
     padding: 16px 18px;
     font-size: 15px;
     font-weight: 700;
@@ -330,7 +541,9 @@ div.entete_input {
 
 .liste-scroll {
     flex: 1;
+    min-height: 0;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .pharmacie-item {
@@ -375,8 +588,24 @@ div.entete_input {
     gap: 5px;
 }
 
-.statut-garde  { color: #e74c3c; }
+.statut-garde  { color: #7c3aed; }
 .statut-ouvert { color: var(--vert-principal); }
+.statut-ferme  { color: #9e9e9e; }
+
+.pharm-assurances {
+    display: flex;
+    gap: 6px;
+    margin-top: 2px;
+}
+
+.pharm-assurance-logo {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    border-radius: 50%;
+    border: 1px solid #eee;
+    background-color: white;
+}
 
 .pharm-btn-voir {
     margin-top: 4px;
@@ -463,8 +692,10 @@ div.entete_input {
     }
 
     .liste-pharmacies {
+        flex: 1;
         width: 100%;
         min-width: 0;
+        min-height: 0;
         border-right: none;
     }
 
@@ -693,6 +924,56 @@ body.fenetre-pharmacie-ouvert {
     flex-shrink: 0;
 }
 
+
+.modal-assurances-pharmacie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.modal-assurances-titre {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+}
+
+.modal-assurances-titre i {
+    color: var(--vert-principal);
+}
+
+.modal-assurance-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px 4px 4px;
+    background-color: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #2b2b2b;
+}
+
+.modal-assurance-item img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.modal-assurance-aucune {
+    font-size: 13px;
+    color: #888;
+    font-style: italic;
+}
+
+
 .modal-garde-badge {
     display: inline-block;
     padding: 3px 12px;
@@ -704,8 +985,12 @@ body.fenetre-pharmacie-ouvert {
     width: fit-content;
 }
 
+.modal-garde-badge.garde {
+    background-color: #7c3aed;
+}
+
 .modal-garde-badge.fermee {
-    background-color: #e74c3c;
+    background-color: #9e9e9e;
 }
 
 .modal-carte {

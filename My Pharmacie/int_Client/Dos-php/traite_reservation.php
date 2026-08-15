@@ -59,7 +59,8 @@ try {
                           AND r.expire_at > NOW()
                     ), 0) AS max_reservable
                   FROM stocks s
-                  WHERE s.id_stock = ? AND s.id_pharmacie = ?";
+                  WHERE s.id_stock = ? AND s.id_pharmacie = ?
+                  FOR UPDATE";
 
     $stmt_verif = $pdo->prepare($sql_verif);
 

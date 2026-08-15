@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
     die("Requête invalide");
 }
 
@@ -84,6 +84,11 @@ try {
         $_SESSION['role']                 = $user['role'];
         $_SESSION['phone_email']          = $user['phone_email'];
         $_SESSION['contact_recuperation'] = $user['contact_recuperation'];
+        $_SESSION['assurance_defaut']     = $user['assurance_defaut'] ?? '';
+
+        // Nouvelle connexion : on repart sur une bannière "contact de récupération" non ignorée,
+        // pour qu'elle réapparaisse à cette nouvelle session si le contact est toujours manquant.
+        unset($_SESSION['alerte_recup_ignoree']);
 
         // Sert de référence pour la vérification "session invalidée si mdp changé ailleurs" dans config.php
         $_SESSION['info_modif_mdp'] = $user['info_modif_mdp'];

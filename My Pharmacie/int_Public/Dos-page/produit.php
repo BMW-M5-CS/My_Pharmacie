@@ -50,7 +50,7 @@ function imagePlaceholderProduit($id) {
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
-<body data-connecte="<?php echo isset($_SESSION['user_id']) ? '1' : '0'; ?>">
+<body data-connecte="<?php echo isset($_SESSION['user_id']) ? '1' : '0'; ?>" data-assurance-defaut="<?php echo htmlspecialchars($_SESSION['assurance_defaut'] ?? ''); ?>">
 
     <?php include '../../Include_general/header.php'; ?>
     <script src="../Dos-js/header.js" defer></script>
@@ -82,33 +82,46 @@ function imagePlaceholderProduit($id) {
 
                 </div>
 
-                <select name="Forme" id="Forme">
-                    <option value="">Toutes les formes</option>
-                    <option value="Comprimé">Comprimé</option>
-                    <option value="Gélule">Gélule</option>
-                    <option value="Capsule">Capsule</option>
-                    <option value="Comprimé effervescent">Comprimé effervescent</option>
-                    <option value="Poudre">Poudre</option>
-                    <option value="Granulés">Granulés</option>
-                    <option value="Lyophilisat">Lyophilisat</option>
-                    <option value="Sirop">Sirop</option>
-                    <option value="Solution buvable">Solution buvable</option>
-                    <option value="Suspension buvable">Suspension buvable</option>
-                    <option value="Gouttes">Gouttes</option>
-                    <option value="Ampoule buvable">Ampoule buvable</option>
-                    <option value="Solution injectable">Solution injectable</option>
-                    <option value="Poudre pour injection">Poudre pour injection</option>
-                    <option value="Suspension injectable">Suspension injectable</option>
-                    <option value="Crème">Crème</option>
-                    <option value="Pommade">Pommade</option>
-                    <option value="Gel">Gel</option>
-                    <option value="Lotion">Lotion</option>
-                    <option value="Spray">Spray</option>
-                    <option value="Suppositoire">Suppositoire</option>
-                    <option value="Ovule">Ovule</option>
-                    <option value="Aérosol / Inhalateur">Aérosol / Inhalateur</option>
-                    <option value="Spray nasal">Spray nasal</option>
-                </select>
+                <div class="select-forme-wrapper" id="select-forme-wrapper">
+
+                    <input type="hidden" name="Forme" id="forme-valeur" value="<?php echo htmlspecialchars($forme); ?>">
+
+                    <button type="button" class="select-forme-affiche" id="select-forme-affiche">
+                        <span id="select-forme-texte"><?php echo $forme !== '' ? htmlspecialchars($forme) : 'Toutes les formes'; ?></span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                    <div class="formes-liste" id="formes-liste">
+
+                        <div class="forme-item" data-valeur="">Toutes les formes</div>
+                        <div class="forme-item" data-valeur="Comprimé">Comprimé</div>
+                        <div class="forme-item" data-valeur="Gélule">Gélule</div>
+                        <div class="forme-item" data-valeur="Capsule">Capsule</div>
+                        <div class="forme-item" data-valeur="Comprimé effervescent">Comprimé effervescent</div>
+                        <div class="forme-item" data-valeur="Poudre">Poudre</div>
+                        <div class="forme-item" data-valeur="Granulés">Granulés</div>
+                        <div class="forme-item" data-valeur="Lyophilisat">Lyophilisat</div>
+                        <div class="forme-item" data-valeur="Sirop">Sirop</div>
+                        <div class="forme-item" data-valeur="Solution buvable">Solution buvable</div>
+                        <div class="forme-item" data-valeur="Suspension buvable">Suspension buvable</div>
+                        <div class="forme-item" data-valeur="Gouttes">Gouttes</div>
+                        <div class="forme-item" data-valeur="Ampoule buvable">Ampoule buvable</div>
+                        <div class="forme-item" data-valeur="Solution injectable">Solution injectable</div>
+                        <div class="forme-item" data-valeur="Poudre pour injection">Poudre pour injection</div>
+                        <div class="forme-item" data-valeur="Suspension injectable">Suspension injectable</div>
+                        <div class="forme-item" data-valeur="Crème">Crème</div>
+                        <div class="forme-item" data-valeur="Pommade">Pommade</div>
+                        <div class="forme-item" data-valeur="Gel">Gel</div>
+                        <div class="forme-item" data-valeur="Lotion">Lotion</div>
+                        <div class="forme-item" data-valeur="Spray">Spray</div>
+                        <div class="forme-item" data-valeur="Suppositoire">Suppositoire</div>
+                        <div class="forme-item" data-valeur="Ovule">Ovule</div>
+                        <div class="forme-item" data-valeur="Aérosol / Inhalateur">Aérosol / Inhalateur</div>
+                        <div class="forme-item" data-valeur="Spray nasal">Spray nasal</div>
+
+                    </div>
+
+                </div>
 
                 <button type="submit" class="sreach_btn"><i class="fas fa-search"></i> Rechercher</button>
 
@@ -248,6 +261,8 @@ function imagePlaceholderProduit($id) {
                         <p><i class="fa-solid fa-phone"></i> <span id="modal-telephone"></span></p>
                         <p><i class="fa-solid fa-circle"></i> <span id="modal-garde"></span></p>
                     </div>
+
+                    <div class="modal-assurances-pharmacie" id="modal-assurances-pharmacie"></div>
 
                 </div>
 

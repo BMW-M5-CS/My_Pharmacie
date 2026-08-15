@@ -12,7 +12,7 @@ $est_connecte = isset($_SESSION['user_id']);
         <div class="footer-col footer-brand">
             <div class="footer-logo">
                 <i class="fas fa-mortar-pestle"></i>
-                <span>My<strong>Pharmacie</strong></span>
+                <span>Ma<strong>Pharmacie</strong></span>
             </div>
             <p class="footer-tagline">Votre santé, notre priorité.<br>Trouvez le médicament qu'il vous faut, où que vous soyez.</p>
         </div>

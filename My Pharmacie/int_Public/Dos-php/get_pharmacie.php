@@ -2,6 +2,7 @@
 
 require_once 'config.php';
 require_once 'fonctions_notation.php';
+require_once 'fonctions_horaires.php';
 
 $id_pharmacie = $_GET['id_pharmacie'] ?? null;
 
@@ -52,6 +53,19 @@ $stmt2->execute([$id_pharmacie]);
 $produits = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
 
+// ---------------------------- Assurances acceptées par cette pharmacie ----------------------------
+
+$sql_assurances = "SELECT a.nom_assurance, a.logo_assurance
+                    FROM pharmacie_assurances pa
+                    JOIN assurances a ON a.id_assurance = pa.id_assurance
+                    WHERE pa.id_pharmacie = ?
+                    ORDER BY a.nom_assurance ASC";
+
+$stmt_assurances = $pdo->prepare($sql_assurances);
+$stmt_assurances->execute([$id_pharmacie]);
+$assurances = $stmt_assurances->fetchAll(PDO::FETCH_ASSOC);
+
+
 // ---------------------------- Moyenne et nombre d'avis ----------------------------
 
 $sql_moyenne = "SELECT COALESCE(AVG(note), 0) AS note_moyenne, COUNT(*) AS nombre_avis
@@ -90,11 +104,17 @@ $taux_disponibilite = (float) ($stmt_taux->fetch(PDO::FETCH_ASSOC)['taux'] ?? 0)
 
 
 $pharmacie['produits']            = $produits;
+$pharmacie['assurances']          = $assurances;
 $pharmacie['note_moyenne']        = round((float) $moyenne['note_moyenne'], 1);
 $pharmacie['nombre_avis']         = (int) $moyenne['nombre_avis'];
 $pharmacie['taux_disponibilite']  = round($taux_disponibilite);
 $pharmacie['recommandee']         = estPharmacieRecommandee((float) $moyenne['note_moyenne'], $taux_disponibilite);
 $pharmacie['etoiles_html']        = afficherEtoiles((float) $moyenne['note_moyenne']);
+$pharmacie['statut_calcule']      = calculerStatutPharmacie(
+    (bool) $pharmacie['statut_garde'],
+    $pharmacie['heure_ouverture'],
+    $pharmacie['heure_fermeture']
+);
 
 header('Content-Type: application/json');
 echo json_encode($pharmacie, JSON_UNESCAPED_UNICODE);

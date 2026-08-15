@@ -78,6 +78,116 @@ btnEnregistrerInfo.addEventListener("click", function() {
 
 
 // ===================================================================
+// SECTION 1BIS — ÉDITION DE L'ASSURANCE PAR DÉFAUT
+// ===================================================================
+
+const btnModifierAssurance   = document.getElementById("btn-modifier-assurance");
+const btnAnnulerAssurance    = document.getElementById("btn-annuler-assurance");
+const btnEnregistrerAssurance = document.getElementById("btn-enregistrer-assurance");
+const assuranceLecture       = document.getElementById("assurance-lecture");
+const assuranceEdition       = document.getElementById("assurance-edition");
+const messageAssurance       = document.getElementById("message-assurance");
+const champAssuranceDefaut   = document.getElementById("edit-assurance-defaut");
+
+btnModifierAssurance.addEventListener("click", function() {
+
+    assuranceLecture.style.display = "none";
+    assuranceEdition.style.display = "block";
+
+    btnModifierAssurance.style.display = "none";
+
+    messageAssurance.textContent = "";
+    messageAssurance.className   = "profil-message";
+});
+
+
+// ----- Sélection d'une chip d'assurance -----
+
+document.querySelectorAll('.profil-chip-assurance').forEach(function (chip) {
+
+    if (chip.dataset.nomAssurance === champAssuranceDefaut.value) {
+        chip.classList.add('active');
+    }
+
+    chip.addEventListener('click', function () {
+
+        document.querySelectorAll('.profil-chip-assurance').forEach(function (autre) {
+            autre.classList.remove('active');
+        });
+
+        this.classList.add('active');
+        champAssuranceDefaut.value = this.dataset.nomAssurance;
+    });
+});
+
+
+// ----- Annulation de l'édition de l'assurance -----
+
+btnAnnulerAssurance.addEventListener("click", function() {
+
+    assuranceEdition.style.display = "none";
+    assuranceLecture.style.display = "block";
+
+    btnModifierAssurance.style.display = "flex";
+
+    const valeurActuelle = document.getElementById('lecture-assurance-defaut').textContent.trim();
+    const valeurReelle    = (valeurActuelle === 'Aucune') ? '' : valeurActuelle;
+
+    champAssuranceDefaut.value = valeurReelle;
+
+    document.querySelectorAll('.profil-chip-assurance').forEach(function (chip) {
+        chip.classList.toggle('active', chip.dataset.nomAssurance === valeurReelle);
+    });
+
+    messageAssurance.textContent = "";
+    messageAssurance.className   = "profil-message";
+});
+
+
+// ----- Enregistrement de l'assurance par défaut (pas de mot de passe requis : préférence à faible enjeu) -----
+
+btnEnregistrerAssurance.addEventListener("click", function() {
+
+    btnEnregistrerAssurance.disabled    = true;
+    btnEnregistrerAssurance.textContent = 'Enregistrement...';
+
+    fetch('../Dos-php/traite_profil.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            action:            'modifier_assurance',
+            csrf_token:         document.getElementById('csrf-token').value,
+            assurance_defaut:   champAssuranceDefaut.value
+        })
+    })
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+
+        if (data.success) {
+
+            document.getElementById('lecture-assurance-defaut').textContent = data.assurance_defaut || 'Aucune';
+
+            assuranceEdition.style.display     = 'none';
+            assuranceLecture.style.display     = 'block';
+            btnModifierAssurance.style.display = 'flex';
+
+            afficherMessage(messageAssurance, 'Assurance mise à jour avec succès.', 'succes');
+
+        } else {
+            afficherMessage(messageAssurance, data.message, 'erreur');
+        }
+    })
+    .catch(function() {
+        afficherMessage(messageAssurance, 'Erreur réseau. Veuillez réessayer.', 'erreur');
+    })
+    .finally(function() {
+        btnEnregistrerAssurance.disabled  = false;
+        btnEnregistrerAssurance.innerHTML = '<i class="fa-solid fa-check"></i> Enregistrer';
+    });
+});
+
+
+// ===================================================================
 // SECTION 2 — MODALE DE CONFIRMATION
 // ===================================================================
 

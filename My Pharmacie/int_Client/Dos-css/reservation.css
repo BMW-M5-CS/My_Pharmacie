@@ -530,11 +530,30 @@ body {
 @media (max-width: 1000px) {
     .resa-corps {
         grid-template-columns: 1fr;
+        height: auto;
         padding: 28px 20px 50px 20px;
+    }
+
+    .resa-produits-col {
+        height: 55vh;
+        min-height: 320px;
+        max-height: 520px;
+    }
+
+    .resa-grille-produits {
+        flex: 1;
+        min-height: 0;
+        max-height: 100%;
+        overflow-y: auto;
+        padding-right: 6px;
     }
 
     .resa-panier-sticky {
         position: static;
+    }
+
+    .resa-ticket-lignes {
+        max-height: 260px;
     }
 
     .resa-hero {
