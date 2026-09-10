@@ -1,5 +1,6 @@
 <?php
 require_once '../../int_Public/Dos-php/config.php';
+require_once '../../int_Public/Dos-php/images_produits.php';
 
 if (!isset($_SESSION['user_id'])) {
     http_response_code(401);
@@ -42,7 +43,9 @@ $produits = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Sécurité : jamais de valeur négative envoyée au client
 foreach ($produits as &$produit) {
     $produit['max_reservable'] = max(0, (int)$produit['max_reservable']);
+    $produit['image_url']      = chemin_image_pour_forme($produit['forme_pharmaceutique'], '../../int_Public/Dos-img/produits/');
 }
+unset($produit);
 
 header('Content-Type: application/json');
 echo json_encode(['produits' => $produits], JSON_UNESCAPED_UNICODE);

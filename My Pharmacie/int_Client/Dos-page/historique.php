@@ -1,4 +1,5 @@
 <?php
+require_once '../../Include_general/session_init.php';
 require_once '../../int_Public/Dos-php/config.php';
 
 if (!isset($_SESSION['user_id'])) {
@@ -19,9 +20,7 @@ $historique = $stmt->fetchAll();
 
 $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
-function imagePlaceholderProduit($id) {
-    return 'https://picsum.photos/seed/produit' . $id . '/400/400';
-}
+require_once '../../int_Public/Dos-php/images_produits.php';
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +28,11 @@ function imagePlaceholderProduit($id) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon historique</title>
+    <title>Mon historique — MaPharmacie</title>
+    <link rel="stylesheet" href="../../Include_general/variables.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="../Dos-css/header.css">
     <link rel="stylesheet" href="../Dos-css/historique.css">
     <link rel="stylesheet" href="../Dos-css/footer.css">
@@ -95,7 +98,7 @@ function imagePlaceholderProduit($id) {
                         <article class="carte-historique" data-id="<?php echo $item['id_produit']; ?>">
 
                             <div class="carte-historique-image">
-                                <img src="<?php echo imagePlaceholderProduit($item['id_produit']); ?>" alt="<?php echo htmlspecialchars($item['nom_medicament']); ?>" loading="lazy">
+                                <img src="<?php echo htmlspecialchars(chemin_image_pour_forme($item['forme_pharmaceutique'], '../../int_Public/Dos-img/produits/')); ?>" alt="<?php echo htmlspecialchars($item['nom_medicament']); ?>" loading="lazy">
                             </div>
 
                             <div class="carte-historique-corps">

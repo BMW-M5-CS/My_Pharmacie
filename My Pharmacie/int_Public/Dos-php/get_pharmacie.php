@@ -37,6 +37,14 @@ if(!$pharmacie){
     exit();
 }
 
+require_once 'zone_geographique.php'; // pour la constante LIMITE_RESULTATS_MAX
+require_once 'images_produits.php';
+
+// NOTE : LIMIT ci-dessous est un plafond de sécurité, pas encore une vraie
+// pagination. Une grande officine avec plus de LIMITE_RESULTATS_MAX
+// références verra sa liste tronquée sans indication ; une pagination
+// (page suivante / défilement infini) reste à construire côté frontend
+// pour ce cas précis.
 $sql_produits = "SELECT 
                     p.id_produit, 
                     s.id_stock,
@@ -46,11 +54,17 @@ $sql_produits = "SELECT
                 FROM produits p 
                 JOIN stocks s ON s.id_produit = p.id_produit 
                 WHERE s.id_pharmacie = ? AND s.quantite_disponible > 0 
-                ORDER BY p.nom_medicament ASC";
+                ORDER BY p.nom_medicament ASC
+                LIMIT " . LIMITE_RESULTATS_MAX;
 
 $stmt2 = $pdo->prepare($sql_produits);
 $stmt2->execute([$id_pharmacie]);
 $produits = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($produits as &$produit_liste) {
+    $produit_liste['image_url'] = chemin_image_pour_forme($produit_liste['forme_pharmaceutique']);
+}
+unset($produit_liste);
 
 
 // ---------------------------- Assurances acceptées par cette pharmacie ----------------------------

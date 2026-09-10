@@ -2,10 +2,12 @@
 
 require_once 'config.php';
 require_once 'fonctions_horaires.php';
+require_once 'zone_geographique.php';
+require_once 'images_produits.php';
 
 $id_produit = $_GET['id_produit'] ?? null;
 
-if (!$id_produit || !is_numeric($id_produit)){
+if (!$id_produit || !is_numeric($id_produit)) {
     http_response_code(400);
     echo json_encode(['erreur' => 'ID invalide']);
     exit();
@@ -23,18 +25,21 @@ $sql_produit = "SELECT
             FROM produits WHERE id_produit = ?";
 
 $stmt = $pdo->prepare($sql_produit);
-$stmt ->execute([$id_produit]);
+$stmt->execute([$id_produit]);
 $produit = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if(!$produit){
+if (!$produit) {
     http_response_code(404);
     echo json_encode(['erreur' => 'Produit introuvable']);
     exit();
 }
 
+$zone   = resoudreZoneGeographique();
+$clause = construireClauseZone($zone, 'p');
+
 $sql_pharmacies = "SELECT
                      p.id_pharmacie,
-                     p.nom_pharmacie, 
+                     p.nom_pharmacie,
                      s.id_stock,
                      p.adresse,
                      p.ville,
@@ -46,12 +51,13 @@ $sql_pharmacies = "SELECT
                      p.statut_garde,
                      p.latitude,
                      p.longitude
-                FROM pharmacies p JOIN stocks s ON s.id_pharmacie = p.id_pharmacie 
-                WHERE s.id_produit = ? AND s.quantite_disponible > 0
-                ORDER BY p.nom_pharmacie ASC";
+                FROM pharmacies p JOIN stocks s ON s.id_pharmacie = p.id_pharmacie
+                WHERE s.id_produit = ? AND s.quantite_disponible > 0" . $clause['sql'] . "
+                ORDER BY p.nom_pharmacie ASC
+                LIMIT " . LIMITE_RESULTATS_MAX;
 
 $stmt2 = $pdo->prepare($sql_pharmacies);
-$stmt2->execute([$id_produit]);
+$stmt2->execute(array_merge([$id_produit], $clause['valeurs']));
 $id_pharmacies = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
 
@@ -97,9 +103,9 @@ foreach ($id_pharmacies as &$pharmacie) {
 unset($pharmacie);
 
 
-$produit['pharmacies'] = $id_pharmacies;
+$produit['pharmacies']     = $id_pharmacies;
+$produit['zone_appliquee'] = $zone['bbox'] ? 'viewport' : ($zone['ville'] ? 'ville' : 'aucune');
+$produit['image_url']      = chemin_image_pour_forme($produit['forme_pharmaceutique']);
 
 header('Content-Type: application/json');
 echo json_encode($produit, JSON_UNESCAPED_UNICODE);
-
-?>

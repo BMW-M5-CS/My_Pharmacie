@@ -1,30 +1,40 @@
 <?php
+require_once '../../Include_general/session_init.php';
 require_once '../Dos-php/config.php';
+require_once '../Dos-php/zone_geographique.php'; // pour la constante LIMITE_RESULTATS_MAX
 
 $forme     = $_GET['Forme'] ?? '';
 $recherche = $_GET['recherche'] ?? '';
 
+// NOTE : plafond de sécurité (LIMIT), pas encore une vraie pagination — voir
+// la même remarque déjà faite dans get_pharmacie.php. Une vraie pagination
+// (page suivante / défilement infini) reste à construire côté frontend.
+
 if ($forme !== '' && $recherche !== '') {
     $sql = "SELECT id_produit, nom_medicament, forme_pharmaceutique, prix_unitaire_fcfa
-            FROM produits WHERE forme_pharmaceutique = ? AND nom_medicament ILIKE ?";
+            FROM produits WHERE forme_pharmaceutique = ? AND nom_medicament ILIKE ?
+            LIMIT " . LIMITE_RESULTATS_MAX;
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$forme, '%' . $recherche . '%']);
 
 } elseif ($forme !== '') {
     $sql = "SELECT id_produit, nom_medicament, forme_pharmaceutique, prix_unitaire_fcfa
-            FROM produits WHERE forme_pharmaceutique = ?";
+            FROM produits WHERE forme_pharmaceutique = ?
+            LIMIT " . LIMITE_RESULTATS_MAX;
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$forme]);
 
 } elseif ($recherche !== '') {
     $sql = "SELECT id_produit, nom_medicament, forme_pharmaceutique, prix_unitaire_fcfa
-            FROM produits WHERE nom_medicament ILIKE ?";
+            FROM produits WHERE nom_medicament ILIKE ?
+            LIMIT " . LIMITE_RESULTATS_MAX;
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['%' . $recherche . '%']);
 
 } else {
     $sql = "SELECT id_produit, nom_medicament, forme_pharmaceutique, prix_unitaire_fcfa
-            FROM produits";
+            FROM produits
+            LIMIT " . LIMITE_RESULTATS_MAX;
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
 }
@@ -32,9 +42,7 @@ if ($forme !== '' && $recherche !== '') {
 $produits = $stmt->fetchAll();
 
 
-function imagePlaceholderProduit($id) {
-    return 'https://picsum.photos/seed/produit' . $id . '/400/400';
-}
+require_once '../Dos-php/images_produits.php';
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +50,11 @@ function imagePlaceholderProduit($id) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nos produits</title>
+    <title>Nos produits — MaPharmacie</title>
+    <link rel="stylesheet" href="../../Include_general/variables.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="../Dos-css/header.css">
     <link rel="stylesheet" href="../Dos-css/produit.css">
     <link rel="stylesheet" href="../Dos-css/footer.css">
@@ -154,7 +166,7 @@ function imagePlaceholderProduit($id) {
                         <article class="carte-produit">
 
                             <div class="carte-produit-image">
-                                <img src="<?php echo imagePlaceholderProduit($produit['id_produit']); ?>" alt="<?php echo htmlspecialchars($produit['nom_medicament']); ?>" loading="lazy">
+                                <img src="<?php echo htmlspecialchars(chemin_image_pour_forme($produit['forme_pharmaceutique'])); ?>" alt="<?php echo htmlspecialchars($produit['nom_medicament']); ?>" loading="lazy">
                             </div>
 
                             <div class="carte-produit-corps">
@@ -284,6 +296,7 @@ function imagePlaceholderProduit($id) {
     <?php include '../../Include_general/footer.php'; ?>
 
     <script src="../Dos-js/distance-utils.js"></script>
+    <script src="../Dos-js/statut-utils.js"></script>
     <script src="../Dos-js/modal-pharmacie.js"></script>
     <script src="../Dos-js/autocomplete-produit.js"></script>
     <script src="../Dos-js/produit.js"></script>

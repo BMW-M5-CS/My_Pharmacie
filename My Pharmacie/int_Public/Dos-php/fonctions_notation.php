@@ -4,13 +4,15 @@
 // C'est la base du calcul du taux de disponibilité "intelligent" qu'on avait décidé :
 // mieux vaut mesurer si une pharmacie a les produits vraiment demandés,
 // plutôt que son pourcentage de stock sur l'ensemble du catalogue.
+// Lit le top des produits les plus réservés depuis la table agrégée
+// statistiques_produits_populaires, rafraîchie périodiquement par le cron
+// database/cron/recalculer_produits_populaires.php — plus de calcul en
+// direct sur toute la table `reservations` à chaque appel.
 function recupererTopProduitsReserves(PDO $pdo, int $limite = 15): array {
 
-    $sql = "SELECT s.id_produit, COUNT(*) AS nb
-            FROM reservations r
-            JOIN stocks s ON s.id_stock = r.id_stock
-            GROUP BY s.id_produit
-            ORDER BY nb DESC
+    $sql = "SELECT id_produit
+            FROM statistiques_produits_populaires
+            ORDER BY nb_reservations DESC
             LIMIT ?";
 
     $stmt = $pdo->prepare($sql);

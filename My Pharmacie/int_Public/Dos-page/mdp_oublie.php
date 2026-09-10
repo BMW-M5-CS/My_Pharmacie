@@ -1,9 +1,6 @@
 <?php
 
-    session_start();
-    if (empty($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-    }
+    require_once '../../Include_general/session_init.php';
     $envoye = isset($_GET['envoye']);
 ?>
 
@@ -12,7 +9,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mot de passe oublié — My Pharmacie</title>
+    <title>Mot de passe oublié — MaPharmacie</title>
+    <link rel="stylesheet" href="../../Include_general/variables.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="../Dos-css/mdp_oublie.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>

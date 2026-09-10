@@ -47,6 +47,7 @@ section.hero {
   line-height: 1.6;
   margin-bottom: 25px;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+  animation: fadeInDown 1s ease-out 0.15s backwards;
 }
 
 @keyframes fadeInDown {
@@ -65,11 +66,19 @@ section.hero {
   width: 100%;
   max-width: 520px;
   margin-top: 10px;
+  animation: fadeInDown 1s ease-out 0.3s backwards;
 }
 
 .search-box {
   display: flex;
   width: 100%;
+  border-radius: 25px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.search-box:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
 
@@ -85,7 +94,7 @@ section.hero {
   right: 0;
   max-height: 220px;
   overflow-y: auto;
-  background-color: white;
+  background-color: var(--fond-carte);
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   z-index: 50;
@@ -94,54 +103,66 @@ section.hero {
 
 .suggestions-liste.active {
   display: block;
+  animation: apparitionSuggestions 0.18s ease-out;
+}
+
+@keyframes apparitionSuggestions {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .suggestion-item {
   padding: 10px 16px;
   font-size: 14px;
-  color: #2b2b2b;
+  color: var(--texte-principal);
   cursor: pointer;
-  transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease, padding-left 0.15s ease;
 }
 
 .suggestion-item:hover {
-  background-color: #eafce8;
+  background-color: var(--vert-clair);
+  padding-left: 20px;
 }
 
 .suggestion-item + .suggestion-item {
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--bordure-douce);
 }
 
 .recherche {
   flex: 1;
   min-width: 0;
-  height: 42px;
+  height: 44px;
   border: none;
   border-radius: 25px 0 0 25px;
   padding-left: 22px;
   padding-right: 15px;
   font-size: 15px;
-  background-color: white;
-  color: black;
+  background-color: var(--fond-carte);
+  color: var(--texte-principal);
   outline: none;
 }
 
 button.btn-search {
   flex-shrink: 0;
-  padding: 0 20px;
-  height: 42px;
+  padding: 0 24px;
+  height: 44px;
   font-size: 14px;
+  font-weight: 600;
   border: none;
   border-radius: 0 25px 25px 0;
-  background-color: white;
-  color: #1b5e20;
+  background-color: var(--couleur-or-principale);
+  color: var(--texte-sur-or);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 button.btn-search:hover {
-  background-color: rgb(0, 176, 0);
-  color: white;
+  background-color: var(--couleur-or-hover);
+  transform: scale(1.03);
+}
+
+button.btn-search:active {
+  transform: scale(0.98);
 }
 
 @media (max-width: 600px) {

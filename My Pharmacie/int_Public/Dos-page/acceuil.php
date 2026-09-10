@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once '../../Include_general/session_init.php';
 ?>
 
 <!DOCTYPE html>
@@ -7,7 +7,12 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharmacie</title>
+    <title>MaPharmacie — Trouvez vos médicaments près de chez vous</title>
+    <meta name="description" content="MaPharmacie référence les pharmacies du Togo en temps réel : recherchez un médicament, vérifiez sa disponibilité et réservez en ligne.">
+    <link rel="stylesheet" href="../../Include_general/variables.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="../Dos-css/header.css">
     <link rel="stylesheet" href="../Dos-css/footer.css">
     <link rel="stylesheet" href="../Dos-css/acceuil.css">
@@ -33,7 +38,7 @@ session_start();
                 <div class="search-box">
                     <input type="text" name="recherche" class="recherche sreach_input" id="champ-recherche-input" placeholder="Rechercher... ">
                     <button type="submit" class="btn-search">
-                        <i class="fas fa-search"></i> search
+                        <i class="fas fa-search"></i> Rechercher
                     </button>
                 </div>
 

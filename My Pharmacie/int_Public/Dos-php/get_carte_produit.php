@@ -2,6 +2,7 @@
 
 require_once 'config.php';
 require_once 'fonctions_horaires.php';
+require_once 'zone_geographique.php';
 
 header('Content-Type: application/json');
 
@@ -17,6 +18,15 @@ if ($recherche === '') {
 // correspondent à la recherche (ex: "Paracétamol" et "Paracétamol Effervescent") ;
 // le regroupement par pharmacie se fait côté client. On ne renvoie jamais la
 // quantité en stock, seulement le fait qu'il y en ait (> 0).
+//
+// NOTE SCALABILITÉ : la recherche ILIKE '%...%' ci-dessous ne peut pas utiliser
+// un index B-Tree classique à cause du '%' en tête de motif. À volume réel,
+// il faut un index trigramme (extension PostgreSQL pg_trgm) sur
+// produits.nom_medicament — voir database/migrations/002_index_recherche_produit.sql.
+// Le LIMIT ci-dessous protège en attendant, mais ne remplace pas cet index.
+
+$zone   = resoudreZoneGeographique();
+$clause = construireClauseZone($zone, 'p');
 
 $sql = "SELECT p.id_pharmacie, p.nom_pharmacie, p.adresse, p.ville, p.commune, p.quartier,
                p.latitude, p.longitude, p.statut_garde,
@@ -25,11 +35,12 @@ $sql = "SELECT p.id_pharmacie, p.nom_pharmacie, p.adresse, p.ville, p.commune, p
         FROM pharmacies p
         JOIN stocks s   ON s.id_pharmacie = p.id_pharmacie
         JOIN produits pr ON pr.id_produit = s.id_produit
-        WHERE pr.nom_medicament ILIKE ? AND s.quantite_disponible > 0
-        ORDER BY p.nom_pharmacie ASC";
+        WHERE pr.nom_medicament ILIKE ? AND s.quantite_disponible > 0" . $clause['sql'] . "
+        ORDER BY p.nom_pharmacie ASC
+        LIMIT " . LIMITE_RESULTATS_MAX;
 
 $stmt = $pdo->prepare($sql);
-$stmt->execute(['%' . $recherche . '%']);
+$stmt->execute(array_merge(['%' . $recherche . '%'], $clause['valeurs']));
 $resultats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 

@@ -15,9 +15,8 @@ function echapperHtml(texte) {
 }
 
 
-function imagePlaceholderProduit(id) {
-    return 'https://picsum.photos/seed/produit' + id + '/400/400';
-}
+// L'image du produit vient maintenant directement de data.image_url (calculée
+// côté serveur selon la forme pharmaceutique) — plus de génération côté client.
 
 
 // ===================================================================
@@ -209,11 +208,14 @@ function rendrePharmaciesProduit(liste, conteneur) {
             ? '<span class="modal-pharmacie-distance"><i class="fa-solid fa-route"></i> ' + formaterDistance(pharmacie.distanceKm) + '</span>'
             : '';
 
+        const statutHtml = pharmacie.statut_calcule ? construireBadgeStatut(pharmacie) : '';
+
         const item = document.createElement('div');
         item.classList.add('modal-pharmacie-item');
         item.innerHTML = `
             ${badgeProche}
             <span class="modal-pharmacie-nom">${echapperHtml(pharmacie.nom_pharmacie)}</span>
+            ${statutHtml}
             ${rendreBadgesAssurance(pharmacie.assurances)}
             ${distanceHtml}
             <button class="btn-voir-pharmacie" data-id="${pharmacie.id_pharmacie}">
@@ -254,7 +256,7 @@ function ouvrirModalProduit(id) {
             const imageModal = document.getElementById('modal-image-produit-img');
 
             if (imageModal) {
-                imageModal.src = imagePlaceholderProduit(id);
+                imageModal.src = data.image_url;
                 imageModal.alt = data.nom_medicament;
             }
 

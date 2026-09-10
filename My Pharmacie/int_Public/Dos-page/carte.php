@@ -1,13 +1,28 @@
 <?php
+require_once '../../Include_general/session_init.php';
 require_once '../Dos-php/config.php';
 require_once '../Dos-php/fonctions_horaires.php';
+require_once '../Dos-php/zone_geographique.php';
 
-$sql = "SELECT id_pharmacie, nom_pharmacie, adresse, ville, latitude, longitude, 
-               statut_garde, heure_ouverture, heure_fermeture, telephone_pharmacie
-        FROM pharmacies
-        ORDER BY nom_pharmacie ASC";
+// NOTE (dette technique signalée) : cette requête duplique celle de
+// get_carte.php — la même liste est recalculée deux fois (ici au chargement
+// de la page, puis à nouveau via l'appel AJAX à get_carte.php). Le plafond
+// LIMIT ci-dessous protège les deux copies dans l'immédiat, mais la vraie
+// correction consiste à supprimer cette requête et faire rendre la liste
+// latérale par carte.js à partir du même résultat déjà récupéré pour les
+// marqueurs — chantier de refactor à part, pas fait dans cette passe.
+
+$zone   = resoudreZoneGeographique();
+$clause = construireClauseZone($zone, 'p');
+
+$sql = "SELECT p.id_pharmacie, p.nom_pharmacie, p.adresse, p.ville, p.latitude, p.longitude, 
+               p.statut_garde, p.heure_ouverture, p.heure_fermeture, p.telephone_pharmacie
+        FROM pharmacies p
+        WHERE 1=1" . $clause['sql'] . "
+        ORDER BY p.nom_pharmacie ASC
+        LIMIT " . LIMITE_RESULTATS_MAX;
 $stmt = $pdo->prepare($sql);
-$stmt->execute();
+$stmt->execute($clause['valeurs']);
 $pharmacies = $stmt->fetchAll();
 
 foreach ($pharmacies as &$p) {
@@ -52,7 +67,11 @@ if (!empty($id_pharmacies_liste)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carte des Pharmacies</title>
+    <title>Carte des pharmacies — MaPharmacie</title>
+    <link rel="stylesheet" href="../../Include_general/variables.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="../Dos-css/header.css">
     <link rel="stylesheet" href="../Dos-css/footer.css">
     <link rel="stylesheet" href="../Dos-css/carte.css">
@@ -246,6 +265,7 @@ if (!empty($id_pharmacies_liste)) {
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="../Dos-js/distance-utils.js"></script>
+    <script src="../Dos-js/statut-utils.js"></script>
     <script src="../Dos-js/modal-pharmacie.js"></script>
     <script src="../Dos-js/carte.js"></script>
 

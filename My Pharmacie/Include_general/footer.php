@@ -3,6 +3,14 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 $est_connecte = isset($_SESSION['user_id']);
+
+// TODO(Wilfried) : remplacer par les vraies coordonnées avant toute mise en ligne
+// publique ou tout dépôt de dossier administratif — ces valeurs sont des
+// placeholders volontairement non réalistes pour ne pas être prises pour de
+// vraies coordonnées par erreur.
+$contact_telephone = '+228 XX XX XX XX';
+$contact_email      = 'contact@[votre-domaine].tg';
+$contact_adresse    = '[Adresse à compléter], Lomé';
 ?>
 
 <footer>
@@ -36,9 +44,9 @@ $est_connecte = isset($_SESSION['user_id']);
         <div class="footer-col">
             <h4 class="footer-title">Contact</h4>
             <ul class="footer-links">
-                <li><i class="fas fa-phone"></i> +228 90 00 00 00</li>
-                <li><i class="fas fa-envelope"></i> contact@mypharmacy.tg</li>
-                <li><i class="fas fa-map-marker-alt"></i> Bd du 13 Janvier, Lomé</li>
+                <li><i class="fas fa-phone"></i> <?php echo htmlspecialchars($contact_telephone); ?></li>
+                <li><i class="fas fa-envelope"></i> <?php echo htmlspecialchars($contact_email); ?></li>
+                <li><i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars($contact_adresse); ?></li>
             </ul>
         </div>
 
@@ -54,7 +62,13 @@ $est_connecte = isset($_SESSION['user_id']);
 
     </div>
 
+    <nav class="footer-legal" aria-label="Informations légales">
+        <a href="../../int_Public/Dos-page/mentions-legales.php">Mentions légales</a>
+        <a href="../../int_Public/Dos-page/cgu.php">Conditions générales d'utilisation</a>
+        <a href="../../int_Public/Dos-page/confidentialite.php">Politique de confidentialité</a>
+    </nav>
+
     <div class="footer-bottom">
-        <p>&copy; 2025 MyPharmacie — Tous droits réservés</p>
+        <p>&copy; <?php echo date('Y'); ?> MaPharmacie — Tous droits réservés</p>
     </div>
 </footer>

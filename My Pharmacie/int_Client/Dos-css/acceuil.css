@@ -5,8 +5,8 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: var(--police-principale);
+    background-color: var(--fond-page);
 }
 
 /* ========== HERO ========== */
@@ -35,7 +35,7 @@ body {
 }
 
 .hero-left h1 span {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 .hero-left p {
@@ -54,7 +54,7 @@ body {
 }
 
 .date-line i {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 .avatar {
@@ -92,7 +92,7 @@ body {
     align-items: center;
     gap: 14px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border-bottom: 3px solid #2ecc40;
+    border-bottom: 3px solid var(--couleur-verte-principale);
     height: 110px;
 }
 
@@ -110,7 +110,7 @@ body {
     font-size: 20px;
     flex-shrink: 0;
     background-color: #e8f8ea;
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 .stat-card.stat-orange .stat-ico { background-color: #fff3e0; color: #f39c12; }
@@ -168,12 +168,12 @@ body {
 }
 
 .card-title i {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 .voir-tout {
     font-size: 13px;
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
     text-decoration: none;
     font-weight: normal;
     display: flex;
@@ -212,7 +212,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
     font-size: 18px;
     flex-shrink: 0;
 }
@@ -244,7 +244,7 @@ body {
 }
 
 .badge-attente  { background-color: #fff3e0; color: #e67e22; }
-.badge-confirme { background-color: #e8f8ea; color: #27ae60; }
+.badge-confirme { background-color: #e8f8ea; color: var(--couleur-verte-principale); }
 .badge-annule   { background-color: #fdecea; color: #e74c3c; }
 .badge-expire   { background-color: #f0f0f0; color: #888; }
 
@@ -256,7 +256,7 @@ body {
 }
 
 .aucune-reservation a {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
     text-decoration: none;
     font-weight: bold;
 }
@@ -280,7 +280,7 @@ body {
     width: 65px;
     height: 65px;
     border-radius: 50%;
-    background-color: #2ecc40;
+    background-color: var(--couleur-verte-principale);
     color: white;
     font-size: 22px;
     font-weight: bold;
@@ -308,8 +308,8 @@ body {
     margin-top: 16px;
     padding: 10px;
     background-color: transparent;
-    border: 1.5px solid #2ecc40;
-    color: #2ecc40;
+    border: 1.5px solid var(--couleur-verte-principale);
+    color: var(--couleur-verte-principale);
     border-radius: 8px;
     font-size: 13px;
     font-weight: bold;
@@ -318,7 +318,7 @@ body {
 }
 
 .btn-edit-profil:hover {
-    background-color: #2ecc40;
+    background-color: var(--couleur-verte-principale);
     color: white;
 }
 
@@ -338,12 +338,12 @@ body {
 }
 
 .action-btn:hover {
-    border-color: #2ecc40;
+    border-color: var(--couleur-verte-principale);
     background-color: #f0fbf1;
 }
 
 .action-btn i:first-child {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
     font-size: 16px;
     width: 20px;
     text-align: center;

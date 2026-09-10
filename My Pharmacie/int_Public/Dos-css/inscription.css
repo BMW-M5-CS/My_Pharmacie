@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: var(--police-principale);
     background: url('../Dos-img/conex.jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
@@ -28,11 +28,11 @@ body {
 
 .entete-inscription i {
     font-size: 2rem;
-    color: #2e7d32;
+    color: var(--couleur-verte-principale);
 }
 
 .entete-inscription h1 {
-    color: #1b5e20;
+    color: var(--couleur-verte-foncee);
     font-size: 1.6rem;
     margin: 8px 0 4px;
 }
@@ -71,7 +71,7 @@ body {
 .groupe-champ label {
     display: block;
     font-weight: 600;
-    color: #1b5e20;
+    color: var(--couleur-verte-foncee);
     margin-bottom: 8px;
     font-size: 0.95rem;
 }
@@ -94,12 +94,12 @@ body {
 }
 
 .champ-icone:focus-within {
-    border-color: #2e7d32;
+    border-color: var(--couleur-verte-principale);
     background: #fff;
 }
 
 .champ-icone i {
-    color: #2e7d32;
+    color: var(--couleur-verte-principale);
     font-size: 0.95rem;
     width: 16px;
     text-align: center;
@@ -120,7 +120,7 @@ body {
 .bouton-principal {
     display: block;
     width: 100%;
-    background: #2e7d32;
+    background: var(--couleur-verte-principale);
     color: #fff;
     border: none;
     padding: 12px;
@@ -133,7 +133,7 @@ body {
 }
 
 .bouton-principal:hover {
-    background: #1b5e20;
+    background: var(--couleur-verte-foncee);
 }
 
 .bouton-google {
@@ -166,7 +166,7 @@ body {
 }
 
 .lien-connexion a {
-    color: #2e7d32;
+    color: var(--couleur-verte-principale);
     font-weight: 600;
     text-decoration: none;
 }
@@ -185,7 +185,7 @@ body {
 }
 
 .retour:hover {
-    color: #2e7d32;
+    color: var(--couleur-verte-principale);
     text-decoration: underline;
 }
 

@@ -58,17 +58,8 @@ function iconePourStatut(statutCalcule) {
     return iconeGrise;
 }
 
-function couleurPourStatut(statutCalcule) {
-    if (statutCalcule === 'garde') return '#7c3aed';
-    if (statutCalcule === 'ouverte') return '#00b000';
-    return '#9e9e9e';
-}
-
-function libellePourStatut(statutCalcule) {
-    if (statutCalcule === 'garde') return 'Pharmacie de garde';
-    if (statutCalcule === 'ouverte') return 'Ouverte';
-    return 'Fermée';
-}
+// couleurPourStatut() et libellePourStatut() viennent désormais de statut-utils.js
+// (chargé avant ce fichier), pour ne plus dupliquer ces couleurs à plusieurs endroits.
 
 
 // Mode recherche produit actif ou non (filtre la liste/les marqueurs affichés)
@@ -526,6 +517,54 @@ function lancerRechercheAvecAssurance(nomProduit) {
 
 // ── Lancement de la recherche : interroge le serveur, regroupe par pharmacie ──
 
+// ── Choisit la meilleure pharmacie à recommander dans une liste déjà triée par
+//    distance : la plus proche si elle est ouverte/de garde, sinon la première
+//    ouverte/de garde qui suit. Ne cache jamais la plus proche même si elle est
+//    fermée — elle reste visible sur la carte/liste, seule la mise en avant change. ──
+
+function trouverMeilleureRecommandation(liste) {
+
+    const plusProche        = liste[0];
+    const premiereOuverte   = liste.find(function (p) { return p.statut_calcule !== 'fermee'; });
+    const aucuneOuverte     = !premiereOuverte;
+    const recommandee       = premiereOuverte || plusProche;
+
+    return {
+        recommandee:          recommandee,
+        plusProche:           plusProche,
+        plusProcheEstFermee:  plusProche.statut_calcule === 'fermee',
+        estMemePharmacie:     recommandee === plusProche,
+        aucuneOuverte:        aucuneOuverte
+    };
+}
+
+// formaterHeureReouverture() vient de statut-utils.js (chargé avant ce fichier).
+
+function construireMessageProximite(liste) {
+
+    if (!liste.length) return '';
+
+    const info = trouverMeilleureRecommandation(liste);
+
+    if (info.plusProche.distanceKm === undefined) return '';
+
+    if (!info.plusProcheEstFermee) {
+        return ' — la plus proche est à ' + formaterDistance(info.plusProche.distanceKm);
+    }
+
+    if (info.aucuneOuverte) {
+        return ' — la plus proche (' + info.plusProche.nom_pharmacie + ') est actuellement fermée'
+            + formaterHeureReouverture(info.plusProche)
+            + '. Aucune pharmacie proche avec ce produit n\'est ouverte pour le moment.';
+    }
+
+    return ' — attention, la plus proche (' + info.plusProche.nom_pharmacie + ') est fermée'
+        + formaterHeureReouverture(info.plusProche)
+        + '. Nous recommandons plutôt ' + info.recommandee.nom_pharmacie + ', ouverte, à '
+        + formaterDistance(info.recommandee.distanceKm);
+}
+
+
 function rechercherProduitSurCarte(recherche, assuranceChoisie) {
 
     const q = recherche.trim();
@@ -565,10 +604,7 @@ function rechercherProduitSurCarte(recherche, assuranceChoisie) {
 
                     appliquerFiltreProduitCarte(pharmaciesTrouvees);
 
-                    const plusProche      = pharmaciesTrouvees[0];
-                    const suffixeDistance = plusProche.distanceKm !== undefined
-                        ? ' — la plus proche est à ' + formaterDistance(plusProche.distanceKm)
-                        : '';
+                    const suffixeDistance = construireMessageProximite(pharmaciesTrouvees);
 
                     afficherStatutRecherche(pharmaciesTrouvees.length + ' pharmacie(s) ont ce produit' + suffixeDistance);
                     return;
@@ -584,10 +620,7 @@ function rechercherProduitSurCarte(recherche, assuranceChoisie) {
 
                     appliquerFiltreProduitCarte(pharmaciesAvecAssurance);
 
-                    const plusProche      = pharmaciesAvecAssurance[0];
-                    const suffixeDistance = plusProche.distanceKm !== undefined
-                        ? ' — la plus proche est à ' + formaterDistance(plusProche.distanceKm)
-                        : '';
+                    const suffixeDistance = construireMessageProximite(pharmaciesAvecAssurance);
 
                     afficherStatutRecherche(pharmaciesAvecAssurance.length + ' pharmacie(s) ont ce produit et acceptent ' + assuranceChoisie + suffixeDistance);
                     return;
@@ -599,7 +632,7 @@ function rechercherProduitSurCarte(recherche, assuranceChoisie) {
 
                 appliquerFiltreProduitCarte(pharmaciesTrouvees);
                 afficherStatutRecherche("Aucune pharmacie avec ce produit n'accepte " + assuranceChoisie + ".", true);
-                afficherRepliAssurance(pharmaciesTrouvees[0], assuranceChoisie, q);
+                afficherRepliAssurance(trouverMeilleureRecommandation(pharmaciesTrouvees).recommandee, assuranceChoisie, q);
             });
         })
         .catch(function () {
@@ -670,10 +703,14 @@ function afficherRepliAssurance(pharmacieProche, assuranceChoisie, recherche) {
         ? ' (à ' + formaterDistance(pharmacieProche.distanceKm) + ')'
         : '';
 
+    const statutTexte = pharmacieProche.statut_calcule === 'fermee'
+        ? ' Attention, elle est actuellement fermée' + formaterHeureReouverture(pharmacieProche) + '.'
+        : '';
+
     conteneur.innerHTML = `
         <p class="repli-assurance-texte">
             <strong>${echapperHtml(pharmacieProche.nom_pharmacie)}</strong> a ce produit${distanceTexte},
-            mais ne prend pas ${echapperHtml(assuranceChoisie)}.
+            mais ne prend pas ${echapperHtml(assuranceChoisie)}.${statutTexte}
         </p>
         <div class="repli-assurance-boutons">
             <button type="button" class="btn-repli-autre-assurance" id="btn-repli-autre-assurance">
@@ -798,9 +835,17 @@ function reinitialiserRechercheProduitCarte() {
 
 fetch('../Dos-php/get_carte.php')
     .then(function (response) { return response.json(); })
-    .then(function (pharmacies) {
+    .then(function (donnees) {
 
+        const pharmacies = donnees.pharmacies;
         pharmaciesData = pharmacies;
+
+        if (donnees.zone_appliquee === 'aucune' && pharmacies.length >= donnees.plafond) {
+            // Aucune zone n'est encore envoyée par le frontend (le sélecteur de
+            // ville / viewport reste à construire) : on prévient plutôt que de
+            // laisser croire silencieusement que la liste est complète.
+            console.warn('Résultats plafonnés à ' + donnees.plafond + ' pharmacies (aucun filtre de zone envoyé).');
+        }
 
         const compteur = document.getElementById('compteur');
         if (compteur) compteur.textContent = '(' + pharmacies.length + ')';

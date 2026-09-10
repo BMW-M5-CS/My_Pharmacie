@@ -1,0 +1,62 @@
+/* ===== Pages de contenu légal (mentions légales, CGU, confidentialité) ===== */
+
+.legal-conteneur {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 50px 24px 80px;
+    color: var(--texte-principal);
+    line-height: 1.65;
+}
+
+.legal-conteneur h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--couleur-verte-principale);
+    margin-bottom: 6px;
+}
+
+.legal-maj {
+    font-size: 0.85rem;
+    color: var(--texte-secondaire);
+    margin-bottom: 32px;
+}
+
+.legal-conteneur h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--couleur-verte-principale);
+    margin-top: 34px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--bordure-douce);
+}
+
+.legal-conteneur p,
+.legal-conteneur li {
+    font-size: 0.96rem;
+}
+
+.legal-conteneur ul {
+    padding-left: 22px;
+    margin: 10px 0;
+}
+
+.legal-conteneur li {
+    margin-bottom: 6px;
+}
+
+.legal-conteneur a {
+    color: var(--couleur-verte-principale);
+    font-weight: 600;
+}
+
+.legal-note-redaction {
+    margin-top: 40px;
+    padding: 16px 18px;
+    background-color: var(--alerte-avertissement-fond);
+    border: 1px solid var(--alerte-avertissement-bordure);
+    border-left: 4px solid var(--alerte-avertissement-accent);
+    border-radius: 10px;
+    font-size: 0.88rem;
+    color: var(--alerte-avertissement-texte);
+}

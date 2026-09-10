@@ -1,8 +1,7 @@
 :root {
-    --vert-principal: #00b000;
-    --vert-fonce: #1b5e20;
-    --vert-accent: #2ecc40;
-    --vert-clair: rgba(0, 176, 0, 0.12);
+    --vert-principal: var(--couleur-verte-principale);
+    --vert-fonce: var(--couleur-verte-foncee);
+    --vert-accent: var(--couleur-verte-principale); /* unifié — n'est plus un vert isolé différent */
 }
 
 
@@ -42,7 +41,7 @@ body {
 .entete-fond {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 0%, rgba(0, 176, 0, 0.25), transparent 60%);
+    background: radial-gradient(circle at 50% 0%, var(--couleur-verte-transparente-forte), transparent 60%);
     pointer-events: none;
 }
 
@@ -150,8 +149,8 @@ div.entete_input {
     gap: 8px;
     border: none;
     border-radius: 14px;
-    background-color: var(--vert-principal);
-    color: white;
+    background-color: var(--couleur-or-principale);
+    color: var(--texte-sur-or);
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -159,7 +158,8 @@ div.entete_input {
 }
 
 .sreach_btn:hover {
-    background-color: var(--vert-fonce);
+    background-color: var(--couleur-or-hover);
+    transform: scale(1.02);
 }
 
 .carte-suggestions-produit {
@@ -486,10 +486,10 @@ div.entete_input {
 }
 
 .dot-vert  { background-color: var(--vert-principal); }
-.dot-rouge { background-color: #7c3aed; }
+.dot-rouge { background-color: var(--couleur-terre-cuite); }
 .dot-bleu  { background-color: #2980b9; }
 .dot-or    { background-color: #f5a623; }
-.dot-gris  { background-color: #9e9e9e; }
+.dot-gris  { background-color: var(--statut-fermee); }
 
 
 /* ======================================================================
@@ -588,9 +588,9 @@ div.entete_input {
     gap: 5px;
 }
 
-.statut-garde  { color: #7c3aed; }
+.statut-garde  { color: var(--couleur-terre-cuite); }
 .statut-ouvert { color: var(--vert-principal); }
-.statut-ferme  { color: #9e9e9e; }
+.statut-ferme  { color: var(--statut-fermee); }
 
 .pharm-assurances {
     display: flex;
@@ -611,18 +611,19 @@ div.entete_input {
     margin-top: 4px;
     width: 100%;
     height: 32px;
-    background-color: var(--vert-principal);
-    color: white;
+    background-color: var(--couleur-or-principale);
+    color: var(--texte-sur-or);
     border: none;
     border-radius: 8px;
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.25s ease;
+    transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 .pharm-btn-voir:hover {
-    background-color: var(--vert-fonce);
+    background-color: var(--couleur-or-hover);
+    transform: translateY(-1px);
 }
 
 
@@ -986,11 +987,11 @@ body.fenetre-pharmacie-ouvert {
 }
 
 .modal-garde-badge.garde {
-    background-color: #7c3aed;
+    background-color: var(--couleur-terre-cuite);
 }
 
 .modal-garde-badge.fermee {
-    background-color: #9e9e9e;
+    background-color: var(--statut-fermee);
 }
 
 .modal-carte {

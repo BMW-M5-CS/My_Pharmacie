@@ -1,5 +1,6 @@
 <?php
 
+require_once '../../Include_general/session_init.php';
 require_once '../Dos-php/config.php';
 require_once '../Dos-php/fonctions_notation.php';
 
@@ -104,7 +105,11 @@ function imagePlaceholderPharmacie($id) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nos pharmacies</title>
+    <title>Nos pharmacies — MaPharmacie</title>
+    <link rel="stylesheet" href="../../Include_general/variables.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="../Dos-css/header.css">
     <link rel="stylesheet" href="../Dos-css/pharmacie.css">
     <link rel="stylesheet" href="../Dos-css/footer.css">
@@ -342,6 +347,8 @@ function imagePlaceholderPharmacie($id) {
 
     <?php include '../../Include_general/footer.php'; ?>
 
+    <script src="../Dos-js/distance-utils.js"></script>
+    <script src="../Dos-js/statut-utils.js"></script>
     <script src="../Dos-js/modal-pharmacie.js"></script>
     <script src="../Dos-js/pharmacie.js"></script>
 

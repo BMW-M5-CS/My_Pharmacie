@@ -1,8 +1,5 @@
 <?php
-    session_start();
-    if (empty($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-    }
+    require_once '../../Include_general/session_init.php';
     $redirect = $_GET['redirect'] ?? '';
 
     $messages_erreur = [
@@ -31,7 +28,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion — My Pharmacie</title>
+    <title>Connexion — MaPharmacie</title>
+    <link rel="stylesheet" href="../../Include_general/variables.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="../Dos-css/conex.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -42,7 +43,7 @@
         <div class="entete-conex">
             <i class="fa-solid fa-user-lock"></i>
             <h1>Connexion</h1>
-            <p>Accédez à votre espace My Pharmacie</p>
+            <p>Accédez à votre espace MaPharmacie</p>
         </div>
 
         <?php if ($erreur): ?>

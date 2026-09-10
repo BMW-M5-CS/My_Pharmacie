@@ -6,8 +6,8 @@
 
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: var(--police-principale);
+    background-color: var(--fond-page);
 }
 
 
@@ -30,12 +30,12 @@ body {
 }
 
 .mresa-retour:hover {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 .mresa-eyebrow {
     display: block;
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
     font-size: 11px;
     font-weight: bold;
     letter-spacing: 1.8px;
@@ -63,7 +63,7 @@ body {
     gap: 10px;
     flex-wrap: wrap;
     padding: 14px 60px;
-    background-color: #f4f4f4;
+    background-color: var(--fond-page);
     border-bottom: 1px solid #e8e8e8;
     flex-shrink: 0;
     justify-content: center;
@@ -85,13 +85,13 @@ body {
 }
 
 .filtre-btn:hover {
-    border-color: #2ecc40;
-    color: #2ecc40;
+    border-color: var(--couleur-verte-principale);
+    color: var(--couleur-verte-principale);
 }
 
 .filtre-btn.actif {
-    background-color: #2ecc40;
-    border-color: #2ecc40;
+    background-color: var(--couleur-verte-principale);
+    border-color: var(--couleur-verte-principale);
     color: white;
 }
 
@@ -150,8 +150,8 @@ body {
 
 .mresa-btn-chercher {
     display: inline-block;
-    background-color: #2ecc40;
-    color: white;
+    background-color: var(--couleur-or-principale);
+    color: var(--texte-sur-or);
     padding: 10px 24px;
     border-radius: 8px;
     text-decoration: none;
@@ -161,7 +161,7 @@ body {
 }
 
 .mresa-btn-chercher:hover {
-    background-color: #27ae38;
+    background-color: var(--couleur-or-hover);
 }
 
 
@@ -210,7 +210,7 @@ body {
 }
 
 .mresa-code i {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 .mresa-pharmacie {
@@ -222,7 +222,7 @@ body {
 }
 
 .mresa-pharmacie i {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 
@@ -237,7 +237,7 @@ body {
 }
 
 .badge-attente   { background-color: #fff3e0; color: #e67e22; }
-.badge-confirme  { background-color: #e8f8ea; color: #27ae60; }
+.badge-confirme  { background-color: #e8f8ea; color: var(--couleur-verte-principale); }
 .badge-annule    { background-color: #fdecea; color: #e74c3c; }
 .badge-expire    { background-color: #f0f0f0; color: #888;    }
 .badge-renouvele { background-color: #e8f4fd; color: #2980b9; }
@@ -267,7 +267,7 @@ body {
 }
 
 .mresa-produit-tuile i {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
     font-size: 14px;
     margin-bottom: 3px;
 }
@@ -353,7 +353,7 @@ body {
     align-items: center;
     gap: 7px;
     background-color: #e8f8ea;
-    color: #27ae60;
+    color: var(--couleur-verte-principale);
     border: 1.5px solid #a9dfbf;
     border-radius: 8px;
     padding: 9px 18px;
@@ -377,7 +377,7 @@ body {
 
 .mresa-renouvele-info {
     font-size: 12px;
-    color: #27ae60;
+    color: var(--couleur-verte-principale);
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -431,7 +431,7 @@ body {
 .mresa-modale p strong {
     color: #2b2b2b;
     font-family: monospace;
-    background-color: #f4f4f4;
+    background-color: var(--fond-page);
     padding: 2px 8px;
     border-radius: 4px;
 }
@@ -454,7 +454,7 @@ body {
 }
 
 .mresa-modale-non:hover {
-    background-color: #f4f4f4;
+    background-color: var(--fond-page);
 }
 
 .mresa-modale-oui {
@@ -478,8 +478,8 @@ body {
     font-size: 22px;
     font-weight: bold;
     color: #2b2b2b;
-    background-color: #f4f4f4;
-    border: 2px dashed #2ecc40;
+    background-color: var(--fond-page);
+    border: 2px dashed var(--couleur-verte-principale);
     border-radius: 8px;
     padding: 12px 24px;
     margin: 12px auto;
@@ -561,16 +561,16 @@ body {
     padding: 11px;
     border-radius: 8px;
     border: none;
-    background-color: #2ecc40;
-    color: white;
+    background-color: var(--couleur-or-principale);
+    color: var(--texte-sur-or);
     font-size: 13px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 .mresa-partiel-btn-prendre:hover {
-    background-color: #27ae38;
+    background-color: var(--couleur-or-hover);
 }
 
 .mresa-partiel-btn-prendre:disabled {
@@ -634,7 +634,7 @@ body {
 }
 
 .mresa-partiel-btn-abandonner:hover {
-    background-color: #f4f4f4;
+    background-color: var(--fond-page);
 }
 
 

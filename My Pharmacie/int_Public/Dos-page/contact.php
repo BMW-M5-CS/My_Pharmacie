@@ -1,11 +1,5 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+require_once '../../Include_general/session_init.php';
 $nom_auto               = $_SESSION['nom'] ?? '';
 $phone_email_auto       = $_SESSION['phone_email'] ?? '';
 
@@ -23,7 +17,11 @@ $erreur = $messages_erreur[$_GET['erreur'] ?? ''] ?? null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nous contacter</title>
+    <title>Nous contacter — MaPharmacie</title>
+    <link rel="stylesheet" href="../../Include_general/variables.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="../Dos-css/header.css">
     <link rel="stylesheet" href="../Dos-css/contact.css">
     <link rel="stylesheet" href="../Dos-css/footer.css">

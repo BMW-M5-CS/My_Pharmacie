@@ -182,7 +182,9 @@ function afficherProduitsModal(liste, idPharmacie) {
             const item = document.createElement('div');
             item.classList.add('modal-produit-item');
             item.innerHTML = `
-                <div class="modal-produit-image"></div>
+                <div class="modal-produit-image">
+                    <img src="${produit.image_url}" alt="${echapperHtml(produit.forme_pharmaceutique)}" loading="lazy">
+                </div>
                 <span class="modal-produit-nom">${echapperHtml(produit.nom_medicament)}</span>
                 <span class="modal-produit-forme">${echapperHtml(produit.forme_pharmaceutique)}</span>
                 <span class="modal-produit-prix">${produit.prix_unitaire_fcfa} FCFA</span>

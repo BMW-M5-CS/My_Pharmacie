@@ -1,0 +1,81 @@
+/* ===================================================================
+   Système de design centralisé — My Pharmacie
+   Direction "identité togolaise" (validée en conversation)
+
+   Toute couleur ou police utilisée sur le site DOIT référencer une
+   variable de ce fichier plutôt qu'une valeur codée en dur. C'est la
+   source unique de vérité : un changement de teinte se fait ici, une
+   seule fois, jamais fichier par fichier.
+
+   Ce fichier doit être chargé en PREMIER dans le <head> de chaque page,
+   avant tout autre fichier CSS.
+   =================================================================== */
+
+
+:root {
+
+    /* ---------- Couleurs de marque ---------- */
+
+    --couleur-verte-principale:      #1D5C3B;
+    --couleur-verte-hover:           #2E7A52;
+    --couleur-verte-foncee:          #163F29;  /* équivalent du "hover profond" utilisé en mobile */
+    --vert-clair:                    rgba(29, 92, 59, 0.12);  /* halos discrets — nom conservé identique à la convention déjà utilisée dans plusieurs pages, désormais centralisé ici au lieu d'être redéclaré fichier par fichier */
+    --couleur-verte-transparente-forte:  rgba(29, 92, 59, 0.25);  /* dégradés radiaux d'en-tête de page */
+    --couleur-verte-ombre:               rgba(29, 92, 59, 0.35); /* ombres portées sur boutons/éléments actifs */
+
+    --couleur-or-principale:         #D9A441;
+    --couleur-or-hover:              #C1902F;
+    --couleur-or-texte:              #3A2906;  /* texte lisible sur fond or (jamais noir pur) */
+
+    --couleur-terre-cuite:           #B5432D;
+    --couleur-terre-cuite-hover:     #9A3824;
+
+
+    /* ---------- Statuts pharmacie (cohérents avec la marque) ---------- */
+
+    --statut-ouverte:                var(--couleur-verte-principale);
+    --statut-garde:                  var(--couleur-terre-cuite);
+    --statut-fermee:                 #6B6558;
+
+
+    /* ---------- Fond et surfaces ---------- */
+
+    --fond-page:                     #FBF6EC;
+    --fond-carte:                    #FFFFFF;
+    --bordure-douce:                 #E9DFC7;
+    --bordure-forte:                 #D8CBA8;
+
+
+    /* ---------- Texte ---------- */
+
+    --texte-principal:               #24291F;
+    --texte-secondaire:              #6B6558;
+    --texte-sur-vert:                #FFFFFF;
+    --texte-sur-or:                  var(--couleur-or-texte);
+
+
+    /* ---------- Alertes (bannières — teintes conservées, référencées ici) ---------- */
+
+    --alerte-avertissement-fond:     #FFF8E6;
+    --alerte-avertissement-bordure:  #F3D999;
+    --alerte-avertissement-accent:   #E8A628;
+    --alerte-avertissement-texte:    #5C4400;
+
+    --alerte-danger-clair:           #FFEBEE;
+    --alerte-danger-fonce:           #FFCDD2;
+    --alerte-danger-bordure:         #C62828;
+    --alerte-danger-bordure-forte:   #B71C1C;
+
+
+    /* ---------- Typographie ---------- */
+
+    --police-principale: 'Work Sans', 'Segoe UI', Arial, sans-serif;
+
+}
+
+
+/* Filet de sécurité : toute page qui ne redéfinit pas explicitement
+   font-family sur body hérite automatiquement de la police centralisée. */
+body {
+    font-family: var(--police-principale);
+}

@@ -1,5 +1,6 @@
 <?php
 
+require_once '../../Include_general/session_init.php';
 require_once '../Dos-php/config.php';
 
 // Empêche le navigateur de garder cette page en cache (y compris via le bouton
@@ -53,7 +54,11 @@ if (!empty($token)) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Réinitialisation du mot de passe — My Pharmacie</title>
+    <title>Réinitialisation du mot de passe — MaPharmacie</title>
+    <link rel="stylesheet" href="../../Include_general/variables.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="../Dos-css/reinitialisation_mdp.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>

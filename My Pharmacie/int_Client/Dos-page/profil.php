@@ -60,8 +60,12 @@ $assurances_disponibles = $stmt_assurances->fetchAll(PDO::FETCH_ASSOC);
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon profil — My Pharmacy</title>
+    <title>Mon profil — MaPharmacie</title>
 
+    <link rel="stylesheet" href="../../Include_general/variables.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="../Dos-css/header.css">
     <link rel="stylesheet" href="../../int_Public/Dos-css/footer.css">
     <link rel="stylesheet" href="../Dos-css/profil.css">

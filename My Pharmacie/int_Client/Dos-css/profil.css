@@ -6,8 +6,8 @@
 
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: var(--police-principale);
+    background-color: var(--fond-page);
     color: #2b2b2b;
 }
 
@@ -31,13 +31,13 @@ body {
 }
 
 .profil-retour:hover {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 
 .profil-eyebrow {
     display: block;
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
     font-size: 11px;
     font-weight: bold;
     letter-spacing: 1.8px;
@@ -90,7 +90,7 @@ body {
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background-color: #2ecc40;
+    background-color: var(--couleur-verte-principale);
     color: white;
     font-size: 26px;
     font-weight: bold;
@@ -149,7 +149,7 @@ body {
 
 
 .profil-section-titre i {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
     font-size: 16px;
 }
 
@@ -167,7 +167,7 @@ body {
     display: flex;
     align-items: center;
     gap: 7px;
-    background-color: #f4f4f4;
+    background-color: var(--fond-page);
     color: #555;
     border: 1.5px solid #e0e0e0;
     border-radius: 8px;
@@ -178,8 +178,8 @@ body {
 }
 
 .profil-btn-modifier:hover {
-    border-color: #2ecc40;
-    color: #2ecc40;
+    border-color: var(--couleur-verte-principale);
+    color: var(--couleur-verte-principale);
 }
 
 
@@ -266,7 +266,7 @@ body {
 
 .profil-input-groupe input:focus {
     outline: none;
-    border-color: #2ecc40;
+    border-color: var(--couleur-verte-principale);
     background-color: white;
 }
 
@@ -303,12 +303,12 @@ body {
 }
 
 .profil-chip-assurance:hover {
-    border-color: #2ecc40;
+    border-color: var(--couleur-verte-principale);
 }
 
 .profil-chip-assurance.active {
-    background-color: #2ecc40;
-    border-color: #2ecc40;
+    background-color: var(--couleur-verte-principale);
+    border-color: var(--couleur-verte-principale);
     color: white;
 }
 
@@ -340,7 +340,7 @@ body {
 
 .profil-input-mdp input:focus {
     outline: none;
-    border-color: #2ecc40;
+    border-color: var(--couleur-verte-principale);
     background-color: white;
 }
 
@@ -357,7 +357,7 @@ body {
 }
 
 .profil-toggle-mdp:hover {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 
@@ -383,7 +383,7 @@ body {
 }
 
 .profil-btn-annuler-edition:hover {
-    background-color: #f4f4f4;
+    background-color: var(--fond-page);
 }
 
 
@@ -394,16 +394,16 @@ body {
     padding: 10px 22px;
     border-radius: 8px;
     border: none;
-    background-color: #2ecc40;
-    color: white;
+    background-color: var(--couleur-or-principale);
+    color: var(--texte-sur-or);
     font-size: 13px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 .profil-btn-enregistrer:hover {
-    background-color: #27ae38;
+    background-color: var(--couleur-or-hover);
 }
 
 .profil-btn-enregistrer:disabled {
@@ -422,7 +422,7 @@ body {
 
 
 .profil-message-succes {
-    color: #27ae60;
+    color: var(--couleur-verte-principale);
     font-weight: bold;
 }
 
@@ -465,12 +465,12 @@ body {
 
 .profil-modale i {
     font-size: 40px;
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 #icone-oeil{
     font-size: 14px;
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 .profil-modale h3 {
@@ -506,7 +506,7 @@ body {
 }
 
 .profil-modale-annuler:hover {
-    background-color: #f4f4f4;
+    background-color: var(--fond-page);
 }
 
 
@@ -517,16 +517,16 @@ body {
     padding: 0px 30px;
     border-radius: 8px;
     border: none;
-    background-color: #2ecc40;
-    color: white;
+    background-color: var(--couleur-or-principale);
+    color: var(--texte-sur-or);
     font-size: 13px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 .profil-modale-confirmer:hover {
-    background-color: #27ae38;
+    background-color: var(--couleur-or-hover);
 }
 
 

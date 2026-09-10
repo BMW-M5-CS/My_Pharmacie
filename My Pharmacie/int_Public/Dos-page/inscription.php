@@ -1,8 +1,5 @@
 <?php
-   session_start();
-   if (empty($_SESSION['csrf_token'])) {
-       $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-   }
+   require_once '../../Include_general/session_init.php';
 
    $messages_erreur = [
         'champs_obligatoires' => 'Tous les champs sont obligatoires.',
@@ -20,7 +17,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription — My Pharmacie</title>
+    <title>Inscription — MaPharmacie</title>
+    <link rel="stylesheet" href="../../Include_general/variables.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="../Dos-css/inscription.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -31,7 +32,7 @@
         <div class="entete-inscription">
             <i class="fa-solid fa-user-plus"></i>
             <h1>Créer un compte</h1>
-            <p>Rejoignez My Pharmacie en quelques instants</p>
+            <p>Rejoignez MaPharmacie en quelques instants</p>
         </div>
 
         <?php if ($erreur): ?>

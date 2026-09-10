@@ -1,7 +1,7 @@
 footer {
     width: 100%;
-    background-color: rgba(0, 176, 0);
-    color: white;
+    background-color: var(--couleur-verte-principale);
+    color: var(--texte-sur-vert);
     padding: 30px 50px 0px 50px;
     box-sizing: border-box;
 }
@@ -35,7 +35,7 @@ footer {
 
 .footer-logo i {
     font-size: 1.6rem;
-    color: white;
+    color: var(--texte-sur-vert);
 }
 
 .footer-logo span {
@@ -82,7 +82,7 @@ footer {
 }
 
 .footer-links a {
-    color: white;
+    color: var(--texte-sur-vert);
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -103,4 +103,26 @@ footer {
     font-size: 0.8rem;
     opacity: 0.75;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Liens légaux (mentions légales, CGU, confidentialité) */
+.footer-legal {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin-bottom: 8px;
+    font-size: 0.78rem;
+}
+
+.footer-legal a {
+    color: var(--texte-sur-vert);
+    text-decoration: none;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+}
+
+.footer-legal a:hover {
+    opacity: 1;
+    text-decoration: underline;
 }

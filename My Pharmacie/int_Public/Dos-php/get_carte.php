@@ -2,14 +2,21 @@
 
 require_once 'config.php';
 require_once 'fonctions_horaires.php';
+require_once 'zone_geographique.php';
 
-$sql  = "SELECT id_pharmacie, nom_pharmacie, adresse, ville, commune, quartier,
-                latitude, longitude, statut_garde,
-                heure_ouverture, heure_fermeture, telephone_pharmacie
-         FROM pharmacies
-         ORDER BY nom_pharmacie ASC";
+$zone   = resoudreZoneGeographique();
+$clause = construireClauseZone($zone, 'p');
+
+$sql  = "SELECT p.id_pharmacie, p.nom_pharmacie, p.adresse, p.ville, p.commune, p.quartier,
+                p.latitude, p.longitude, p.statut_garde,
+                p.heure_ouverture, p.heure_fermeture, p.telephone_pharmacie
+         FROM pharmacies p
+         WHERE 1=1" . $clause['sql'] . "
+         ORDER BY p.nom_pharmacie ASC
+         LIMIT " . LIMITE_RESULTATS_MAX;
+
 $stmt = $pdo->prepare($sql);
-$stmt->execute();
+$stmt->execute($clause['valeurs']);
 $pharmacies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($pharmacies as &$pharmacie) {
@@ -55,5 +62,8 @@ unset($pharmacie);
 
 
 header('Content-Type: application/json');
-echo json_encode($pharmacies, JSON_UNESCAPED_UNICODE);
-?>
+echo json_encode([
+    'pharmacies'    => $pharmacies,
+    'zone_appliquee' => $zone['bbox'] ? 'viewport' : ($zone['ville'] ? 'ville' : 'aucune'),
+    'plafond'       => LIMITE_RESULTATS_MAX,
+], JSON_UNESCAPED_UNICODE);

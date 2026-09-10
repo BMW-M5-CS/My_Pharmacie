@@ -5,8 +5,8 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: var(--police-principale);
+    background-color: var(--fond-page);
     color: #2b2b2b;
 }
 
@@ -34,7 +34,7 @@ body {
 }
 
 .resa-retour:hover {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 .resa-hero-row {
@@ -47,7 +47,7 @@ body {
 
 .resa-eyebrow {
     display: block;
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
     font-size: 12px;
     font-weight: bold;
     letter-spacing: 1.5px;
@@ -76,11 +76,11 @@ body {
 }
 
 .resa-meta i {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 .resa-badge-garde {
-    background-color: #2ecc40;
+    background-color: var(--couleur-terre-cuite);
     color: white;
     padding: 7px 16px;
     border-radius: 20px;
@@ -130,7 +130,7 @@ body {
 }
 
 .resa-produits-head h2 span {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 #resa-recherche {
@@ -146,7 +146,7 @@ body {
 }
 
 #resa-recherche:focus {
-    border-color: #2ecc40;
+    border-color: var(--couleur-verte-principale);
 }
 
 .resa-grille-produits {
@@ -170,7 +170,7 @@ body {
 }
 
 .resa-carte-produit:hover {
-    border-color: #2ecc40;
+    border-color: var(--couleur-verte-principale);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
 }
 
@@ -181,9 +181,17 @@ body {
 .resa-produit-vignette {
     width: 100%;
     height: 110px;
-    background-color: #2ecc40;
+    background-color: var(--vert-clair);
     border-radius: 8px;
     margin-bottom: 6px;
+    overflow: hidden;
+}
+
+.resa-produit-vignette img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .resa-produit-nom {
@@ -200,7 +208,7 @@ body {
 
 .resa-produit-prix {
     font-weight: bold;
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
     font-size: 15px;
     margin-top: 2px;
 }
@@ -227,7 +235,7 @@ body {
     width: 36px;
     height: 34px;
     border: none;
-    background-color: #f4f4f4;
+    background-color: var(--fond-page);
     color: #2b2b2b;
     font-size: 15px;
     cursor: pointer;
@@ -235,7 +243,7 @@ body {
 }
 
 .resa-stepper button:hover:not(:disabled) {
-    background-color: #2ecc40;
+    background-color: var(--couleur-verte-principale);
     color: white;
 }
 
@@ -284,7 +292,7 @@ body {
 }
 
 .resa-ticket-head i {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
 }
 
 .resa-ticket-pharmacie {
@@ -349,7 +357,7 @@ body {
 
 .resa-ligne-prix {
     font-size: 12px;
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
     font-weight: bold;
 }
 
@@ -372,8 +380,8 @@ body {
 }
 
 .resa-ligne-stepper button:hover:not(:disabled) {
-    background-color: #2ecc40;
-    border-color: #2ecc40;
+    background-color: var(--couleur-verte-principale);
+    border-color: var(--couleur-verte-principale);
     color: white;
 }
 
@@ -409,8 +417,8 @@ body {
 .resa-btn-confirmer {
     width: 100%;
     height: 46px;
-    background-color: #2ecc40;
-    color: white;
+    background-color: var(--couleur-or-principale);
+    color: var(--texte-sur-or);
     border: none;
     border-radius: 10px;
     font-size: 14px;
@@ -424,7 +432,7 @@ body {
 }
 
 .resa-btn-confirmer:hover:not(:disabled) {
-    background-color: #27ae60;
+    background-color: var(--couleur-verte-principale);
 }
 
 .resa-btn-confirmer:disabled {
@@ -443,7 +451,7 @@ body {
 }
 
 .resa-note i {
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
     margin-top: 2px;
 }
 
@@ -474,7 +482,7 @@ body {
 
 .resa-confirm-box i {
     font-size: 50px;
-    color: #2ecc40;
+    color: var(--couleur-verte-principale);
     margin-bottom: 14px;
 }
 
@@ -492,8 +500,8 @@ body {
 .resa-confirm-code {
     margin: 18px 0;
     padding: 14px;
-    background-color: #f4f4f4;
-    border: 1.5px dashed #2ecc40;
+    background-color: var(--fond-page);
+    border: 1.5px dashed var(--couleur-verte-principale);
     border-radius: 10px;
     font-size: 22px;
     font-weight: bold;
@@ -512,8 +520,8 @@ body {
     width: 100%;
     height: 46px;
     line-height: 46px;
-    background-color: #2ecc40;
-    color: white;
+    background-color: var(--couleur-or-principale);
+    color: var(--texte-sur-or);
     border-radius: 10px;
     text-decoration: none;
     font-weight: bold;
@@ -522,7 +530,7 @@ body {
 }
 
 .resa-confirm-btn:hover {
-    background-color: #27ae60;
+    background-color: var(--couleur-verte-principale);
 }
 
 /* ================= RESPONSIVE ================= */

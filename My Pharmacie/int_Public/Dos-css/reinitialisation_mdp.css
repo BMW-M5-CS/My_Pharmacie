@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: var(--police-principale);
     background: url('../Dos-img/conex.jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
@@ -20,7 +20,7 @@ body {
 }
 
 .boite-centrale h1 {
-    color: #1b5e20;
+    color: var(--couleur-verte-foncee);
     font-size: 1.5rem;
     margin-bottom: 10px;
 }
@@ -42,7 +42,7 @@ body {
 .boite-centrale label {
     display: block;
     font-weight: 600;
-    color: #1b5e20;
+    color: var(--couleur-verte-foncee);
     margin-bottom: 6px;
     margin-top: 14px;
 }
@@ -58,13 +58,13 @@ body {
 
 .boite-centrale input[type="password"]:focus {
     outline: none;
-    border-color: #2e7d32;
+    border-color: var(--couleur-verte-principale);
 }
 
 .bouton-principal {
     display: block;
     width: 100%;
-    background: #2e7d32;
+    background: var(--couleur-verte-principale);
     color: #fff;
     border: none;
     padding: 12px;
@@ -79,7 +79,7 @@ body {
 }
 
 .bouton-principal:hover {
-    background: #1b5e20;
+    background: var(--couleur-verte-foncee);
 }
 
 .bouton-secondaire {

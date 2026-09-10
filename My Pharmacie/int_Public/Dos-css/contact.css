@@ -3,10 +3,9 @@
    ====================================================================== */
 
 :root {
-    --vert-principal: #00b000;
-    --vert-fonce: #1b5e20;
-    --vert-accent: #2ecc40;
-    --vert-clair: rgba(0, 176, 0, 0.12);
+    --vert-principal: var(--couleur-verte-principale);
+    --vert-fonce: var(--couleur-verte-foncee);
+    --vert-accent: var(--couleur-verte-principale);
 }
 
 
@@ -47,7 +46,7 @@ body {
 .entete-fond {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 0%, rgba(0, 176, 0, 0.25), transparent 60%);
+    background: radial-gradient(circle at 50% 0%, var(--couleur-verte-transparente-forte), transparent 60%);
     pointer-events: none;
 }
 
