@@ -82,7 +82,9 @@ function afficherProduits(liste) {
         const dejaMax     = qteActuelle >= produit.max_reservable;
 
         carte.innerHTML = `
-            <div class="resa-produit-vignette"></div>
+            <div class="resa-produit-vignette">
+                <img src="${echapperHtml(produit.image_url)}" alt="${echapperHtml(produit.nom_medicament)}" loading="lazy">
+            </div>
             <span class="resa-produit-nom">${echapperHtml(produit.nom_medicament)}</span>
             <span class="resa-produit-forme">${echapperHtml(produit.forme_pharmaceutique)}</span>
             <span class="resa-produit-prix">${Number(produit.prix_unitaire_fcfa).toLocaleString('fr-FR')} FCFA</span>

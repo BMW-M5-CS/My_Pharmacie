@@ -4,10 +4,13 @@ let marqueurs           = [];
 let pharmaciesData      = [];
 let marqueurUtilisateur = null;
 
-// Icônes des marqueurs, créées une seule fois (indépendantes de la carte elle-même)
+// Icônes des marqueurs, créées une seule fois (indépendantes de la carte elle-même).
+// Couleurs tirées de couleurPourStatut() (statut-utils.js, chargé avant ce fichier) --
+// une seule source de vérité pour "quelle couleur pour quel statut", partagée avec
+// les badges de statut affichés ailleurs sur le site.
 const iconeVerte = L.divIcon({
     className: '',
-    html: '<div style="background-color:#00b000;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.4);"></div>',
+    html: '<div style="background-color:' + couleurPourStatut('ouverte') + ';width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.4);"></div>',
     iconSize:    [16, 16],
     iconAnchor:  [8, 8],
     popupAnchor: [0, -10]
@@ -15,7 +18,7 @@ const iconeVerte = L.divIcon({
 
 const iconeRouge = L.divIcon({
     className: '',
-    html: '<div style="background-color:#7c3aed;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.4);"></div>',
+    html: '<div style="background-color:' + couleurPourStatut('garde') + ';width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.4);"></div>',
     iconSize:    [16, 16],
     iconAnchor:  [8, 8],
     popupAnchor: [0, -10]
@@ -26,7 +29,7 @@ const iconeRouge = L.divIcon({
 // (voir fonctions_horaires.php), plus la seule valeur statut_garde.
 const iconeGrise = L.divIcon({
     className: '',
-    html: '<div style="background-color:#9e9e9e;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.4);"></div>',
+    html: '<div style="background-color:' + couleurPourStatut('fermee') + ';width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.4);"></div>',
     iconSize:    [16, 16],
     iconAnchor:  [8, 8],
     popupAnchor: [0, -10]
@@ -64,6 +67,12 @@ function iconePourStatut(statutCalcule) {
 
 // Mode recherche produit actif ou non (filtre la liste/les marqueurs affichés)
 let modeRechercheProduitActif = false;
+
+// Identifiants des pharmacies qui correspondent à la recherche produit en cours
+// (vide en navigation libre). Sert à colorer en vert les boutons "Voir la
+// pharmacie" concernés — liste latérale ET pop-up de la carte — pour reprendre
+// le même code couleur que la modale produit ("cette pharmacie a ce que tu cherches").
+let idsResultatsRecherche = new Set();
 
 
 // ===================================================================
@@ -744,6 +753,7 @@ function appliquerFiltreProduitCarte(pharmaciesTrouvees) {
     modeRechercheProduitActif = true;
 
     const idsTrouves = new Set(pharmaciesTrouvees.map(function (p) { return String(p.id_pharmacie); }));
+    idsResultatsRecherche = idsTrouves;
 
     let indexPlusProche = -1;
 
@@ -752,7 +762,10 @@ function appliquerFiltreProduitCarte(pharmaciesTrouvees) {
         const correspond = idsTrouves.has(String(p.id_pharmacie));
         const item        = document.getElementById('item-' + index);
 
-        if (item) item.style.display = correspond ? '' : 'none';
+        if (item) {
+            item.style.display = correspond ? '' : 'none';
+            item.classList.toggle('resultat-recherche-produit', correspond);
+        }
 
         if (marqueurs[index]) {
 
@@ -802,13 +815,17 @@ function appliquerFiltreProduitCarte(pharmaciesTrouvees) {
 function reinitialiserRechercheProduitCarte() {
 
     modeRechercheProduitActif = false;
+    idsResultatsRecherche = new Set();
 
     masquerRepliAssurance();
 
     pharmaciesData.forEach(function (p, index) {
 
         const item = document.getElementById('item-' + index);
-        if (item) item.style.display = '';
+        if (item) {
+            item.style.display = '';
+            item.classList.remove('resultat-recherche-produit');
+        }
 
         if (marqueurs[index]) {
 
@@ -878,19 +895,19 @@ fetch('../Dos-php/get_carte.php')
             // HTML ne s'exécute dans le navigateur (XSS)
             const contenuPopup = `
                 <div style="min-width:200px;font-family:Arial,sans-serif;">
-                    <div style="font-weight:700;font-size:15px;color:#00b000;margin-bottom:6px;">
+                    <div class="popup-nom-pharmacie" style="font-weight:700;font-size:15px;margin-bottom:6px;">
                         ${echapperHtml(p.nom_pharmacie)}
                     </div>
                     <div style="font-size:13px;margin-bottom:4px;">
-                        <i class="fas fa-location-dot" style="color:#00b000;"></i>
+                        <i class="fas fa-location-dot popup-icone-verte"></i>
                         ${echapperHtml(p.adresse)}, ${echapperHtml(p.ville)}
                     </div>
                     <div style="font-size:13px;margin-bottom:4px;">
-                        <i class="fas fa-clock" style="color:#00b000;"></i>
+                        <i class="fas fa-clock popup-icone-verte"></i>
                         ${echapperHtml(p.heure_ouverture)} – ${echapperHtml(p.heure_fermeture)}
                     </div>
                     <div style="font-size:13px;margin-bottom:6px;">
-                        <i class="fas fa-phone" style="color:#00b000;"></i>
+                        <i class="fas fa-phone popup-icone-verte"></i>
                         ${echapperHtml(p.telephone_pharmacie)}
                     </div>
                     <div style="font-size:12px;font-weight:600;color:${couleurPourStatut(p.statut_calcule)};margin-bottom:8px;">
@@ -898,7 +915,7 @@ fetch('../Dos-php/get_carte.php')
                         ${libellePourStatut(p.statut_calcule)}
                     </div>
                     ${badgesAssurancesHtml}
-                    <button type="button" class="popup-btn-voir-pharmacie" data-id="${p.id_pharmacie}" style="width:100%;height:32px;background-color:#00b000;color:white;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">
+                    <button type="button" class="popup-btn-voir-pharmacie pharm-btn-voir" data-id="${p.id_pharmacie}">
                         <i class="fa-solid fa-store"></i> Voir la pharmacie
                     </button>
                 </div>
@@ -920,6 +937,9 @@ fetch('../Dos-php/get_carte.php')
                     btn.addEventListener('click', function () {
                         ouvrirModalPharmacie(p.id_pharmacie);
                     });
+                    // Reprend la couleur verte si cette pharmacie fait partie
+                    // des résultats de la recherche produit en cours (sinon or, par défaut)
+                    btn.classList.toggle('resultat-recherche-produit', idsResultatsRecherche.has(String(p.id_pharmacie)));
                 }
             });
 

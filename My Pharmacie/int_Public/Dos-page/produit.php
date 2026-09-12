@@ -58,6 +58,7 @@ require_once '../Dos-php/images_produits.php';
     <link rel="stylesheet" href="../Dos-css/header.css">
     <link rel="stylesheet" href="../Dos-css/produit.css">
     <link rel="stylesheet" href="../Dos-css/footer.css">
+    <link rel="stylesheet" href="../Dos-css/modal-pharmacie.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

@@ -24,7 +24,8 @@ $sql_pharmacie = "SELECT
                     heure_fermeture,
                     statut_garde, 
                     latitude, 
-                    longitude
+                    longitude,
+                    image_url
                   FROM pharmacies WHERE id_pharmacie = ?";
 
 $stmt = $pdo->prepare($sql_pharmacie);
@@ -39,6 +40,12 @@ if(!$pharmacie){
 
 require_once 'zone_geographique.php'; // pour la constante LIMITE_RESULTATS_MAX
 require_once 'images_produits.php';
+require_once 'images_pharmacies.php';
+
+// Photo de la pharmacie elle-même (colonne image_url si renseignée, sinon
+// variante générique stable) — remplace la valeur brute de la colonne dans
+// la réponse JSON, le frontend n'a pas besoin de connaître la logique de repli
+$pharmacie['image_url'] = chemin_photo_pharmacie($pharmacie['image_url'], (int) $pharmacie['id_pharmacie']);
 
 // NOTE : LIMIT ci-dessous est un plafond de sécurité, pas encore une vraie
 // pagination. Une grande officine avec plus de LIMITE_RESULTATS_MAX

@@ -9,43 +9,34 @@ body {
     background-color: var(--fond-page);
 }
 
-/* ========== HERO ========== */
+/* ========== EN-TÊTE (sans bloc coloré — la page reste sur le fond crème) ========== */
 
-.hero-client {
-    background-color: black;
-    padding: 40px 60px 30px 60px;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-
-.hero-top {
+.accueil-entete {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: relative;
-    z-index: 2;
+    padding: 32px 60px 24px 60px;
 }
 
-.hero-left h1 {
-    color: white;
-    font-size: 26px;
+.entete-gauche h1 {
+    color: var(--texte-principal);
+    font-size: 24px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
-.hero-left h1 span {
+.entete-gauche h1 span {
     color: var(--couleur-verte-principale);
 }
 
-.hero-left p {
-    color: #aaa;
+.entete-gauche p {
+    color: var(--texte-secondaire);
     font-size: 14px;
     line-height: 1.6;
 }
 
 .date-line {
-    color: #777;
+    color: var(--texte-secondaire);
     font-size: 12px;
     margin-top: 12px;
     display: flex;
@@ -61,14 +52,14 @@ body {
     width: 75px;
     height: 75px;
     border-radius: 50%;
-    background-color: green;
-    color: white;
+    background-color: var(--couleur-or-principale);
+    color: var(--couleur-or-texte);
     font-size: 26px;
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 4px solid white;
+    border: 4px solid var(--fond-carte);
     flex-shrink: 0;
 }
 
@@ -79,9 +70,7 @@ body {
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     padding: 0 60px;
-    margin-top: -25px;
-    position: relative;
-    z-index: 3;
+    margin-top: 4px;
 }
 
 .stat-card {
@@ -96,9 +85,9 @@ body {
     height: 110px;
 }
 
-.stat-card.stat-orange { border-bottom-color: #f39c12; }
-.stat-card.stat-blue   { border-bottom-color: #3498db; }
-.stat-card.stat-red    { border-bottom-color: #e74c3c; }
+.stat-card.stat-orange { border-bottom-color: var(--alerte-avertissement-accent); }
+.stat-card.stat-blue   { border-bottom-color: var(--texte-secondaire); }
+.stat-card.stat-red    { border-bottom-color: var(--alerte-danger-bordure); }
 
 .stat-ico {
     width: 46px;
@@ -113,9 +102,9 @@ body {
     color: var(--couleur-verte-principale);
 }
 
-.stat-card.stat-orange .stat-ico { background-color: #fff3e0; color: #f39c12; }
-.stat-card.stat-blue   .stat-ico { background-color: #e3f2fd; color: #3498db; }
-.stat-card.stat-red    .stat-ico { background-color: #fdecea; color: #e74c3c; }
+.stat-card.stat-orange .stat-ico { background-color: var(--alerte-avertissement-fond); color: var(--alerte-avertissement-accent); }
+.stat-card.stat-blue   .stat-ico { background-color: var(--bordure-douce); color: var(--texte-secondaire); }
+.stat-card.stat-red    .stat-ico { background-color: var(--alerte-danger-clair); color: var(--alerte-danger-bordure); }
 
 .stat-text {
     display: flex;
@@ -245,7 +234,7 @@ body {
 
 .badge-attente  { background-color: #fff3e0; color: #e67e22; }
 .badge-confirme { background-color: #e8f8ea; color: var(--couleur-verte-principale); }
-.badge-annule   { background-color: #fdecea; color: #e74c3c; }
+.badge-annule   { background-color: var(--alerte-danger-clair); color: var(--alerte-danger-bordure); }
 .badge-expire   { background-color: #f0f0f0; color: #888; }
 
 .aucune-reservation {
@@ -370,7 +359,7 @@ body {
     .stats-row {
         grid-template-columns: repeat(2, 1fr);
     }
-    .hero-client, .stats-row, .main-grid {
+    .accueil-entete, .stats-row, .main-grid {
         padding-left: 20px;
         padding-right: 20px;
     }

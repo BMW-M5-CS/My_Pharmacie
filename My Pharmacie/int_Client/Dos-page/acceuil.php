@@ -68,19 +68,17 @@ $initiales = strtoupper(mb_substr($prenom, 0, 1) . mb_substr($nom, 0, 1));
 
     <?php include '../../Include_general/header.php'; ?>
 
-    <section class="hero-client">
-        <div class="hero-top">
-            <div class="hero-left">
-                <h1>Bon retour parmi nous, <span><?php echo htmlspecialchars($prenom); ?></span> <span class="wave">👋</span></h1>
-                <p>Votre espace personnel — retrouvez vos réservations, gérez votre profil<br>
-                   et accédez rapidement aux pharmacies près de vous.</p>
-                <div class="date-line">
-                    <i class="fa-solid fa-calendar-days"></i>
-                    <?php echo date('l d F Y'); ?> — Lomé, Togo
-                </div>
+    <section class="accueil-entete">
+        <div class="entete-gauche">
+            <h1>Bon retour parmi nous, <span><?php echo htmlspecialchars($prenom); ?></span> <span class="wave">👋</span></h1>
+            <p>Votre espace personnel — retrouvez vos réservations, gérez votre profil<br>
+               et accédez rapidement aux pharmacies près de vous.</p>
+            <div class="date-line">
+                <i class="fa-solid fa-calendar-days"></i>
+                <?php echo date('l d F Y'); ?> — Lomé, Togo
             </div>
-            <div class="avatar"><?php echo htmlspecialchars($initiales); ?></div>
         </div>
+        <div class="avatar"><?php echo htmlspecialchars($initiales); ?></div>
     </section>
 
     <section class="stats-row">

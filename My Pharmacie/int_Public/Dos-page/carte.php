@@ -75,6 +75,7 @@ if (!empty($id_pharmacies_liste)) {
     <link rel="stylesheet" href="../Dos-css/header.css">
     <link rel="stylesheet" href="../Dos-css/footer.css">
     <link rel="stylesheet" href="../Dos-css/carte.css">
+    <link rel="stylesheet" href="../Dos-css/modal-pharmacie.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 </head>

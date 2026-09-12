@@ -213,8 +213,8 @@ div.entete_input {
 }
 
 .carte-recherche-statut::before {
-    content: '\f05a';
-    font-family: 'Font Awesome 6 Free';
+    content: "";
+    font-family: "Font Awesome 6 Free";
     font-weight: 900;
     color: var(--vert-principal);
 }
@@ -228,7 +228,7 @@ div.entete_input {
 }
 
 .carte-recherche-statut.aucun-resultat::before {
-    content: '\f057';
+    content: "";
     color: #c0392b;
 }
 
@@ -517,7 +517,7 @@ div.entete_input {
     min-width: 280px;
     min-height: 0;
     background-color: white;
-    color: #1a1a1a;
+    color: var(--texte-principal);
     border-right: 1px solid #eee;
     display: flex;
     flex-direction: column;
@@ -569,7 +569,7 @@ div.entete_input {
 .pharm-nom {
     font-weight: 700;
     font-size: 14px;
-    color: #1a1a1a;
+    color: var(--texte-principal);
 }
 
 .pharm-adresse {
@@ -624,6 +624,32 @@ div.entete_input {
 .pharm-btn-voir:hover {
     background-color: var(--couleur-or-hover);
     transform: translateY(-1px);
+}
+
+/* Contenu de la pop-up Leaflet (nom + icônes) : couleur de marque fixe,
+   indépendante du statut de la pharmacie -- pas à confondre avec
+   couleurPourStatut() qui varie selon garde/ouverte/fermée. */
+.popup-nom-pharmacie,
+.popup-icone-verte {
+    color: var(--vert-principal);
+}
+
+/* Pharmacie faisant partie des résultats d'une recherche produit en cours
+   (liste latérale ET bouton dans la pop-up de la carte) : reprend le même
+   code couleur que la modale produit -- vert = "a le produit cherché",
+   or = navigation libre, par défaut. Posée en dernier pour prendre le
+   dessus sur .pharm-btn-voir sans devoir dupliquer toutes ses propriétés.
+   Deux sélecteurs car la classe n'est pas posée au même endroit selon le cas :
+   sur .pharmacie-item (le conteneur) côté liste, directement sur le bouton côté pop-up. */
+.pharmacie-item.resultat-recherche-produit .pharm-btn-voir,
+.pharm-btn-voir.resultat-recherche-produit {
+    background-color: var(--vert-principal);
+    color: var(--texte-sur-vert);
+}
+
+.pharmacie-item.resultat-recherche-produit .pharm-btn-voir:hover,
+.pharm-btn-voir.resultat-recherche-produit:hover {
+    background-color: var(--vert-fonce);
 }
 
 
@@ -725,172 +751,6 @@ div.entete_input {
 }
 
 
-/* ======================================================================
-   MODAL PHARMACIE (partagé avec pharmacie.php et produit.php)
-   ====================================================================== */
-
-.fenetre-pharmacie {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.75);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.fenetre-pharmacie.actif {
-    display: flex;
-}
-
-body.fenetre-pharmacie-ouvert {
-    overflow: hidden;
-}
-
-.modal-contenu-pharmacie {
-    background-color: #ffffff;
-    color: #2b2b2b;
-    width: 100%;
-    max-width: 1300px;
-    max-height: 90vh;
-    border-radius: 18px;
-    position: relative;
-
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-}
-
-.modal-fermer-pharmacie {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    width: 34px;
-    height: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.45);
-    border: none;
-    border-radius: 50%;
-    color: white;
-    font-size: 22px;
-    line-height: 1;
-    cursor: pointer;
-    z-index: 10;
-    transition: background-color 0.25s ease;
-}
-
-.modal-fermer-pharmacie:hover {
-    background-color: var(--vert-principal);
-}
-
-
-/* ── Barre sticky (nom de la pharmacie + fermeture), reste visible au défilement ── */
-
-.modal-barre-sticky-pharmacie {
-    position: sticky;
-    top: 0;
-    z-index: 15;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 56px 12px 22px;
-    background-color: #ffffff;
-    border-bottom: 1px solid #f0f0f0;
-    border-radius: 18px 18px 0 0;
-}
-
-.modal-nom-pharmacie-sticky {
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--vert-fonce);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.modal-barre-sticky-pharmacie .modal-fermer-pharmacie {
-    position: static;
-    flex-shrink: 0;
-    margin-left: 12px;
-}
-
-
-.modal-haut-pharmacie {
-    padding: 28px 28px 24px;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    gap: 24px;
-    align-items: stretch;
-}
-
-.modal-image-pharmacie {
-    width: 38%;
-    min-height: 320px;
-    background-color: var(--vert-clair);
-    overflow: hidden;
-    flex-shrink: 0;
-    border-radius: 14px;
-}
-
-.modal-image-pharmacie img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-}
-
-.modal-infos-pharmacie {
-    width: 27%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    justify-content: center;
-}
-
-.modal-infos-pharmacie h2 {
-    color: var(--vert-fonce);
-    font-size: 22px;
-    font-weight: 800;
-    margin: 0;
-}
-
-.modal-notation {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    font-size: 14px;
-}
-
-.modal-notation .etoiles {
-    color: #f5a623;
-    font-size: 15px;
-    letter-spacing: 1px;
-}
-
-.modal-notation .note-chiffre {
-    font-weight: 700;
-    color: #222;
-}
-
-.modal-notation .nb-avis {
-    color: #888;
-}
-
-.modal-notation .pas-avis {
-    color: #aaa;
-    font-style: italic;
-}
-
 .badge-recommandee-mini {
     display: flex;
     align-items: center;
@@ -901,327 +761,4 @@ body.fenetre-pharmacie-ouvert {
     color: var(--vert-fonce);
     font-size: 11px;
     font-weight: 700;
-}
-
-.modal-infos-liste {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-    margin-top: 4px;
-}
-
-.modal-infos-liste p {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 14px;
-    color: #444;
-}
-
-.modal-infos-liste i {
-    color: var(--vert-principal);
-    width: 16px;
-    text-align: center;
-    flex-shrink: 0;
-}
-
-
-.modal-assurances-pharmacie {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-}
-
-.modal-assurances-titre {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #444;
-}
-
-.modal-assurances-titre i {
-    color: var(--vert-principal);
-}
-
-.modal-assurance-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 10px 4px 4px;
-    background-color: #fafafa;
-    border: 1px solid #eee;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #2b2b2b;
-}
-
-.modal-assurance-item img {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
-    border-radius: 50%;
-    background-color: white;
-}
-
-.modal-assurance-aucune {
-    font-size: 13px;
-    color: #888;
-    font-style: italic;
-}
-
-
-.modal-garde-badge {
-    display: inline-block;
-    padding: 3px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
-    background-color: var(--vert-accent);
-    color: white;
-    width: fit-content;
-}
-
-.modal-garde-badge.garde {
-    background-color: var(--couleur-terre-cuite);
-}
-
-.modal-garde-badge.fermee {
-    background-color: var(--statut-fermee);
-}
-
-.modal-carte {
-    width: 35%;
-    min-height: 260px;
-    border-radius: 14px;
-    overflow: hidden;
-    flex-shrink: 0;
-    z-index: 1;
-}
-
-
-.modal-separateur-pharmacie {
-    height: 1px;
-    background-color: #f0f0f0;
-    margin: 0 28px;
-}
-
-
-.modal-bas-pharmacie {
-    padding: 24px 28px 32px;
-}
-
-.modal-bas-pharmacie h3 {
-    color: #2b2b2b;
-    font-size: 18px;
-    font-weight: 800;
-    margin-bottom: 18px;
-}
-
-.modal-bas-pharmacie h3 span {
-    color: var(--vert-accent);
-    font-weight: 600;
-}
-
-
-/* ── Recherche de produit à l'intérieur du modal pharmacie ── */
-
-.modal-recherche-produit-wrapper {
-    position: relative;
-    margin-bottom: 18px;
-}
-
-.modal-recherche-produit-wrapper i.fa-magnifying-glass {
-    position: absolute;
-    top: 50%;
-    left: 14px;
-    transform: translateY(-50%);
-    color: #999;
-    font-size: 14px;
-}
-
-.modal-recherche-produit-input {
-    width: 100%;
-    height: 42px;
-    padding: 0 16px 0 40px;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.25s ease;
-}
-
-.modal-recherche-produit-input:focus {
-    border-color: var(--vert-principal);
-}
-
-.modal-suggestions-produit {
-    display: none;
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
-    right: 0;
-    background-color: #ffffff;
-    border: 1px solid #eee;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-    max-height: 220px;
-    overflow-y: auto;
-    z-index: 20;
-}
-
-.modal-suggestions-produit.actif {
-    display: block;
-}
-
-.modal-suggestion-produit-item {
-    padding: 10px 16px;
-    font-size: 13px;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.modal-suggestion-produit-item:hover {
-    background-color: var(--vert-clair);
-}
-
-.modal-recherche-produit-vider {
-    display: none;
-    margin-bottom: 14px;
-    background: none;
-    border: 1px solid var(--vert-principal);
-    color: var(--vert-principal);
-    border-radius: 20px;
-    padding: 5px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    align-items: center;
-    gap: 6px;
-}
-
-.modal-recherche-produit-vider.actif {
-    display: inline-flex;
-}
-
-
-.modal-produits-grille {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-    gap: 18px;
-    justify-items: center;
-}
-
-.modal-produit-item {
-    width: 100%;
-    max-width: 170px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 14px;
-    background-color: #fafafa;
-    border: 1px solid #f0f0f0;
-    padding: 14px 10px;
-    gap: 6px;
-    transition: box-shadow 0.25s ease;
-}
-
-.modal-produit-item:hover {
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
-}
-
-.modal-produit-image {
-    width: 110px;
-    height: 110px;
-    background-color: var(--vert-clair);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 4px;
-}
-
-.modal-produit-image img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-}
-
-.modal-produit-nom {
-    font-weight: 700;
-    color: #2b2b2b;
-    font-size: 13px;
-    text-align: center;
-}
-
-.modal-produit-forme {
-    color: #999;
-    font-size: 11px;
-    text-transform: uppercase;
-}
-
-.modal-produit-prix {
-    color: var(--vert-fonce);
-    font-weight: 800;
-    font-size: 13px;
-}
-
-.btn-reserver-produit {
-    width: 100%;
-    height: 32px;
-    margin-top: 4px;
-    background-color: var(--vert-principal);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.25s ease;
-}
-
-.btn-reserver-produit:hover {
-    background-color: var(--vert-fonce);
-}
-
-.modal-aucun {
-    color: #888;
-    font-style: italic;
-}
-
-
-@media (max-width: 700px) {
-
-    .modal-haut-pharmacie {
-        flex-direction: column;
-    }
-
-    .modal-image-pharmacie,
-    .modal-infos-pharmacie {
-        width: 100%;
-    }
-
-    .modal-image-pharmacie {
-        min-height: 180px;
-    }
-
-    .modal-carte {
-        display: none;
-    }
-
-}
-
-
-@media (max-width: 420px) {
-
-    .modal-produits-grille {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    }
-
 }

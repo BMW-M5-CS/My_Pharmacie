@@ -22,7 +22,7 @@ $contact_adresse    = '[Adresse à compléter], Lomé';
                 <i class="fas fa-mortar-pestle"></i>
                 <span>Ma<strong>Pharmacie</strong></span>
             </div>
-            <p class="footer-tagline">Votre santé, notre priorité.<br>Trouvez le médicament qu'il vous faut, où que vous soyez.</p>
+            <p class="footer-tagline">Votre santé, notre priorité.<br>Trouvez le médicament qu'il vous faut, <br>où que vous soyez sur le territoire Togolais.</p>
         </div>
 
         <!-- Colonne 2 : Navigation -->

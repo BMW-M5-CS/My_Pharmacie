@@ -48,6 +48,12 @@ function ouvrirModalPharmacie(id) {
             document.getElementById('modal-horaire').textContent       = data.heure_ouverture + '-' + data.heure_fermeture;
             document.getElementById('modal-telephone').textContent     = data.telephone_pharmacie;
 
+            const imagePharmacieEl = document.getElementById('modal-image-pharmacie-img');
+            if (imagePharmacieEl) {
+                imagePharmacieEl.src = data.image_url;
+                imagePharmacieEl.alt = data.nom_pharmacie;
+            }
+
             const nomStickyEl = document.getElementById('modal-nom-pharmacie-sticky');
             if (nomStickyEl) nomStickyEl.textContent = data.nom_pharmacie;
 

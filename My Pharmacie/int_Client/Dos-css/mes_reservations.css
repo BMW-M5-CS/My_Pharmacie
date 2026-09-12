@@ -14,7 +14,7 @@ body {
 /* ========== HERO ========== */
 
 .mresa-hero {
-    background-color: black;
+    background-color: var(--couleur-verte-principale);
     padding: 28px 60px 24px 60px;
     flex-shrink: 0;
 }
@@ -23,19 +23,19 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: #777;
+    color: rgba(255, 255, 255, 0.75);
     font-size: 12px;
     text-decoration: none;
     margin-bottom: 16px;
 }
 
 .mresa-retour:hover {
-    color: var(--couleur-verte-principale);
+    color: var(--couleur-or-principale);
 }
 
 .mresa-eyebrow {
     display: block;
-    color: var(--couleur-verte-principale);
+    color: var(--couleur-or-principale);
     font-size: 11px;
     font-weight: bold;
     letter-spacing: 1.8px;
@@ -238,7 +238,7 @@ body {
 
 .badge-attente   { background-color: #fff3e0; color: #e67e22; }
 .badge-confirme  { background-color: #e8f8ea; color: var(--couleur-verte-principale); }
-.badge-annule    { background-color: #fdecea; color: #e74c3c; }
+.badge-annule    { background-color: var(--alerte-danger-clair); color: var(--alerte-danger-bordure); }
 .badge-expire    { background-color: #f0f0f0; color: #888;    }
 .badge-renouvele { background-color: #e8f4fd; color: #2980b9; }
 
@@ -322,11 +322,11 @@ body {
 }
 
 .mresa-expire-info {
-    color: #e74c3c !important;
+    color: var(--alerte-danger-bordure) !important;
 }
 
 .mresa-expire-info i {
-    color: #e74c3c;
+    color: var(--alerte-danger-bordure);
 }
 
 .mresa-btn-annuler {
@@ -585,9 +585,9 @@ body {
     gap: 8px;
     padding: 11px;
     border-radius: 8px;
-    border: 1.5px solid #3498db;
+    border: 1.5px solid var(--couleur-verte-principale);
     background-color: white;
-    color: #3498db;
+    color: var(--couleur-verte-principale);
     font-size: 13px;
     font-weight: bold;
     cursor: pointer;
@@ -595,7 +595,7 @@ body {
 }
 
 .mresa-partiel-btn-modifier:hover {
-    background-color: #ebf5fb;
+    background-color: var(--fond-page);
 }
 
 .mresa-partiel-btn-refaire {

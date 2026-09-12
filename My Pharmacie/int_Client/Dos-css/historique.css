@@ -23,7 +23,7 @@ body {
    ====================================================================== */
 
 .historique-hero {
-    background-color: black;
+    background-color: var(--couleur-verte-principale);
     padding: 28px 60px 24px 60px;
     flex-shrink: 0;
 }
@@ -32,19 +32,19 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: #777;
+    color: rgba(255, 255, 255, 0.75);
     font-size: 12px;
     text-decoration: none;
     margin-bottom: 16px;
 }
 
 .historique-retour:hover {
-    color: var(--couleur-verte-principale);
+    color: var(--couleur-or-principale);
 }
 
 .historique-eyebrow {
     display: block;
-    color: var(--couleur-verte-principale);
+    color: var(--couleur-or-principale);
     font-size: 11px;
     font-weight: bold;
     letter-spacing: 1.8px;
@@ -70,7 +70,7 @@ body {
 }
 
 .historique-hero h1 i {
-    color: var(--couleur-verte-principale);
+    color: var(--couleur-or-principale);
     font-size: 22px;
 }
 

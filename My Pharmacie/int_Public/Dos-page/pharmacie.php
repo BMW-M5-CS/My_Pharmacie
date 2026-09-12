@@ -3,6 +3,7 @@
 require_once '../../Include_general/session_init.php';
 require_once '../Dos-php/config.php';
 require_once '../Dos-php/fonctions_notation.php';
+require_once '../Dos-php/images_pharmacies.php';
 
 $ville     = $_GET['ville'] ?? '';
 $recherche = $_GET['recherche'] ?? '';
@@ -81,7 +82,7 @@ if ($assurance !== '') {
 
 $sql_where = !empty($conditions) ? 'WHERE ' . implode(' AND ', $conditions) : '';
 
-$sql = "SELECT p.id_pharmacie, p.nom_pharmacie, p.adresse, p.ville, p.heure_ouverture, p.heure_fermeture, p.telephone_pharmacie, p.statut_garde,
+$sql = "SELECT p.id_pharmacie, p.nom_pharmacie, p.adresse, p.ville, p.heure_ouverture, p.heure_fermeture, p.telephone_pharmacie, p.statut_garde, p.image_url,
                $sql_champs_notation
         FROM pharmacies p
         $sql_where
@@ -92,10 +93,6 @@ $stmt->execute($params);
 
 $pharmacies = $stmt->fetchAll();
 
-
-function imagePlaceholderPharmacie($id) {
-    return 'https://picsum.photos/seed/pharmacie' . $id . '/400/400';
-}
 
 ?>
 
@@ -113,6 +110,7 @@ function imagePlaceholderPharmacie($id) {
     <link rel="stylesheet" href="../Dos-css/header.css">
     <link rel="stylesheet" href="../Dos-css/pharmacie.css">
     <link rel="stylesheet" href="../Dos-css/footer.css">
+    <link rel="stylesheet" href="../Dos-css/modal-pharmacie.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -231,7 +229,7 @@ function imagePlaceholderPharmacie($id) {
                         <article class="carte-pharmacie">
 
                             <div class="carte-pharmacie-image">
-                                <img src="<?php echo imagePlaceholderPharmacie($pharmacie['id_pharmacie']); ?>" alt="<?php echo htmlspecialchars($pharmacie['nom_pharmacie']); ?>" loading="lazy">
+                                <img src="<?php echo htmlspecialchars(chemin_photo_pharmacie($pharmacie['image_url'], (int)$pharmacie['id_pharmacie'])); ?>" alt="<?php echo htmlspecialchars($pharmacie['nom_pharmacie']); ?>" loading="lazy">
 
                                 <?php if ($pharmacie['statut_garde']) : ?>
                                     <span class="badge-garde">Garde</span>

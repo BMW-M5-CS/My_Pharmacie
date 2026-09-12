@@ -13,7 +13,7 @@ body {
 /* ================= HERO PHARMACIE ================= */
 
 .resa-hero {
-    background-color: black;
+    background-color: var(--couleur-verte-principale);
     padding: 28px 60px 34px 60px;
 }
 
@@ -26,7 +26,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: #aaa;
+    color: rgba(255, 255, 255, 0.75);
     text-decoration: none;
     font-size: 13px;
     margin-bottom: 18px;
@@ -34,7 +34,7 @@ body {
 }
 
 .resa-retour:hover {
-    color: var(--couleur-verte-principale);
+    color: var(--couleur-or-principale);
 }
 
 .resa-hero-row {
@@ -47,7 +47,7 @@ body {
 
 .resa-eyebrow {
     display: block;
-    color: var(--couleur-verte-principale);
+    color: var(--couleur-or-principale);
     font-size: 12px;
     font-weight: bold;
     letter-spacing: 1.5px;
@@ -65,7 +65,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 18px;
-    color: #bbb;
+    color: rgba(255, 255, 255, 0.85);
     font-size: 13px;
 }
 
@@ -76,7 +76,7 @@ body {
 }
 
 .resa-meta i {
-    color: var(--couleur-verte-principale);
+    color: var(--couleur-or-principale);
 }
 
 .resa-badge-garde {
@@ -215,7 +215,7 @@ body {
 
 .resa-produit-rupture {
     font-size: 11px;
-    color: #e74c3c;
+    color: var(--alerte-danger-bordure);
     font-weight: bold;
 }
 
@@ -281,7 +281,7 @@ body {
 }
 
 .resa-ticket-head {
-    background-color: #1a1a1a;
+    background-color: var(--couleur-verte-principale);
     color: white;
     padding: 16px 20px;
     display: flex;
@@ -292,7 +292,7 @@ body {
 }
 
 .resa-ticket-head i {
-    color: var(--couleur-verte-principale);
+    color: var(--couleur-or-principale);
 }
 
 .resa-ticket-pharmacie {
