@@ -1,0 +1,282 @@
+<?php
+
+require_once '../../int_Public/Dos-php/config.php';
+
+header("Content-Type: application/json");
+
+
+// ===== Vérification de la session utilisateur =====
+
+if (!isset($_SESSION["user_id"])) {
+
+    http_response_code(401);
+    echo json_encode(["success" => false, "message" => 'Vous devez être connecté.']);
+    exit();
+}
+
+$id_user = $_SESSION['user_id'];
+
+
+// ===== Lecture des données envoyées par le formulaire =====
+
+$donnees = json_decode(file_get_contents("php://input"), true);
+$action  = trim($donnees['action'] ?? '');
+
+
+// ===== Vérification du jeton CSRF =====
+
+if (!isset($donnees['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $donnees['csrf_token'])) {
+
+    http_response_code(403);
+    echo json_encode(["success" => false, "message" => 'Requête invalide, veuillez rafraîchir la page.']);
+    exit();
+}
+
+
+// ===================================================================
+// ACTION : modification des informations personnelles
+// ===================================================================
+
+if ($action === 'modifier_infos') {
+
+    $prenom                 = trim($donnees['prenom']                 ?? '');
+    $nom                    = trim($donnees['nom']                    ?? '');
+    $phone_email            = trim($donnees['phone_email']            ?? '');
+    $email_recuperation     = trim($donnees['email_recuperation']     ?? '');
+    $telephone_recuperation = trim($donnees['telephone_recuperation'] ?? '');
+    $mdp_actuel             = trim($donnees['mdp_actuel']             ?? '');
+
+
+    // ----- Validation des champs -----
+
+    if (empty($prenom) || empty($nom) || empty($phone_email) || empty($mdp_actuel)) {
+
+        echo json_encode(["success" => false, "message" => 'Tous les champs sont obligatoires.']);
+        exit();
+    }
+
+    if (!empty($email_recuperation) && !filter_var($email_recuperation, FILTER_VALIDATE_EMAIL)) {
+
+        echo json_encode(["success" => false, "message" => 'L\'email de récupération n\'est pas valide.']);
+        exit();
+    }
+
+    if (!empty($telephone_recuperation) && !preg_match('/^[0-9+\s]{8,20}$/', $telephone_recuperation)) {
+
+        echo json_encode(["success" => false, "message" => 'Le numéro de téléphone de récupération n\'est pas valide.']);
+        exit();
+    }
+
+
+    // ----- Vérification du mot de passe actuel avant mise à jour -----
+
+    $sql_verif  = "SELECT \"password\" FROM users WHERE id_user = ?";
+    $stmt_verif = $pdo->prepare($sql_verif);
+    $stmt_verif->execute([$id_user]);
+    $user       = $stmt_verif->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user || !password_verify($mdp_actuel, $user['password'])) {
+
+        http_response_code(403);
+        echo json_encode(["success" => false, "message" => 'Mot de passe actuel incorrect.']);
+        exit();
+    }
+
+
+    // ----- Vérification pour éviter les doublons d'email/téléphone -----
+
+    $sql_verif  = "SELECT id_user FROM users WHERE phone_email = ? AND id_user != ?";
+    $stmt_verif = $pdo->prepare($sql_verif);
+    $stmt_verif->execute([$phone_email, $id_user]);
+
+    if ($stmt_verif->fetch()) {
+
+        echo json_encode(["success" => false, "message" => 'Cet email ou ce numero est déjà utilisé par un autre compte.']);
+        exit();
+    }
+
+
+    // ----- Mise à jour de la base de données -----
+
+    $sql_update = "UPDATE users 
+                   SET prenom                  = ?, 
+                       nom                     = ?, 
+                       phone_email             = ?,
+                       email_recuperation      = ?,
+                       telephone_recuperation  = ?
+                   WHERE id_user = ?";
+
+    $stmt_update = $pdo->prepare($sql_update);
+    $stmt_update->execute([
+        $prenom,
+        $nom,
+        $phone_email,
+        $email_recuperation ?: null,
+        $telephone_recuperation ?: null,
+        $id_user
+    ]);
+
+
+    // ----- Mise à jour de la session avec les nouvelles informations -----
+
+    $_SESSION['prenom']                 = $prenom;
+    $_SESSION['nom']                    = $nom;
+    $_SESSION['phone_email']            = $phone_email;
+    $_SESSION['email_recuperation']     = $email_recuperation;
+    $_SESSION['telephone_recuperation'] = $telephone_recuperation;
+
+    echo json_encode([
+        "success"                 => true,
+        "message"                 => 'Informations personnelles mises à jour avec succès.',
+        "prenom"                  => $prenom,
+        "nom"                     => $nom,
+        "phone_email"             => $phone_email,
+        "email_recuperation"      => $email_recuperation,
+        "telephone_recuperation"  => $telephone_recuperation
+    ]);
+
+    exit();
+}
+
+
+// ===================================================================
+// ACTION : modification de l'assurance par défaut
+// ===================================================================
+
+if ($action === 'modifier_assurance') {
+
+    $assurance_defaut = trim($donnees['assurance_defaut'] ?? '');
+
+
+    // ----- Validation : soit vide (aucune assurance), soit l'une des 3 assurances existantes -----
+    // On revérifie côté serveur contre la vraie liste en base plutôt que de faire confiance
+    // à ce qu'envoie le client, au cas où la liste des assurances évoluerait un jour
+
+    if ($assurance_defaut !== '') {
+
+        $sql_verif_assurance  = "SELECT 1 FROM assurances WHERE nom_assurance = ?";
+        $stmt_verif_assurance = $pdo->prepare($sql_verif_assurance);
+        $stmt_verif_assurance->execute([$assurance_defaut]);
+
+        if (!$stmt_verif_assurance->fetch()) {
+
+            echo json_encode(["success" => false, "message" => 'Assurance invalide.']);
+            exit();
+        }
+    }
+
+
+    // ----- Mise à jour de la base de données -----
+    // Pas de vérification du mot de passe ici : préférence à faible enjeu, contrairement
+    // aux informations personnelles ou au mot de passe lui-même
+
+    $sql_update  = "UPDATE users SET assurance_defaut = ? WHERE id_user = ?";
+    $stmt_update = $pdo->prepare($sql_update);
+    $stmt_update->execute([$assurance_defaut !== '' ? $assurance_defaut : null, $id_user]);
+
+
+    // ----- Mise à jour de la session : utilisée immédiatement par carte.php et le modal produit -----
+
+    $_SESSION['assurance_defaut'] = $assurance_defaut;
+
+    echo json_encode([
+        "success"          => true,
+        "message"          => 'Assurance mise à jour avec succès.',
+        "assurance_defaut" => $assurance_defaut
+    ]);
+
+    exit();
+}
+
+
+// ===================================================================
+// ACTION : modification du mot de passe
+// ===================================================================
+
+if ($action === 'modifier_mdp') {
+
+    $mdp_actuel   = trim($donnees['mdp_actuel']   ?? '');
+    $nouveau_mdp  = trim($donnees['nouveau_mdp']  ?? '');
+    $confirmation = trim($donnees['confirmation'] ?? '');
+
+
+    // ----- Validation des champs -----
+
+    if (empty($mdp_actuel) || empty($nouveau_mdp) || empty($confirmation)) {
+
+        echo json_encode(["success" => false, "message" => 'Tous les champs sont obligatoires.']);
+        exit();
+    }
+
+    if ($nouveau_mdp !== $confirmation) {
+
+        echo json_encode(["success" => false, "message" => 'Le nouveau mot de passe et la confirmation ne correspondent pas.']);
+        exit();
+    }
+
+    if (strlen($nouveau_mdp) < 8) {
+
+        echo json_encode(["success" => false, "message" => 'Le nouveau mot de passe doit contenir au moins 8 caractères.']);
+        exit();
+    }
+
+
+    // ----- Vérification du mot de passe actuel -----
+
+    $sql_verif = "SELECT \"password\" FROM users WHERE id_user = ?";
+    $stmt      = $pdo->prepare($sql_verif);
+    $stmt->execute([$id_user]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user || !password_verify($mdp_actuel, $user['password'])) {
+
+        echo json_encode(["success" => false, "message" => 'Mot de passe actuel incorrect.']);
+        exit();
+    }
+
+
+    // ----- Vérification que le nouveau mot de passe est différent de l'ancien -----
+
+    if (password_verify($nouveau_mdp, $user['password'])) {
+
+        echo json_encode(["success" => false, "message" => 'Le nouveau mot de passe doit être différent de l\'ancien.']);
+        exit();
+    }
+
+
+    // ----- Hachage du nouveau mot de passe et mise à jour en base -----
+
+    $nouveau_mdp_hash = password_hash($nouveau_mdp, PASSWORD_DEFAULT);
+
+    $sql_update  = "UPDATE users SET \"password\" = ?, info_modif_mdp = NOW() WHERE id_user = ?";
+    $stmt_update = $pdo->prepare($sql_update);
+    $stmt_update->execute([$nouveau_mdp_hash, $id_user]);
+
+
+    // ----- Resynchronisation de la session courante -----
+    // On relit la vraie valeur enregistrée : sans ça, la vérification de config.php
+    // nous déconnecterait nous-même à la prochaine page, en plus des autres sessions
+    // (ce qui est le but recherché pour elles, mais pas pour celle-ci).
+
+    $stmt_ts = $pdo->prepare("SELECT info_modif_mdp FROM users WHERE id_user = ?");
+    $stmt_ts->execute([$id_user]);
+    $_SESSION['info_modif_mdp'] = $stmt_ts->fetchColumn();
+
+    echo json_encode([
+        'success' => true,
+        'message' => 'Mot de passe mis à jour avec succès. Vos autres appareils connectés ont été déconnectés par sécurité.'
+    ]);
+
+    exit();
+}
+
+
+// ===== Action non reconnue =====
+
+http_response_code(400);
+echo json_encode([
+    "success" => false,
+    "message" => 'Action non reconnue.'
+]);
+
+?>

@@ -1,0 +1,366 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--police-principale);
+    background-color: var(--fond-page);
+}
+
+/* ========== EN-TÊTE (sans bloc coloré — la page reste sur le fond crème) ========== */
+
+.accueil-entete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px 60px 24px 60px;
+}
+
+.entete-gauche h1 {
+    color: var(--texte-principal);
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.entete-gauche h1 span {
+    color: var(--couleur-verte-principale);
+}
+
+.entete-gauche p {
+    color: var(--texte-secondaire);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.date-line {
+    color: var(--texte-secondaire);
+    font-size: 12px;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.date-line i {
+    color: var(--couleur-verte-principale);
+}
+
+.avatar {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: var(--couleur-or-principale);
+    color: var(--couleur-or-texte);
+    font-size: 26px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px soli var(--couleur-verte-principale);
+    flex-shrink: 0;
+}
+
+/* ========== STATISTIQUES ========== */
+
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 0 60px;
+    margin-top: 4px;
+}
+
+.stat-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-bottom: 3px solid var(--couleur-verte-principale);
+    height: 110px;
+}
+
+.stat-card.stat-orange { border-bottom-color: var(--alerte-avertissement-accent); }
+.stat-card.stat-blue   { border-bottom-color: var(--texte-secondaire); }
+.stat-card.stat-red    { border-bottom-color: var(--alerte-danger-bordure); }
+
+.stat-ico {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    background-color: #e8f8ea;
+    color: var(--couleur-verte-principale);
+}
+
+.stat-card.stat-orange .stat-ico { background-color: var(--alerte-avertissement-fond); color: var(--alerte-avertissement-accent); }
+.stat-card.stat-blue   .stat-ico { background-color: var(--bordure-douce); color: var(--texte-secondaire); }
+.stat-card.stat-red    .stat-ico { background-color: var(--alerte-danger-clair); color: var(--alerte-danger-bordure); }
+
+.stat-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 22px;
+    font-weight: bold;
+    color: #2b2b2b;
+}
+
+/* ========== GRILLE PRINCIPALE ========== */
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+    padding: 30px 60px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 22px 24px;
+    border: 0.5px solid #e8e8e8;
+    margin-bottom: 16px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2b2b2b;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-title span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-title i {
+    color: var(--couleur-verte-principale);
+}
+
+.voir-tout {
+    font-size: 13px;
+    color: var(--couleur-verte-principale);
+    text-decoration: none;
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.voir-tout:hover {
+    text-decoration: underline;
+}
+
+/* ========== RESERVATIONS ========== */
+
+.resa-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    border: 0.5px solid #f0f0f0;
+}
+
+.resa-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.resa-ico {
+    width: 42px;
+    height: 42px;
+    background-color: #e8f8ea;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--couleur-verte-principale);
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.resa-nom {
+    font-size: 14px;
+    font-weight: bold;
+    color: #2b2b2b;
+}
+
+.resa-pharmacie {
+    font-size: 12px;
+    color: #888;
+    margin-top: 3px;
+}
+
+.resa-date {
+    font-size: 11px;
+    color: #aaa;
+    margin-top: 3px;
+}
+
+.badge {
+    font-size: 11px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.badge-attente  { background-color: #fff3e0; color: #e67e22; }
+.badge-confirme { background-color: #e8f8ea; color: var(--couleur-verte-principale); }
+.badge-annule   { background-color: var(--alerte-danger-clair); color: var(--alerte-danger-bordure); }
+.badge-expire   { background-color: #f0f0f0; color: #888; }
+
+.aucune-reservation {
+    color: #888;
+    font-size: 14px;
+    text-align: center;
+    padding: 30px 0;
+}
+
+.aucune-reservation a {
+    color: var(--couleur-verte-principale);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.aucune-reservation a:hover {
+    text-decoration: underline;
+}
+
+/* ========== PROFIL CARD ========== */
+
+.profil-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 24px;
+    border: 0.5px solid #e8e8e8;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.profil-avatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background-color: var(--couleur-verte-principale);
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px auto;
+}
+
+.profil-nom {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2b2b2b;
+}
+
+.profil-contact {
+    font-size: 12px;
+    color: #888;
+    margin-top: 6px;
+}
+
+.btn-edit-profil {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px;
+    background-color: transparent;
+    border: 1.5px solid var(--couleur-verte-principale);
+    color: var(--couleur-verte-principale);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-edit-profil:hover {
+    background-color: var(--couleur-verte-principale);
+    color: white;
+}
+
+/* ========== ACTIONS RAPIDES ========== */
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 0.5px solid #e8e8e8;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.action-btn:hover {
+    border-color: var(--couleur-verte-principale);
+    background-color: #f0fbf1;
+}
+
+.action-btn i:first-child {
+    color: var(--couleur-verte-principale);
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+.action-btn span {
+    font-size: 13px;
+    font-weight: bold;
+    color: #2b2b2b;
+}
+
+.action-btn .arrow {
+    margin-left: auto;
+    color: #ccc;
+    font-size: 12px;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 900px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .accueil-entete, .stats-row, .main-grid {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}

@@ -1,0 +1,324 @@
+/* ===== Base admin (mini-espace pharmacien) ===== */
+
+body {
+    font-family: 'Work Sans', sans-serif;
+    background: #f5f6f7;
+    margin: 0;
+    color: var(--texte-principal, #222);
+}
+
+/* ----- Connexion ----- */
+
+.admin-boite-centrale {
+    max-width: 400px;
+    margin: 80px auto;
+    background: #fff;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.admin-entete {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.admin-entete i {
+    font-size: 32px;
+    color: var(--couleur-verte-principale, #2ecc40);
+}
+
+.admin-groupe-champ {
+    margin-bottom: 16px;
+}
+
+.admin-groupe-champ label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.admin-groupe-champ input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.admin-bouton-principal {
+    width: 100%;
+    padding: 12px;
+    background: var(--couleur-verte-principale, #2ecc40);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.admin-message-erreur {
+    background: #fdecea;
+    color: #c0392b;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+
+/* ----- Écran des demandes ----- */
+
+.admin-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+.admin-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.admin-compteur-total {
+    background: var(--couleur-or-principale, #f4b400);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.admin-vide {
+    text-align: center;
+    color: #888;
+    margin-top: 60px;
+}
+
+.admin-liste-demandes {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.admin-carte-demande {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px 18px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.admin-carte-entete {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.admin-client-nom {
+    font-weight: 600;
+}
+
+.admin-delai {
+    margin-left: auto;
+    color: #c0392b;
+    font-size: 0.82rem;
+}
+
+.admin-liste-produits {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 14px 0;
+}
+
+.admin-liste-produits li {
+    padding: 4px 0;
+    font-size: 0.92rem;
+}
+
+.admin-stock-info {
+    color: #888;
+    font-size: 0.82rem;
+}
+
+.admin-carte-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.admin-btn-accepter, .admin-btn-rejeter {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.admin-btn-accepter {
+    background: var(--couleur-verte-principale, #2ecc40);
+    color: #fff;
+}
+
+.admin-btn-rejeter {
+    background: #fdecea;
+    color: #c0392b;
+}
+
+.admin-btn-accepter:disabled, .admin-btn-rejeter:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* ----- Modale de motif de rejet ----- */
+
+.admin-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.admin-overlay.actif {
+    display: flex;
+}
+
+.admin-modale {
+    background: #fff;
+    padding: 24px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 420px;
+}
+
+.admin-modale textarea {
+    width: 100%;
+    min-height: 80px;
+    margin: 12px 0;
+    padding: 10px;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.admin-modale-btns {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.admin-btn-secondaire {
+    padding: 8px 16px;
+    border: 1.5px solid #ddd;
+    background: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.admin-btn-danger {
+    padding: 8px 16px;
+    border: none;
+    background: #c0392b;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+/* ----- Liste des pharmacies (administration plateforme) ----- */
+
+.admin-boite-large {
+    max-width: 560px;
+}
+
+.admin-btn-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.admin-pharmacie-geree {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.admin-pharmacie-geree a {
+    color: inherit;
+}
+
+.admin-liste-pharmacies {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.admin-carte-pharmacie {
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.admin-pharmacie-lien {
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+}
+
+.admin-pharmacie-nom {
+    display: block;
+    font-weight: 600;
+}
+
+.admin-pharmacie-lieu {
+    display: block;
+    font-size: 0.82rem;
+    color: #888;
+}
+
+.admin-badge-desactivee {
+    background: #fdecea;
+    color: #c0392b;
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 8px;
+}
+
+.admin-btn-toggle-statut {
+    padding: 8px 14px;
+    border: 1.5px solid #ddd;
+    background: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.admin-lien-retour {
+    display: block;
+    text-align: center;
+    margin-top: 12px;
+    color: #888;
+    text-decoration: none;
+    font-size: 0.88rem;
+}
