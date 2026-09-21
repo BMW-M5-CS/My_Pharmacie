@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Persiste l'ignorance côté serveur pour le reste de cette session de connexion,
             // pour que la bannière ne réapparaisse pas à chaque changement de page.
-            fetch('../../../My Pharmacie/int_Public/Dos-php/ignore_alert_recuperat.php', {
+            fetch('../../int_Public/Dos-php/ignore_alert_recuperat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ csrf_token: alerteFermer.dataset.csrf })

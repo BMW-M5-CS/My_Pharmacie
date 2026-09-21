@@ -1,6 +1,8 @@
 <?php
 
 require_once '../../int_Public/Dos-php/config.php';
+require_once '../../int_Public/Dos-php/mailer_config.php';
+require_once '../../Include_general/config_fonctionnalites.php';
 
 header('Content-Type: application/json');
 
@@ -119,6 +121,32 @@ try {
     }
 
     $pdo->commit();
+
+    // ===== Notification immédiate au(x) pharmacien(s) de cette pharmacie =====
+    // "Best effort" comme tous les emails du système : si l'envoi échoue, la
+    // demande reste quand même bien créée — le pharmacien la verra de toute
+    // façon dans sa liste de demandes en attente, et sera relancé plus tard
+    // si jamais il ne répond pas (voir database/cron/relancer_pharmaciens.php).
+    $sql_admins = "SELECT a.email, a.prenom, p.nom_pharmacie
+                   FROM administrateurs a
+                   JOIN pharmacies p ON p.id_pharmacie = a.id_pharmacie
+                   WHERE a.id_pharmacie = ? AND a.statut = 'actif'";
+    $stmt_admins = $pdo->prepare($sql_admins);
+    $stmt_admins->execute([$id_pharmacie]);
+    $admins = $stmt_admins->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($admins as $admin) {
+
+        $sujet = "Nouvelle demande de réservation — " . $admin['nom_pharmacie'];
+        $corps = "
+            <p>Bonjour " . htmlspecialchars($admin['prenom']) . ",</p>
+            <p>Une nouvelle demande de réservation vient d'arriver pour " . htmlspecialchars($admin['nom_pharmacie']) . ".</p>
+            <p>Vous avez 12h pour l'accepter ou la rejeter.</p>
+            <p><a href=\"" . SITE_URL . "/int_Admin/Dos-page/demandes_reservation.php\">Voir la demande dans mon espace pharmacien</a></p>
+        ";
+
+        envoyerEmail($admin['email'], $sujet, $corps);
+    }
 
     // Le client n'a ni code, ni statut "confirmé" tout de suite : sa demande
     // part vers le pharmacien, qui a 12h pour l'accepter ou la rejeter.

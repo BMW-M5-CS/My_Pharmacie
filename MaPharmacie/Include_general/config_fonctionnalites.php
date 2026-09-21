@@ -17,3 +17,15 @@
 if (!defined('SMS_ACTIF')) {
     define('SMS_ACTIF', false);
 }
+
+// SITE_URL : l'adresse de base de ton site en local (ou en ligne plus tard).
+// Sert à construire des liens cliquables dans les emails envoyés depuis un
+// script qui tourne en ligne de commande (les tâches automatiques, dans
+// database/cron/) — ces scripts n'ont pas d'adresse de site "automatique"
+// comme une vraie page web.
+//
+// ⚠️ Déjà réglée sur "MaPharmacie" pour correspondre à ton dossier actuel —
+// à changer ici si jamais tu renommes le dossier plus tard.
+if (!defined('SITE_URL')) {
+    define('SITE_URL', 'http://localhost/My_Pharmacie/MaPharmacie');
+}

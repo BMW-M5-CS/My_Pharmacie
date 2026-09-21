@@ -1,6 +1,8 @@
 <?php
 
 require_once '../../int_Public/Dos-php/config.php';
+require_once '../../int_Public/Dos-php/mailer_config.php';
+require_once '../../Include_general/config_fonctionnalites.php';
 
 header('Content-Type: application/json');
 
@@ -268,6 +270,28 @@ try {
     $stmt_marquer->execute([$nouveau_groupe, $identifiant_ancien, $identifiant_ancien, $id_user]);
 
     $pdo->commit();
+
+    // ===== Notification immédiate au(x) pharmacien(s) — même logique que pour une demande normale =====
+    $sql_admins = "SELECT a.email, a.prenom, p.nom_pharmacie
+                   FROM administrateurs a
+                   JOIN pharmacies p ON p.id_pharmacie = a.id_pharmacie
+                   WHERE a.id_pharmacie = ? AND a.statut = 'actif'";
+    $stmt_admins = $pdo->prepare($sql_admins);
+    $stmt_admins->execute([$id_pharmacie]);
+    $admins = $stmt_admins->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($admins as $admin) {
+
+        $sujet = "Nouvelle demande de réservation (renouvellement) — " . $admin['nom_pharmacie'];
+        $corps = "
+            <p>Bonjour " . htmlspecialchars($admin['prenom']) . ",</p>
+            <p>Une demande de réservation renouvelée vient d'arriver pour " . htmlspecialchars($admin['nom_pharmacie']) . ".</p>
+            <p>Vous avez 12h pour l'accepter ou la rejeter.</p>
+            <p><a href=\"" . SITE_URL . "/int_Admin/Dos-page/demandes_reservation.php\">Voir la demande dans mon espace pharmacien</a></p>
+        ";
+
+        envoyerEmail($admin['email'], $sujet, $corps);
+    }
 
     echo json_encode([
         'succes'  => true,

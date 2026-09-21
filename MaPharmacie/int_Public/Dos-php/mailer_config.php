@@ -25,7 +25,7 @@ function envoyerEmail($destinataire, $sujet, $corpsHtml) {
         $mail->CharSet = 'UTF-8';                             // Définir l'encodage des caractères
 
         // Configuration de l'expéditeur et du destinataire
-        $mail->setFrom('edranwilfried2005@gmail.com','MaPharmacie'); 
+        $mail->setFrom('edranwilfried2005@gmail.com','MaPharmacie');
         $mail->addAddress($destinataire);
 
         // Contenu de l'email
