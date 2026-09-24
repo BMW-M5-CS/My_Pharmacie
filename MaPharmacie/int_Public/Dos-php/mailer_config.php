@@ -12,20 +12,34 @@ function envoyerEmail($destinataire, $sujet, $corpsHtml) {
     $mail = new PHPMailer(true);
 
     try {
-        // Configuration du serveur SMTP Gmail
+        // Configuration du serveur SMTP — Gmail par défaut (WAMP en local),
+        // remplaçable via l'environnement (voir .env / docker-compose.yml) :
+        // sous Docker, ces variables pointent vers Mailpit (aucune
+        // authentification requise, tous les emails sont interceptés
+        // localement sans jamais partir sur un vrai réseau).
+        $smtp_host       = getenv('SMTP_HOST') ?: 'smtp.gmail.com';
+        $smtp_port       = getenv('SMTP_PORT') ?: 587;
+        $smtp_auth       = getenv('SMTP_AUTH') !== false ? filter_var(getenv('SMTP_AUTH'), FILTER_VALIDATE_BOOLEAN) : true;
+        $smtp_encryption = getenv('SMTP_ENCRYPTION') ?: PHPMailer::ENCRYPTION_STARTTLS;
+        $smtp_from_email = getenv('SMTP_FROM_EMAIL') ?: 'edranwilfried2005@gmail.com';
+
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
+        $mail->Host = $smtp_host;
+        $mail->SMTPAuth = $smtp_auth;
 
-        $mail->Username = $smtp_user;      // adresse mail utilisée pour le test
-        $mail->Password = $smtp_pass;              // Remplacez par votre mot de passe d'application Gmail
+        if ($smtp_auth) {
+            $mail->Username = $smtp_user;      // adresse mail utilisée pour le test
+            $mail->Password = $smtp_pass;              // Remplacez par votre mot de passe d'application Gmail
+        }
 
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;   // Utilisation de TLS
-        $mail->Port = 587; 
+        if ($smtp_encryption !== '') {
+            $mail->SMTPSecure = $smtp_encryption;   // Utilisation de TLS (vide = aucun chiffrement, ex. Mailpit)
+        }
+        $mail->Port = (int) $smtp_port;
         $mail->CharSet = 'UTF-8';                             // Définir l'encodage des caractères
 
         // Configuration de l'expéditeur et du destinataire
-        $mail->setFrom('edranwilfried2005@gmail.com','MaPharmacie');
+        $mail->setFrom($smtp_from_email, 'MaPharmacie');
         $mail->addAddress($destinataire);
 
         // Contenu de l'email

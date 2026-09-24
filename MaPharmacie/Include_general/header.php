@@ -7,6 +7,11 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+// header.php est inclus par des pages qui ne chargent pas toutes config.php
+// (ex. acceuil.php) : on s'assure ici que SITE_URL existe avant de s'en
+// servir plus bas, sans dépendre de ce qu'une page appelante a déjà fait.
+require_once __DIR__ . '/config_fonctionnalites.php';
+
 
 $est_connecte = isset($_SESSION['user_id']);
 
@@ -121,7 +126,7 @@ function lien_actif($nom_fichier, $page_courante) {
             <span>Temps restant : <span id="compte-a-rebours"></span></span>
         </div>
 
-        <a href="/my_pharmacie/My Pharmacie/int_Public/Dos-page/reinitialisation_mdp.php?token=<?= urlencode($_SESSION['reinitialisation_token']) ?>" class="alerte-recuperation-btn">Terminer maintenant</a>
+        <a href="<?= SITE_URL ?>/int_Public/Dos-page/reinitialisation_mdp.php?token=<?= urlencode($_SESSION['reinitialisation_token']) ?>" class="alerte-recuperation-btn">Terminer maintenant</a>
 
     </div>
 

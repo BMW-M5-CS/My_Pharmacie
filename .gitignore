@@ -1,3 +1,20 @@
-MaPharmacie/int_Public/Dos-php/config.php
+# Secrets — ne doivent jamais être versionnés (voir incident du 23/09/2026 :
+# ces fichiers étaient présents publiquement faute de .gitignore).
 MaPharmacie/int_Public/Dos-php/mailer_secrets.php
 MaPharmacie/int_Public/Dos-php/db_secrets.php
+
+
+# Fichiers d'environnement (préparation Docker)
+.env
+.env.*
+!.env.example
+
+
+# Dépendances (réinstallées via composer install, pas à versionner)
+/vendor/
+ 
+ 
+# Fichiers générés par WAMP / le système
+*.log
+Thumbs.db
+.DS_Store

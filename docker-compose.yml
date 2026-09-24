@@ -1,0 +1,63 @@
+services:
+
+  # ==========================================================================
+  # app — PHP 8.3 + Apache, sert tout le site (int_Public, int_Client, int_Admin)
+  # ==========================================================================
+  app:
+    build:
+      context: ./docker
+    ports:
+      - "${APP_PORT:-8080}:80"
+    volumes:
+      # Monte le vrai code source depuis l'hôte : toute modification faite
+      # dans VS Code est immédiatement visible dans le conteneur, sans
+      # reconstruire l'image (comme WAMP).
+      - ./MaPharmacie:/var/www/html/MaPharmacie
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    restart: unless-stopped
+
+  # ==========================================================================
+  # db — PostgreSQL 17, avec un volume persistant (les données survivent à
+  # un "docker compose down"). Au tout premier démarrage seulement (volume
+  # vide), initialise automatiquement le schéma depuis docker/postgres-init/.
+  # ==========================================================================
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-my_pharmacie}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      # Port différent de 5432 par défaut pour ne pas entrer en conflit avec
+      # ton PostgreSQL local (celui utilisé par WAMP/pgAdmin) si les deux
+      # tournent en même temps.
+      - "${DB_PORT_HOST:-5433}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/postgres-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-my_pharmacie}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  # ==========================================================================
+  # mailpit — intercepte tous les emails envoyés par le site en Docker, sans
+  # jamais les transmettre pour de vrai. Interface web pour les consulter.
+  # ==========================================================================
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "${MAILPIT_SMTP_PORT:-1025}:1025"   # port SMTP, utilisé par mailer_config.php
+      - "${MAILPIT_WEB_PORT:-8025}:8025"    # interface web, ouvre http://localhost:8025
+    restart: unless-stopped
+
+volumes:
+  pgdata:
