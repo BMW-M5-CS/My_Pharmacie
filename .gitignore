@@ -10,6 +10,11 @@ MaPharmacie/int_Public/Dos-php/db_secrets.php
 !.env.example
 
 
+# Données de test Docker — contiennent de vraies infos personnelles
+# (emails, mots de passe hashés), jamais versionnées.
+docker/postgres-init/002_donnees_test.sql
+
+
 # Dépendances (réinstallées via composer install, pas à versionner)
 /vendor/
  

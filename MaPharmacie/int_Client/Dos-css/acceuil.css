@@ -53,13 +53,13 @@ body {
     height: 75px;
     border-radius: 50%;
     background-color: var(--couleur-or-principale);
-    color: var(--couleur-or-texte);
+    color: white;
     font-size: 26px;
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 4px soli var(--couleur-verte-principale);
+    border: 4px solid var(--couleur-verte-principale);
     flex-shrink: 0;
 }
 

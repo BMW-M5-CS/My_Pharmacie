@@ -20,7 +20,7 @@
  *
  * Exécution manuelle : php database/cron/recalculer_produits_populaires.php
  * Planification :
- *   - Production (Linux)  : crontab -e -> */30 * * * * php /chemin/vers/ce/fichier.php
+ *   - Production (Linux)  : crontab -e, planifier toutes les 30 minutes
  *   - Développement (WAMP): Planificateur de tâches Windows, ou exécution manuelle
  *     pendant les tests — ce script n'a aucun effet de bord si on oublie de le
  *     planifier, il rend simplement les statistiques figées jusqu'au prochain lancement.

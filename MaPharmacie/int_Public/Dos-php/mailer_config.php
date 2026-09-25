@@ -1,7 +1,16 @@
 <?php
 
 require_once __DIR__ .'/../../vendor/autoload.php';
-require_once __DIR__ .'/mailer_secrets.php';
+
+if (getenv('SMTP_HOST') !== false) {
+    // Environnement Docker (Mailpit) : ces valeurs ne sont même pas utilisées
+    // quand SMTP_AUTH=false (voir plus bas) — mailer_secrets.php reste
+    // réservé à WAMP, pour la même raison que db_secrets.php ci-dessus.
+    $smtp_user = getenv('SMTP_USER') ?: '';
+    $smtp_pass = getenv('SMTP_PASS') ?: '';
+} else {
+    require_once __DIR__ .'/mailer_secrets.php';
+}
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

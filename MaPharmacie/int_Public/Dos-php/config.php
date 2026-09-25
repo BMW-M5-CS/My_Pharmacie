@@ -8,7 +8,19 @@ if (session_status() === PHP_SESSION_NONE) {
 // ce qui fausse tous les calculs "pharmacie ouverte/fermée en ce moment".
 date_default_timezone_set('Africa/Lome');
 
-require_once __DIR__ . '/db_secrets.php';
+if (getenv('DB_HOST') !== false) {
+    // Environnement Docker : les identifiants viennent de l'environnement
+    // (.env / docker-compose.yml), jamais de db_secrets.php — ce fichier
+    // reste réservé à WAMP, avec qui il partage le même dossier sur le
+    // disque. Le générer depuis Docker écraserait les identifiants locaux.
+    $db_host = getenv('DB_HOST');
+    $db_port = getenv('DB_PORT') ?: '5432';
+    $db_name = getenv('POSTGRES_DB') ?: 'my_pharmacie';
+    $db_user = getenv('POSTGRES_USER') ?: 'postgres';
+    $db_pass = getenv('POSTGRES_PASSWORD');
+} else {
+    require_once __DIR__ . '/db_secrets.php';
+}
 require_once __DIR__ . '/../../Include_general/config_fonctionnalites.php';
 
 $dsn = "pgsql:host={$db_host};port={$db_port};dbname={$db_name}";
