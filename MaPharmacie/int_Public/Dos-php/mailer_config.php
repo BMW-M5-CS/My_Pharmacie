@@ -29,7 +29,14 @@ function envoyerEmail($destinataire, $sujet, $corpsHtml) {
         $smtp_host       = getenv('SMTP_HOST') ?: 'smtp.gmail.com';
         $smtp_port       = getenv('SMTP_PORT') ?: 587;
         $smtp_auth       = getenv('SMTP_AUTH') !== false ? filter_var(getenv('SMTP_AUTH'), FILTER_VALIDATE_BOOLEAN) : true;
-        $smtp_encryption = getenv('SMTP_ENCRYPTION') ?: PHPMailer::ENCRYPTION_STARTTLS;
+        // Important : ne pas utiliser "?:" ici. Une chaîne vide ("" — le cas
+        // voulu pour Mailpit, qui ne gère aucun chiffrement) est "fausse" en
+        // PHP, donc "?:" la traiterait comme une valeur absente et retomberait
+        // à tort sur STARTTLS. getenv() renvoie précisément false quand la
+        // variable n'existe pas du tout — c'est le seul cas où on doit
+        // basculer sur la valeur par défaut.
+        $smtp_encryption_brute = getenv('SMTP_ENCRYPTION');
+        $smtp_encryption = ($smtp_encryption_brute !== false) ? $smtp_encryption_brute : PHPMailer::ENCRYPTION_STARTTLS;
         $smtp_from_email = getenv('SMTP_FROM_EMAIL') ?: 'edranwilfried2005@gmail.com';
 
         $mail->isSMTP();

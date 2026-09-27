@@ -51,12 +51,39 @@ require_once '../../Include_general/session_init.php';
             <li>MaPharmacie se réserve le droit de suspendre un compte en cas d'usage frauduleux ou abusif du service.</li>
         </ul>
 
-        <h2>4. Réservations</h2>
+        <h2>4. Comment fonctionne une réservation, concrètement</h2>
+        <p>
+            Réserver un produit sur MaPharmacie n'est pas un achat en ligne — vous ne payez rien sur le site.
+            C'est une <strong>demande</strong> envoyée à la pharmacie, qui doit l'examiner et l'accepter avant que
+            le produit ne soit réellement mis de côté pour vous. Voici les étapes, dans l'ordre :
+        </p>
         <ul>
-            <li>Une réservation effectuée via MaPharmacie constitue une mise de côté du produit par la pharmacie, non un achat en ligne : le paiement et le retrait s'effectuent sur place, en pharmacie.</li>
-            <li>Les informations de disponibilité et de prix affichées proviennent des pharmacies partenaires et peuvent, malgré nos efforts de mise à jour, différer ponctuellement de la réalité du stock en officine au moment du retrait.</li>
-            <li>MaPharmacie ne garantit pas la disponibilité effective du produit au moment du retrait et ne peut être tenu responsable d'une rupture de stock survenue entre la réservation et le passage en pharmacie.</li>
+            <li><strong>1. Vous envoyez une demande.</strong> À ce stade, rien n'est encore bloqué en pharmacie —
+                c'est seulement une demande d'achat, pas une confirmation.</li>
+            <li><strong>2. La pharmacie a 12 heures pour répondre.</strong> Elle peut accepter ou refuser
+                (« rejeter ») votre demande, avec un motif si elle en indique un. Si elle ne répond pas du tout
+                dans ce délai, votre demande <strong>expire automatiquement</strong>.</li>
+            <li><strong>3. Si elle accepte</strong>, le produit est alors réellement mis de côté, un code de
+                retrait vous est envoyé par e-mail, et vous avez <strong>5 heures</strong> pour vous présenter en
+                pharmacie et le récupérer avec ce code.</li>
+            <li><strong>4. Si vous ne venez pas dans ces 5 heures</strong>, la réservation expire à son tour
+                automatiquement et le produit redevient disponible pour d'autres clients — vous en serez
+                averti par e-mail environ 2 heures puis 1 heure avant l'expiration, pour ne pas la manquer.</li>
+            <li><strong>5. Une demande expirée (faute de réponse de la pharmacie) peut être renouvelée une seule
+                fois</strong> : cela envoie une toute nouvelle demande, que la pharmacie doit à nouveau valider
+                — ce n'est jamais automatique.</li>
+            <li><strong>6. Vous pouvez annuler votre réservation à tout moment</strong>, qu'elle soit encore en
+                attente ou déjà acceptée, directement depuis votre espace « Mes réservations ». La pharmacie, à
+                l'inverse, ne peut jamais annuler une réservation à votre place — elle peut seulement la refuser
+                avant de l'accepter.</li>
         </ul>
+        <p>
+            Les informations de disponibilité et de prix affichées proviennent des pharmacies partenaires et
+            peuvent, malgré nos efforts de mise à jour, différer ponctuellement de la réalité du stock en
+            officine. MaPharmacie ne garantit pas la disponibilité effective du produit au moment du retrait et
+            ne peut être tenu responsable d'une rupture de stock survenue entre la demande et le passage en
+            pharmacie.
+        </p>
 
         <h2>5. Obligations de l'utilisateur</h2>
         <p>
@@ -85,10 +112,11 @@ require_once '../../Include_general/session_init.php';
             informés de toute modification substantielle lors de leur prochaine connexion.
         </p>
 
-        <h2>9. Droit applicable et juridiction</h2>
+        <h2>9. Droit applicable</h2>
         <p>
-            Les présentes CGU sont soumises au droit togolais. Tout litige relatif à leur interprétation ou leur
-            exécution relève de la compétence exclusive des juridictions togolaises.
+            Les présentes CGU sont soumises au droit togolais (les lois du Togo, pas celles d'un autre pays).
+            En cas de désaccord sérieux qui ne se règlerait pas à l'amiable, seuls les tribunaux togolais sont
+            compétents pour en juger.
         </p>
 
         <div class="legal-note-redaction">

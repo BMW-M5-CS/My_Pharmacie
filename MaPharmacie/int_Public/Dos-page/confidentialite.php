@@ -74,15 +74,27 @@ require_once '../../Include_general/session_init.php';
         </p>
 
         <h2>5. Vos droits</h2>
-        <p>Conformément à la loi n°2019-014, vous disposez d'un droit d'accès, de rectification, d'opposition et
-            de suppression de vos données personnelles. Vous pouvez exercer ces droits :</p>
+        <p>Conformément à la loi n°2019-014, vous disposez des droits suivants sur vos données personnelles :</p>
+        <ul>
+            <li><strong>Droit d'accès</strong> : demander une copie de ce que nous savons de vous.</li>
+            <li><strong>Droit de rectification</strong> : faire corriger une information fausse ou obsolète (ex.
+                un numéro de téléphone périmé).</li>
+            <li><strong>Droit d'opposition</strong> : refuser un traitement particulier de vos données (par
+                exemple, refuser que vos recherches servent à des statistiques, même anonymisées).</li>
+            <li><strong>Droit de suppression</strong> : demander l'effacement de vos données, notamment en
+                supprimant votre compte.</li>
+        </ul>
+        <p>Vous pouvez exercer ces droits :</p>
         <ul>
             <li>directement depuis votre espace « Profil » pour la rectification et la suppression de compte ;</li>
-            <li>en nous contactant à <span id="dpo-email">[adresse e-mail du responsable de traitement à compléter]</span>.</li>
+            <li>en nous contactant à <span id="dpo-email">[adresse e-mail du responsable de traitement à compléter]</span>
+                pour tout le reste (le « responsable de traitement » désigne simplement la personne ou l'équipe
+                chargée de vos données — ici, l'équipe qui gère MaPharmacie).</li>
         </ul>
         <p>
-            Vous disposez également du droit de saisir l'Instance de Protection des Données à Caractère
-            Personnel (IPDCP) si vous estimez que vos droits ne sont pas respectés.
+            Si vous estimez que vos droits ne sont pas respectés malgré votre démarche auprès de nous, vous
+            pouvez aussi saisir directement l'Instance de Protection des Données à Caractère Personnel (IPDCP),
+            l'autorité togolaise indépendante chargée de faire respecter cette loi.
         </p>
 
         <h2>6. Sécurité</h2>
@@ -94,9 +106,9 @@ require_once '../../Include_general/session_init.php';
 
         <h2>7. Cas particulier des données des pharmacies partenaires</h2>
         <p>
-            Les informations relatives au personnel, à l'agrément et aux stocks des pharmacies partenaires font
-            l'objet d'un traitement distinct, encadré par un accord spécifique conclu directement avec chaque
-            pharmacie, et non par la présente politique qui concerne les utilisateurs du service.
+            Cette politique concerne les <strong>clients</strong> du service. Les informations propres aux
+            pharmacies elles-mêmes (leur personnel, leur agrément officiel, leur stock) sont gérées à part, dans
+            le cadre d'un accord distinct passé directement avec chaque pharmacie — pas par cette page.
         </p>
 
         <div class="legal-note-redaction">

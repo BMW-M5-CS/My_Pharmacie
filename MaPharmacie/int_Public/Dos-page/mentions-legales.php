@@ -38,7 +38,8 @@ require_once '../../Include_general/session_init.php';
             [adresse complète à compléter], Lomé, République Togolaise.
         </p>
         <p>
-            Directeur de la publication : [Nom à compléter].<br>
+            Directeur de la publication (la personne responsable du contenu publié sur le site) :
+            [Nom à compléter].<br>
             Contact : <span id="legal-contact-email">[email de contact à compléter]</span> —
             <span id="legal-contact-tel">[téléphone à compléter]</span>.
         </p>

@@ -333,7 +333,6 @@ div.profil .btn-profil.actif {
     header {
         flex-wrap: wrap;
         padding: 10px 18px;
-        position: relative;
     }
 
     .logo span {
